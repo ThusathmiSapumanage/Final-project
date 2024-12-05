@@ -269,3 +269,9 @@ body
     margin-top: 30px;
     border-color: #F7941D;
 }
+
+.supply-card a
+{
+    text-decoration: none;
+    color:#fff;
+}
