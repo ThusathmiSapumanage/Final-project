@@ -152,3 +152,81 @@ body
     margin-top: 30px;
     border-color: #F7941D;
 }
+
+.table1 { 
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-end;  
+    flex: 1 1 auto;  
+    background-color: rgba(255, 255, 255, 0.658);
+    border-radius: 20px; 
+    padding: 35px; 
+}
+
+table.centered {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+table.centered, table.centered th, table.centered td {
+    border: 1px solid rgb(0, 0, 0);
+}
+
+
+table.centered th, table.centered td {
+    padding: 12px;
+    text-align: left;
+}
+
+table.centered th {
+    color: rgb(0, 0, 0);
+    background-color: #F7941D;;
+}
+
+table.centered td {
+    color: rgb(0, 0, 0);
+}
+
+table.centered td.actions {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 8px 12px;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    border: none; 
+    width: 90px; 
+    height: 40px; 
+    text-align: center;
+    cursor: pointer;
+}
+
+.update-btn {
+    background-image: linear-gradient(to right, #b2691f, #ff8c00);
+}
+
+.delete-btn {
+    background-image: linear-gradient(to right, #540000, #970000);
+}
+
+.update-btn:hover {
+    background-image: linear-gradient(to right, #22841d, #03ff42);
+}
+
+.delete-btn:hover {
+    background-image: linear-gradient(to right, #ae0000, #ff0000);
+}
+
