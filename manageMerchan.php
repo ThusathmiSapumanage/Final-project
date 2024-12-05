@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title> View Food and Beverage Suppliers </title>
+        <title> View Merchandise Suppliers </title>
         <link rel="stylesheet" type="text/css" href="viewfood.css">
     </head>
     <body>
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                     <a href="supplierM.html" class = "active">Supplies</a>
                     <a href="##">Finance</a>
                     <a href="##">Staff</a>
-                    <a href="##">Resource</a>
+                    <a href="recources.html">Resource</a>
                     <a href="##">Client</a>
                     <a href="feedback.html">Feedback</a>
                 </nav>
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Food Supplier Management</h1>
+                    <h1>Merchandise Supplier Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 
                 <!-- Suppliers Section -->
                 <section class = "suppliers">
-                    <h2>Food suppliers</h2>
+                    <h2>Merchandise suppliers</h2>
                     <div class="table1">
             <table class="table centered">
                 <thead>

@@ -1,0 +1,103 @@
+<!-- This should be made into a php once the DB is made -->
+<?php
+
+$servername = "localhost";
+$username = "root"; 
+$password = ""; 
+$dbname = "dmw_cw";
+
+$conn = mysqli_connect($servername, $username, $password, $dbname,3307);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
+    $id = intval($_POST['delete_id']);
+    $sql = "DELETE FROM module WHERE MID = $id";
+    mysqli_query($conn, $sql);
+    echo "<script>alert('update successs, redirecting to the view page...');</script>";
+    echo "<script>window.location.href = 'Viewmoduleforlec.php';</script>";
+}
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Manage Food and Beverage Suppliers </title>
+        <link rel="stylesheet" type="text/css" href="viewfood.css">
+    </head>
+    <body>
+        <div class="container">
+
+            <!-- Sidebar -->
+            <aside class = "sidebar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="Logo">
+                </div>
+                <nav class = "menu">
+                    <a href="##"><img src = "">Events</a>
+                    <a href="supplierM.html" class = "active">Supplies</a>
+                    <a href="##">Finance</a>
+                    <a href="##">Staff</a>
+                    <a href="recources.html">Resource</a>
+                    <a href="##">Client</a>
+                    <a href="feedback.html">Feedback</a>
+                </nav>
+                <hr class="section-divider"> 
+                <div class = "settings"><img src = Images/settings.png>Settings</div>
+            </aside>
+              <!-- Main Content -->
+            <main class = "content">
+                <header class="header">
+                    <h1>Food Supplier Management</h1>
+                    <div class="search">
+                        <input type="text" placeholder="Search">
+                        <img src="Images/search-interface-symbol.png">
+                        <button>Search</button>
+                    </div>
+            	</header>
+
+                <!-- Suppliers Section -->
+                <section class = "suppliers">
+                    <h2>Food suppliers</h2>
+                    <div class="table1">
+            <table class="table centered">
+                <thead>
+                    <tr>
+                        <th>Module number</th>
+                        <th>Discription</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $sql = "SELECT * FROM module";
+                    $result = mysqli_query($conn, $sql);
+
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo "<tr>";
+                            echo "<td>" . $row['MID'] . "</td>";
+                            echo "<td>" . $row['MDiscription'] . "</td>";
+                            echo "<td>" . $row['MName'] . "</td>";
+                            echo "<td class='actions'>
+                                <a href='module-update.php?id=" . $row['MID'] . "' class='btn update-btn'>Update</a>
+                                <form action='' method='POST' style='display: inline;'>
+                                    <input type='hidden' name='delete_id' value='" . $row['MID'] . "'>
+                                    <button type='submit' class='btn delete-btn'>Delete</button>
+                                </form>
+                              </td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                    }
+
+                    mysqli_close($conn);
+                    ?>
+                </tbody>
+            </table>
+        </div>
+                </section>
+            </main>
+         </div>
+    </body>
+</html>
