@@ -26,7 +26,7 @@ body
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 123dvh;
+    height: 138dvh;
 }
 
 
@@ -215,7 +215,7 @@ table.centered td.actions {
 }
 
 .update-btn {
-    background-image: linear-gradient(to right, #b2691f, #ff8c00);
+    background-image: linear-gradient(to right, #12a320, #3fcc65);
 }
 
 .delete-btn {
