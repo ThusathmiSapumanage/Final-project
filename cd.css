@@ -1,0 +1,170 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #b38dd9;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Header */
+  nav {
+    width: 100vw; /* Full width of the viewport */
+    position: fixed; /* Fix the nav bar at the top */
+    top: 0; /* Align it to the top */
+    left: 0; /* Align it to the left edge */
+    z-index: 1000; /* Ensure it stays above other elements */
+    background-color: #fff; /* Set a background color */
+    padding: 10px 0; /* Padding for vertical space */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow */
+  }
+  
+  nav .nav__header .nav__logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between; /* Adjust spacing of nav items */
+    align-items: center;
+    margin: 0;
+    padding: 0 20px; /* Add some space around the nav items */
+  }
+
+  nav li {
+    display: inline;
+  }
+  
+  nav a {
+    text-decoration: none;
+    color: #333; /* Adjust link color */
+    padding: 10px 15px;
+    font-weight: bold;
+  }
+
+  nav a:hover {
+    color: #6a11cb; /* Change color on hover */
+  }
+
+  nav ul li a {
+    text-decoration: none;
+    color: #333333;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    color: #6a11cb;
+  }
+  
+  .nav__btns .btn {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .nav__btns .btn:hover {
+    background: linear-gradient(to right, #2575fc, #6a11cb);
+  }
+  
+
+  
+  /* Form Container */
+  .form-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 90%;
+    margin: 50px auto;
+    color: #333333;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  label {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+  }
+  
+  input, select {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  input:focus, select:focus {
+    border-color: #6a11cb;
+    box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+  }
+  
+  button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  button:hover {
+    background: linear-gradient(to right, #2575fc, #6a11cb);
+    transform: scale(1.05);
+  }
+  
+  button:active {
+    transform: scale(0.95);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .footer__container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .form-container {
+      margin: 20px;
+      padding: 20px;
+    }
+  
+    nav ul {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  
