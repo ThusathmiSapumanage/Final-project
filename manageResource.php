@@ -1,4 +1,4 @@
-<!-- This should be made into a php once the DB is made -->
+<!-- This should be made into a php once the Database is made -->
 <?php
 
 $servername = "localhost";
@@ -33,10 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
             </div>
             <nav class="menu">
                 <a href="##"><img src="">Events</a>
-                <a href="supplierM.html" class="active">Supplies</a>
+                <a href="supplierM.html">Supplies</a>
                 <a href="##">Finance</a>
                 <a href="##">Staff</a>
-                <a href="manageResource.php">Resource</a>
+                <a href="manageResource.php" class="active">Resource</a>
                 <a href="##">Client</a>
                 <a href="feedback.html">Feedback</a>
             </nav>
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
             <!-- Suppliers Section -->
             <section class="suppliers">
                 <h2>Merchandise</h2>
-                <button class = "adding"><a href="addFood.php">Add Merchandise</a></button>
+                <button class = "adding"><a href="addFood.php">Add Resource</a></button>
                 <div class="table1">
                     <table class="table centered">
                         <thead>
@@ -98,7 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                         </tbody>
                     </table>
                 </div>
-                <a href="supplierM.html"><button class = "back">Back</button></a>
             </section>
         </main>
     </div>

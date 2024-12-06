@@ -130,6 +130,7 @@ body
 
 .feedback-card
 {
+    position: relative; 
     width: calc(33.33% - 20px);
     max-width: 300px;
     background: #ffffff;
@@ -201,16 +202,13 @@ body
     border-radius: 10px;
     padding: 10px 20px; 
     cursor: pointer; 
-    margin: 5px; 
     transition: background 0.5s ease;
+    position: absolute;
+    bottom: 10px; 
+    right: 10px; 
+    display: flex;
+    gap: 10px;
 }
-
-.buttons .ed:hover
-{
-    background-color: #44ff00; 
-    color: #000;
-}
-
 .buttons .del:hover
 {
     background-color: #ff0000; 
