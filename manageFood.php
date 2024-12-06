@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                     <a href="supplierM.html" class = "active">Supplies</a>
                     <a href="##">Finance</a>
                     <a href="##">Staff</a>
-                    <a href="recources.html">Resource</a>
+                    <a href="manageResource.php">Resource</a>
                     <a href="##">Client</a>
                     <a href="feedback.html">Feedback</a>
                 </nav>
@@ -57,13 +57,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 <!-- Suppliers Section -->
                 <section class = "suppliers">
                     <h2>Foods</h2>
+                    <button class = "adding"><a href="addFood.php">Add Food</a></button>
                     <div class="table1">
             <table class="table centered">
                 <thead>
                     <tr>
-                        <th>Module number</th>
+                        <th>Food item</th>
                         <th>Discription</th>
-                        <th>Name</th>
+                        <th>Price per</th>
+                        <th>SupplierID</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -78,6 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             echo "<td>" . $row['MID'] . "</td>";
                             echo "<td>" . $row['MDiscription'] . "</td>";
                             echo "<td>" . $row['MName'] . "</td>";
+                            echo "<td>";
                             echo "<td class='actions'>
                                 <a href='module-update.php?id=" . $row['MID'] . "' class='btn update-btn'>Update</a>
                                 <form action='' method='POST' style='display: inline;'>
@@ -96,6 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 </tbody>
             </table>
         </div>
+        <a href="supplierM.html"><button class = "back">Back</button></a>
                 </section>
             </main>
          </div>

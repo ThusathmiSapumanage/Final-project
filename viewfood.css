@@ -163,6 +163,7 @@ body
     background-color: rgba(255, 255, 255, 0.658);
     border-radius: 20px; 
     padding: 35px; 
+    position: relative; 
 }
 
 table.centered {
@@ -230,3 +231,48 @@ table.centered td.actions {
     background-image: linear-gradient(to right, #ae0000, #ff0000);
 }
 
+.adding
+{
+    position: absolute;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    border: none; 
+    width: 200px; 
+    height: 40px; 
+    text-align: center;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #12a3a3, #00ffc3); 
+    right: 25px;
+}
+
+.adding a
+{
+    text-decoration: none;
+    color: #000;
+}
+
+.back
+{
+    position: absolute;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    border: none; 
+    width: 200px; 
+    height: 40px; 
+    text-align: center;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #8b12a3, #ff00f7); 
+    right: 25px;
+}
+
+.back a
+{
+    text-decoration: none;
+    color: #000;
+}

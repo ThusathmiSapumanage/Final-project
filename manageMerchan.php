@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                     <a href="supplierM.html" class = "active">Supplies</a>
                     <a href="##">Finance</a>
                     <a href="##">Staff</a>
-                    <a href="recources.html">Resource</a>
+                    <a href="manageResource.php">Resource</a>
                     <a href="##">Client</a>
                     <a href="feedback.html">Feedback</a>
                 </nav>
@@ -57,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 <!-- Suppliers Section -->
                 <section class = "suppliers">
                     <h2>Merchandise suppliers</h2>
+                    <button class = "adding"><a href="addFood.php">Add Merchandise Supplier</a></button>
                     <div class="table1">
             <table class="table centered">
                 <thead>
@@ -87,7 +88,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                               </td>";
                             echo "</tr>";
                         }
-                    } else {
+                    } 
+                    else 
+                    {
                         echo "<tr><td colspan='4'>No records found</td></tr>";
                     }
 
@@ -96,6 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 </tbody>
             </table>
         </div>
+        <a href="supplierM.html"><button class = "back">Back</button></a>
                 </section>
             </main>
          </div>
