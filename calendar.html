@@ -1,0 +1,78 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link href="calendar.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Main container for the calendar -->
+    <div class="calendar disable-selection" id="calendar">
+            <!-- Left side of the calendar: displays current day and events -->
+
+      <div class="left-side">
+        <div class="current-day text-center">
+          <h1 class="calendar-left-side-day"></h1>
+          <div class="calendar-left-side-day-of-week"></div>
+        </div>
+        <!-- Section for listing current day's events -->
+        <div class="current-day-events">
+          <div>Current Events:</div>
+          <ul class="current-day-events-list"></ul>
+        </div>
+        <!-- Section for adding a new event -->
+        <div class="add-event-day">
+          <input
+            type="text"
+            class="add-event-day-field"
+            placeholder="Create an Event"
+          />
+          <!-- Button to add a new event -->
+          <span
+            class="fa fa-plus-circle cursor-pointer add-event-day-field-btn"
+          ></span>
+        </div>
+      </div>
+      <!-- Right side of the calendar: displays navigation and day grid -->
+      <div class="right-side">
+        <!-- Year slider for navigating between years -->
+        <div class="text-right calendar-change-year">
+          <div class="calendar-change-year-slider">
+            <!-- Previous year navigation -->
+            <span
+              class="fa fa-caret-left cursor-pointer calendar-change-year-slider-prev"
+            ></span>
+             <!-- Current year display -->
+            <span class="calendar-current-year"></span>
+            <!-- Next year navigation -->
+            <span
+              class="fa fa-caret-right cursor-pointer calendar-change-year-slider-next"
+            ></span>
+          </div>
+        </div>
+        <!-- Section for displaying months in a year -->
+        <div class="calendar-month-list">
+          <ul class="calendar-month"></ul>
+        </div>
+         <!-- Section for displaying days of the week -->
+        <div class="calendar-week-list">
+          <ul class="calendar-week"></ul>
+        </div>
+        <!-- Section for displaying the days of the current month -->
+        <div class="calendar-day-list">
+          <ul class="calendar-days"></ul>
+        </div>
+      </div>
+    </div>
+    <!-- Linking the external JavaScript file for functionality -->
+    <script async src="./script.js"></script>
+  </body>
+</html>
