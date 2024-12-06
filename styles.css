@@ -116,6 +116,7 @@ nav {
   isolation: isolate;
   width: 100%;
   z-index: 9;
+  
 }
 
 .nav__header {
@@ -125,6 +126,8 @@ nav {
   align-items: center;
   justify-content: space-between;
   background-color: var(--primary-color-dark);
+  margin-top: -10px;
+  
 }
 
 .nav__logo .logo-dark {
@@ -317,6 +320,7 @@ nav {
 
 .deals {
   background-color: var(--extra-light);
+  margin-top: -50px; 
 }
 
 .deals__container .section__description {
@@ -1049,3 +1053,7 @@ nav {
       margin: 0 0 5px 0;
     }
   }
+
+
+
+  

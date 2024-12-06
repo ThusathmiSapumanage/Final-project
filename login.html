@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <nav>
+      <div class="nav__header">
+        <div class="nav__logo">
+          <a href="#" class="logo">
+            <img src="assets/logo.jpg" alt="logo" class="logo-white" />
+            <img src="assets/logo.jpg" alt="logo" class="logo-dark" />
+            <span>GAPHQ</span>
+          </a>
+        </div>
+        <div class="nav__menu__btn" id="menu-btn">
+          <i class="ri-menu-line"></i>
+        </div>
+      </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="rentalpackages.html">Rental packages</a></li>
+        <li><a href="#client">Testimonials</a></li>
+        <li><a href="#"></a></li>
+      </ul>
+      <div class="nav__btns">
+        <button class="btn">Sign In</button>
+      </div>
+    </nav>
+  </head>
+  <body>
+    <div class="wrapper">
+      <form id="loginForm" action="#" method="POST">
+        <h2>Login</h2>
+        <div class="input-field">
+          <input type="text" id="email" name="email" />
+          <label for="email">Enter your email</label>
+          <small id="emailError" class="error"></small>
+        </div>
+        <div class="input-field">
+          <input type="password" id="password" name="password" />
+          <label for="password">Enter your password</label>
+          <small id="passwordError" class="error"></small>
+        </div>
+        <div class="forget">
+          <label for="remember">
+            <input type="checkbox" id="remember" />
+            <p>Remember me</p>
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button type="submit">Log In</button>
+        <div class="register">
+          <p>Don't have an account? <a href="register.html">Register</a></p>
+        </div>
+      </form>
+    </div>
+    <script>
+      // JavaScript Validation
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          // Get form fields
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value.trim();
+
+          // Error message holders
+          const emailError = document.getElementById("emailError");
+          const passwordError = document.getElementById("passwordError");
+
+          // Reset errors
+          emailError.textContent = "";
+          passwordError.textContent = "";
+
+          let isValid = true;
+
+          // Email validation
+          const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          if (!email) {
+            emailError.textContent = "Email is required.";
+            isValid = false;
+          } else if (!emailPattern.test(email)) {
+            emailError.textContent = "Enter a valid email address.";
+            isValid = false;
+          }
+
+          // Password validation
+          if (!password) {
+            passwordError.textContent = "Password is required.";
+            isValid = false;
+          } else if (password.length < 6) {
+            passwordError.textContent =
+              "Password must be at least 6 characters.";
+            isValid = false;
+          }
+
+          // Prevent form submission if there are validation errors
+          if (!isValid) {
+            event.preventDefault();
+          }
+        });
+    </script>
+  </body>
+</html>

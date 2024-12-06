@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="login.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <nav>
+      <div class="nav__header">
+        <div class="nav__logo">
+          <a href="#" class="logo">
+            <img src="assets/logo.jpg" alt="logo" class="logo-white" />
+            <img src="assets/logo.jpg" alt="logo" class="logo-dark" />
+            <span>GAPHQ</span>
+          </a>
+        </div>
+        <div class="nav__menu__btn" id="menu-btn">
+          <i class="ri-menu-line"></i>
+        </div>
+      </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="rentalpackages.html">Rental packages</a></li>
+        <li><a href="#client">Testimonials</a></li>
+        <li><a href="#"></a></li>
+      </ul>
+      <div class="nav__btns">
+        <button class="btn">Sign In</button>
+      </div>
+    </nav>
+  </head>
+  <body>
+    <div class="wrapper">
+      <form id="registerForm" action="#" method="POST">
+        <h2>Register</h2>
+        <div class="input-field">
+          <input type="text" id="firstName" name="firstName" />
+          <label for="firstName">First Name</label>
+          <small id="firstNameError" class="error"></small>
+        </div>
+        <div class="input-field">
+          <input type="text" id="lastName" name="lastName" />
+          <label for="lastName">Last Name</label>
+          <small id="lastNameError" class="error"></small>
+        </div>
+        <div class="input-field">
+          <input type="text" id="email" name="email" />
+          <label for="email">Enter Email</label>
+          <small id="emailError" class="error"></small>
+        </div>
+        <div class="input-field">
+          <input type="password" id="password" name="password" />
+          <label for="password">Password</label>
+          <small id="passwordError" class="error"></small>
+        </div>
+        <div class="forget">
+          <label for="remember">
+            <input type="checkbox" id="remember" />
+            <p>Remember me</p>
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button type="submit">Register</button>
+        <div class="register">
+          <p>Have an account? <a href="login.html">Sign In</a></p>
+        </div>
+      </form>
+    </div>
+    <script>
+      // JavaScript Validation
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", function (event) {
+          // Get form values
+          const firstName = document.getElementById("firstName").value.trim();
+          const lastName = document.getElementById("lastName").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value.trim();
+
+          // Error message elements
+          const firstNameError = document.getElementById("firstNameError");
+          const lastNameError = document.getElementById("lastNameError");
+          const emailError = document.getElementById("emailError");
+          const passwordError = document.getElementById("passwordError");
+
+          // Reset error messages
+          firstNameError.textContent = "";
+          lastNameError.textContent = "";
+          emailError.textContent = "";
+          passwordError.textContent = "";
+
+          let isValid = true;
+
+          // First name validation
+          if (!firstName) {
+            firstNameError.textContent = "First Name is required.";
+            isValid = false;
+          }
+
+          // Last name validation
+          if (!lastName) {
+            lastNameError.textContent = "Last Name is required.";
+            isValid = false;
+          }
+
+          // Email validation
+          const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          if (!email) {
+            emailError.textContent = "Email is required.";
+            isValid = false;
+          } else if (!emailPattern.test(email)) {
+            emailError.textContent = "Enter a valid email address.";
+            isValid = false;
+          }
+
+          // Password validation
+          if (!password) {
+            passwordError.textContent = "Password is required.";
+            isValid = false;
+          } else if (password.length < 6) {
+            passwordError.textContent =
+              "Password must be at least 6 characters.";
+            isValid = false;
+          }
+
+          // Prevent form submission if validation fails
+          if (!isValid) {
+            event.preventDefault();
+          }
+        });
+    </script>
+    <style>
+      .error {
+        color: red;
+        font-size: 0.8em;
+        margin-top: 5px;
+      }
+    </style>
+  </body>
+</html>

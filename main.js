@@ -110,3 +110,7 @@ const swiper = new Swiper(".swiper", {
   spaceBetween: 20,
   loop: true,
 });
+
+function redirectToLogin() {
+  window.location.href = "login.html";
+}

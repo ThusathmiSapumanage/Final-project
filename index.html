@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,7 +12,7 @@
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
     <link rel="stylesheet" href="styles.css" />
-    <title>Web Design Mastery | Car Rental</title>
+    <title>GAPHQ - Home</title>
   </head>
   <body>
     <header>
@@ -33,13 +32,18 @@
         <ul class="nav__links" id="nav-links">
           <li><a href="#home">Home</a></li>
           <li><a href="about.html">About</a></li>
-          <li><a href="rentalpackages.html">Rental packages</a></li>          
+          <li><a href="rentalpackages.html">Rental packages</a></li>
           <li><a href="#client">Testimonials</a></li>
           <li><a href="#"></a></li>
         </ul>
         <div class="nav__btns">
-          <button class="btn">Sign In</button>
+          <button class="btn" onclick="redirectToLogin()">Sign In</button>
         </div>
+        <script>
+          function redirectToLogin() {
+            window.location.href = "login.html";
+          }
+        </script>
       </nav>
       <div class="header__container" id="home">
         <div class="header__image">
@@ -49,12 +53,14 @@
           <h2>👍100% Trusted Venue Renting Platform in Sri Lanka</h2>
           <h1>Simple and Seamless Venue Rentals for Every Occasion</h1>
           <p class="section__description">
-            "Discover a seamless venue renting experience with us. Choose from a range of premium spaces to suit your style and needs,
-             and host your event with confidence. Quick, easy, and reliable – book your perfect venue today!"
+            "Discover a seamless venue renting experience with us. Choose from a
+            range of premium spaces to suit your style and needs, and host your
+            event with confidence. Quick, easy, and reliable – book your perfect
+            venue today!"
           </p>
         </div>
       </div>
-    </header>   
+    </header>
 
     <section class="subscribe__container">
       <div class="subscribe__image">
@@ -65,9 +71,9 @@
           Subscribe for the latest package updates
         </h2>
         <p class="section__description">
-          Stay in the know! Subscribe to receive the latest deals,
-          exclusive offers, and updates right to your inbox. Don't miss out on
-          special promotions and the newest additions to our fleet.
+          Stay in the know! Subscribe to receive the latest deals, exclusive
+          offers, and updates right to your inbox. Don't miss out on special
+          promotions and the newest additions to our fleet.
         </p>
         <form action="/">
           <input type="text" placeholder="Your Email" />
@@ -77,28 +83,27 @@
     </section>
 
     <section>
-        <h1 id="gal" >Gallery</h1>
+      <h1 id="gal">Gallery</h1>
 
-        <div class="album">
-            <div class="responsive-container-block bg">
-              <div class="responsive-container-block img-cont">
-                <img class="img" src="assets/g1.jpg">
-                <img class="img" src="assets/g2.jpg">
-                <img class="img img-last" src="assets/g3.jpg">
-              </div>
-              <div class="responsive-container-block img-cont">
-                <img class="img img-big" src="assets/g5.jpg">
-                <img class="img img-big img-last" src="assets/g6.jpg">
-              </div>
-              <div class="responsive-container-block img-cont">
-                <img class="img" src="assets/g7.jpg">
-                <img class="img" src="assets/g8.jpg">
-                <img class="img" src="assets/g9.jpg">
-              </div>
-            </div>
+      <div class="album">
+        <div class="responsive-container-block bg">
+          <div class="responsive-container-block img-cont">
+            <img class="img" src="assets/g1.jpg" />
+            <img class="img" src="assets/g2.jpg" />
+            <img class="img img-last" src="assets/g3.jpg" />
           </div>
+          <div class="responsive-container-block img-cont">
+            <img class="img img-big" src="assets/g5.jpg" />
+            <img class="img img-big img-last" src="assets/g6.jpg" />
+          </div>
+          <div class="responsive-container-block img-cont">
+            <img class="img" src="assets/g7.jpg" />
+            <img class="img" src="assets/g8.jpg" />
+            <img class="img" src="assets/g9.jpg" />
+          </div>
+        </div>
+      </div>
     </section>
-     
 
     <footer class="footer">
       <div class="section__container footer__container">
@@ -109,7 +114,7 @@
               <span>GAPHQ</span>
             </a>
           </div>
-       
+
           <ul class="footer__socials">
             <li>
               <a href="#"><i class="ri-facebook-fill"></i></a>
@@ -169,9 +174,7 @@
           </ul>
         </div>
       </div>
-      <div class="footer__bar">
-        Copyright © GAPHQ. All rights reserved.
-      </div>
+      <div class="footer__bar">Copyright © GAPHQ. All rights reserved.</div>
     </footer>
 
     <script src="https://unpkg.com/scrollreveal"></script>

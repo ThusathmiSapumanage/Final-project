@@ -1,0 +1,130 @@
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+  }
+  
+  /* Section Styling */
+  .section__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .section__header {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #ff9248;
+  }
+  
+  .section__description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #555;
+  }
+  
+  /* Swiper Slider Styling */
+  .swiper {
+    padding: 2rem 0;
+  }
+  
+  .swiper-wrapper {
+    display: flex;
+  }
+  
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .client__card {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 1.5rem;
+    max-width: 300px;
+    text-align: left;
+    transition: transform 0.3s ease;
+  }
+  
+  .client__card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .client__details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .client__details img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
+    object-fit: cover;
+    border: 2px solid #ff9248;
+  }
+  
+  .client__details h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .client__rating span {
+    color: #ff9248;
+    font-size: 1.2rem;
+    margin-right: 2px;
+  }
+  
+  .client__rating .ri-star-line {
+    color: #ccc;
+  }
+  
+  .client__card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .section__header {
+      font-size: 1.5rem;
+    }
+  
+    .section__description {
+      font-size: 0.9rem;
+    }
+  
+    .client__card {
+      max-width: 250px;
+    }
+  
+    .swiper {
+      padding: 1rem 0;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .client__details img {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .client__details h4 {
+      font-size: 1rem;
+    }
+  
+    .client__card p {
+      font-size: 0.8rem;
+    }
+  }
+  
