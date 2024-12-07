@@ -114,3 +114,4 @@ const swiper = new Swiper(".swiper", {
 function redirectToLogin() {
   window.location.href = "login.html";
 }
+

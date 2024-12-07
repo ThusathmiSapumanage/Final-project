@@ -195,3 +195,10 @@ header .current-date{
   display: block; /* Show dot when the day has an event */
 }
 
+.update {
+  position: absolute;
+  top: 120px; /* Distance from the top of the page */
+  left: 50px; /* Distance from the left side of the page */
+  padding: 10px 20px; /* Optional: Add padding for button size */
+ 
+}
