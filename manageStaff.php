@@ -1,4 +1,3 @@
-<!-- This should be made into a php once the DB is made -->
 <?php
 
 $servername = "localhost";
@@ -20,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Manage Food and Beverage Suppliers </title>
+        <title> Manage Staff </title>
         <link rel="stylesheet" type="text/css" href="viewfood.css">
     </head>
     <body>
@@ -34,19 +33,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 <nav class="menu">
                     <a href="events.html">Events</a>
                     <div class="dropdown">
-                        <a href="supplierM.html" class="active">Supplies</a>
+                        <a href="supplierM.html">Supplies</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageFood.php" class="active3">Manage Food</a></li>
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active2">Manage Food Supplier</a></li>
+                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
                         </ul>
                     </div>
                     <a href="#">Finance</a>
                     <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
+                        <a href="staffM.html" class="active">Staff</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
+                            <li><a href="manageStaff.php" class="active2">Manage Staff</a></li>
                             <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
                         </ul>
                     </div>
@@ -60,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Food Supplier Management</h1>
+                    <h1>Staff Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
@@ -70,8 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 
                 <!-- Suppliers Section -->
                 <section class = "suppliers">
-                    <h2>Food suppliers</h2>
-                    <button class = "adding"><a href="addFood.php">Add Food Supplier</a></button>
+                    <h2>Staff</h2>
+                    <button class = "adding"><a href="addFood.php">Add Staff Profile</a></button>
                     <div class="table1">
             <table class="table centered">
                 <thead>

@@ -13,10 +13,24 @@
                     <img src="images/logo.png" alt="Logo">
                 </div>
                 <nav class="menu">
-                    <a href="#"><img src="">Events</a>
-                    <a href="supplierM.html">Supplies</a>
+                    <a href="events.html">Events</a>
+                    <div class="dropdown">
+                        <a href="supplierM.html">Supplies</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
+                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
+                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
+                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
+                        </ul>
+                    </div>
                     <a href="#">Finance</a>
-                    <a href="#">Staff</a>
+                    <div class="dropdown">
+                        <a href="staffM.html">Staff</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
+                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
+                        </ul>
+                    </div>
                     <a href="manageResource.php">Resource</a>
                     <a href="#">Client</a>
                     <a href="feedback.php" class="active">Feedback</a>
