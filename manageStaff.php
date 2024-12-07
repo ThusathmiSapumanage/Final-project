@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 <!-- Suppliers Section -->
                 <section class = "suppliers">
                     <h2>Staff</h2>
-                    <button class = "adding"><a href="addFood.php">Add Staff Profile</a></button>
+                    <button class = "adding"><a href="addStaff">Add Staff Profile</a></button>
                     <div class="table1">
             <table class="table centered">
                 <thead>
@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 </tbody>
             </table>
         </div>
-        <a href="supplierM.html"><button class = "back">Back</button></a>
+        <a href="staffM.html"><button class = "back">Back</button></a>
                 </section>
             </main>
          </div>
