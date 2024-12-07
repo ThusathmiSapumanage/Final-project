@@ -1,370 +1,129 @@
-const AVAILABLE_WEEK_DAYS = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const localStorageName = "calendar-events";
-  
-  class CALENDAR {
-    constructor(options) {
-      this.options = options;
-      this.elements = {
-        days: this.getFirstElementInsideIdByClassName("calendar-days"),
-        week: this.getFirstElementInsideIdByClassName("calendar-week"),
-        month: this.getFirstElementInsideIdByClassName("calendar-month"),
-        year: this.getFirstElementInsideIdByClassName("calendar-current-year"),
-        eventList: this.getFirstElementInsideIdByClassName(
-          "current-day-events-list"
-        ),
-        eventField: this.getFirstElementInsideIdByClassName(
-          "add-event-day-field"
-        ),
-        eventAddBtn: this.getFirstElementInsideIdByClassName(
-          "add-event-day-field-btn"
-        ),
-        currentDay: this.getFirstElementInsideIdByClassName(
-          "calendar-left-side-day"
-        ),
-        currentWeekDay: this.getFirstElementInsideIdByClassName(
-          "calendar-left-side-day-of-week"
-        ),
-        prevYear: this.getFirstElementInsideIdByClassName(
-          "calendar-change-year-slider-prev"
-        ),
-        nextYear: this.getFirstElementInsideIdByClassName(
-          "calendar-change-year-slider-next"
-        ),
-      };
-  
-      this.eventList = JSON.parse(localStorage.getItem(localStorageName)) || {};
-  
-      this.date = +new Date();
-      this.options.maxDays = 37;
-      this.init();
-    }
-  
-    // App methods
-    init() {
-      if (!this.options.id) return false;
-      this.eventsTrigger();
-      this.drawAll();
-    }
-  
-    // draw Methods
-    drawAll() {
-      this.drawWeekDays();
-      this.drawMonths();
-      this.drawDays();
-      this.drawYearAndCurrentDay();
-      this.drawEvents();
-    }
-  
-    drawEvents() {
-      let calendar = this.getCalendar();
-      let eventList = this.eventList[calendar.active.formatted] || [];
-      let eventTemplate = "";
-  
-      if (eventList.length === 0) {
-          eventTemplate = `<li>There are no events</li>`;
+const daysTag = document.querySelector(".days"),
+currentDate = document.querySelector(".current-date"),
+prevNextIcon = document.querySelectorAll(".icons span");
+
+// Track events with a map
+let events = {};
+
+// getting new date, current year and month
+let date = new Date(),
+currYear = date.getFullYear(),
+currMonth = date.getMonth();
+
+// storing full name of all months in array
+const months = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"];
+
+// Function to open a form
+const openEventForm = (day) => {
+  const eventKey = `${currYear}-${currMonth}-${day}`;
+  const existingEvent = events[eventKey];
+
+  // HTML for the event form, with fields populated if there's an existing event
+  const formHtml = `
+      <div class="event-form-container">
+          <div class="event-form">
+              <h3>${existingEvent ? `Edit Event` : `Add Event`} for ${months[currMonth]} ${day}, ${currYear}</h3>
+              <label for="eventName">Event Name:</label>
+              <input type="text" id="eventName" value="${existingEvent ? existingEvent.name : ''}" placeholder="Enter event name">
+              <label for="eventTime">Event Time:</label>
+              <input type="time" id="eventTime" value="${existingEvent ? existingEvent.time : ''}">
+              <button id="saveEvent">${existingEvent ? 'Update' : 'Save'}</button>
+              ${existingEvent ? '<button id="deleteEvent">Delete</button>' : ''}
+              <button id="cancelEvent">Cancel</button>
+          </div>
+      </div>
+  `;
+
+  // Append the form to the body
+  document.body.insertAdjacentHTML("beforeend", formHtml);
+
+  // Add event listener for the Save or Update button
+  document.getElementById("saveEvent").addEventListener("click", () => {
+      const eventName = document.getElementById("eventName").value;
+      const eventTime = document.getElementById("eventTime").value;
+
+      if (eventName && eventTime) {
+          // Save or update the event in the events object
+          events[eventKey] = { name: eventName, time: eventTime };
+          alert(`Event "${eventName}" at ${eventTime} ${existingEvent ? 'updated' : 'saved'} for ${months[currMonth]} ${day}, ${currYear}`);
+          renderCalendar(); // Re-render calendar to show updated event
       } else {
-          eventList.forEach((item, index) => {
-              eventTemplate += `
-                  <li>
-                      ${item}
-                      <button class="update-event-btn" data-index="${index}">Update</button>
-                      <button class="delete-event-btn" data-index="${index}">Delete</button>
-                  </li>`;
-          });
+          alert("Please fill in all fields.");
       }
-  
-      this.elements.eventList.innerHTML = eventTemplate;
-  
-      // Add listeners for update and delete buttons
-      const updateButtons = document.querySelectorAll(".update-event-btn");
-      const deleteButtons = document.querySelectorAll(".delete-event-btn");
-  
-      updateButtons.forEach((btn) =>
-          btn.addEventListener("click", (e) => this.updateEvent(e))
-      );
-  
-      deleteButtons.forEach((btn) =>
-          btn.addEventListener("click", (e) => this.deleteEvent(e))
-      );
+      document.querySelector(".event-form-container").remove(); // Close the form
+  });
+
+  // Add event listener for the Delete button (if event exists)
+  if (existingEvent) {
+      document.getElementById("deleteEvent").addEventListener("click", () => {
+          // Delete the event
+          delete events[eventKey];
+          alert(`Event for ${months[currMonth]} ${day}, ${currYear} deleted.`);
+          renderCalendar(); // Re-render calendar to remove the event
+          document.querySelector(".event-form-container").remove(); // Close the form
+      });
   }
-  
-  bookEvent(event) {
-    const calendar = this.getCalendar();
-    const dateFormatted = calendar.active.formatted;
-    const eventIndex = event.target.dataset.index;
-  
-    const selectedEvent = this.eventList[dateFormatted][eventIndex];
-  
-    // Redirect to the book page with the selected event details
-    window.location.href = `book.html?date=${encodeURIComponent(dateFormatted)}&event=${encodeURIComponent(selectedEvent)}`;
-  }
-  
-  
-  
-  
-  
-  updateEvent(event) {
-      const calendar = this.getCalendar();
-      const dateFormatted = calendar.active.formatted;
-      const eventIndex = event.target.dataset.index;
-      const newEvent = prompt(
-          "Update the event:",
-          this.eventList[dateFormatted][eventIndex]
-      );
-  
-      if (newEvent) {
-          this.eventList[dateFormatted][eventIndex] = newEvent;
-          localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
-          this.drawAll();
-      }
-  }
-  
-  deleteEvent(event) {
-      const calendar = this.getCalendar();
-      const dateFormatted = calendar.active.formatted;
-      const eventIndex = event.target.dataset.index;
-  
-      this.eventList[dateFormatted].splice(eventIndex, 1);
-  
-      if (this.eventList[dateFormatted].length === 0) {
-          delete this.eventList[dateFormatted];
-      }
-  
-      localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
-      this.drawAll();
-  }
-  
-  
-    drawYearAndCurrentDay() {
-      let calendar = this.getCalendar();
-      this.elements.year.innerHTML = calendar.active.year;
-      this.elements.currentDay.innerHTML = calendar.active.day;
-      this.elements.currentWeekDay.innerHTML =
-        AVAILABLE_WEEK_DAYS[calendar.active.week];
+
+  // Add event listener for the Cancel button
+  document.getElementById("cancelEvent").addEventListener("click", () => {
+      document.querySelector(".event-form-container").remove(); // Close the form
+  });
+};
+
+
+
+const renderCalendar = () => {
+    let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // getting first day of month
+    lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
+    lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // getting last day of month
+    lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(); // getting last date of previous month
+    let liTag = "";
+
+    for (let i = firstDayofMonth; i > 0; i--) { // creating li of previous month last days
+        liTag += `<li class="inactive">${lastDateofLastMonth - i + 1}</li>`;
     }
-  
-    drawDays() {
-      let calendar = this.getCalendar();
-  
-      let latestDaysInPrevMonth = this.range(calendar.active.startWeek)
-        .map((day, idx) => {
-          return {
-            dayNumber: this.countOfDaysInMonth(calendar.pMonth) - idx,
-            month: new Date(calendar.pMonth).getMonth(),
-            year: new Date(calendar.pMonth).getFullYear(),
-            currentMonth: false,
-          };
-        })
-        .reverse();
-  
-      let daysInActiveMonth = this.range(calendar.active.days).map((day, idx) => {
-        let dayNumber = idx + 1;
-        let today = new Date();
-        return {
-          dayNumber,
-          today:
-            today.getDate() === dayNumber &&
-            today.getFullYear() === calendar.active.year &&
-            today.getMonth() === calendar.active.month,
-          month: calendar.active.month,
-          year: calendar.active.year,
-          selected: calendar.active.day === dayNumber,
-          currentMonth: true,
-        };
-      });
-  
-      let countOfDays =
-        this.options.maxDays -
-        (latestDaysInPrevMonth.length + daysInActiveMonth.length);
-      let daysInNextMonth = this.range(countOfDays).map((day, idx) => {
-        return {
-          dayNumber: idx + 1,
-          month: new Date(calendar.nMonth).getMonth(),
-          year: new Date(calendar.nMonth).getFullYear(),
-          currentMonth: false,
-        };
-      });
-  
-      let days = [
-        ...latestDaysInPrevMonth,
-        ...daysInActiveMonth,
-        ...daysInNextMonth,
-      ];
-  
-      days = days.map((day) => {
-        let newDayParams = day;
-        let formatted = this.getFormattedDate(
-          new Date(`${Number(day.month) + 1}/${day.dayNumber}/${day.year}`)
-        );
-        newDayParams.hasEvent = this.eventList[formatted];
-        return newDayParams;
-      });
-  
-      let daysTemplate = "";
-      days.forEach((day) => {
-        daysTemplate += `<li class="${day.currentMonth ? "" : "another-month"}${
-          day.today ? " active-day " : ""
-        }${day.selected ? "selected-day" : ""}${
-          day.hasEvent ? " event-day" : ""
-        }" data-day="${day.dayNumber}" data-month="${day.month}" data-year="${
-          day.year
-        }"></li>`;
-      });
-  
-      this.elements.days.innerHTML = daysTemplate;
+
+    for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
+        const eventKey = `${currYear}-${currMonth}-${i}`;
+        const hasEvent = events[eventKey] ? "has-event" : ""; // Check if event exists for this day
+        let isToday = i === date.getDate() && currMonth === new Date().getMonth() 
+                     && currYear === new Date().getFullYear() ? "active" : "";
+        liTag += `<li class="${isToday} ${hasEvent}" data-day="${i}">${i}</li>`;
     }
-  
-    drawMonths() {
-      let availableMonths = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      let monthTemplate = "";
-      let calendar = this.getCalendar();
-      availableMonths.forEach((month, idx) => {
-        monthTemplate += `<li class="${
-          idx === calendar.active.month ? "active" : ""
-        }" data-month="${idx}">${month}</li>`;
-      });
-  
-      this.elements.month.innerHTML = monthTemplate;
+
+    for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
+        liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`
     }
-  
-    drawWeekDays() {
-      let weekTemplate = "";
-      AVAILABLE_WEEK_DAYS.forEach((week) => {
-        weekTemplate += `<li>${week.slice(0, 3)}</li>`;
-      });
-  
-      this.elements.week.innerHTML = weekTemplate;
-    }
-  
-    // Service methods
-    eventsTrigger() {
-      this.elements.prevYear.addEventListener("click", (e) => {
-        let calendar = this.getCalendar();
-        this.updateTime(calendar.pYear);
-        this.drawAll();
-      });
-  
-      this.elements.nextYear.addEventListener("click", (e) => {
-        let calendar = this.getCalendar();
-        this.updateTime(calendar.nYear);
-        this.drawAll();
-      });
-  
-      this.elements.month.addEventListener("click", (e) => {
-        let calendar = this.getCalendar();
-        let month = e.srcElement.getAttribute("data-month");
-        if (!month || calendar.active.month == month) return false;
-  
-        let newMonth = new Date(calendar.active.tm).setMonth(month);
-        this.updateTime(newMonth);
-        this.drawAll();
-      });
-  
-      this.elements.days.addEventListener("click", (e) => {
-        let element = e.srcElement;
-        let day = element.getAttribute("data-day");
-        let month = element.getAttribute("data-month");
-        let year = element.getAttribute("data-year");
-        if (!day) return false;
-        let strDate = `${Number(month) + 1}/${day}/${year}`;
-        this.updateTime(strDate);
-        this.drawAll();
-      });
-  
-      this.elements.eventAddBtn.addEventListener("click", (e) => {
-        let fieldValue = this.elements.eventField.value;
-        if (!fieldValue) return false;
-        let dateFormatted = this.getFormattedDate(new Date(this.date));
-        if (!this.eventList[dateFormatted]) this.eventList[dateFormatted] = [];
-        this.eventList[dateFormatted].push(fieldValue);
-        localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
-        this.elements.eventField.value = "";
-        this.drawAll();
-      });
-    }
-  
-    updateTime(time) {
-      this.date = +new Date(time);
-    }
-  
-    getCalendar() {
-      let time = new Date(this.date);
-  
-      return {
-        active: {
-          days: this.countOfDaysInMonth(time),
-          startWeek: this.getStartedDayOfWeekByTime(time),
-          day: time.getDate(),
-          week: time.getDay(),
-          month: time.getMonth(),
-          year: time.getFullYear(),
-          formatted: this.getFormattedDate(time),
-          tm: +time,
-        },
-        pMonth: new Date(time.getFullYear(), time.getMonth() - 1, 1),
-        nMonth: new Date(time.getFullYear(), time.getMonth() + 1, 1),
-        pYear: new Date(new Date(time).getFullYear() - 1, 0, 1),
-        nYear: new Date(new Date(time).getFullYear() + 1, 0, 1),
-      };
-    }
-  
-    countOfDaysInMonth(time) {
-      let date = this.getMonthAndYear(time);
-      return new Date(date.year, date.month + 1, 0).getDate();
-    }
-  
-    getStartedDayOfWeekByTime(time) {
-      let date = this.getMonthAndYear(time);
-      return new Date(date.year, date.month, 1).getDay();
-    }
-  
-    getMonthAndYear(time) {
-      let date = new Date(time);
-      return {
-        year: date.getFullYear(),
-        month: date.getMonth(),
-      };
-    }
-  
-    getFormattedDate(date) {
-      return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
-    }
-  
-    range(number) {
-      return new Array(number).fill().map((e, i) => i);
-    }
-  
-    getFirstElementInsideIdByClassName(className) {
-      return document
-        .getElementById(this.options.id)
-        .getElementsByClassName(className)[0];
-    }
-  }
-  
-  (function () {
-    new CALENDAR({
-      id: "calendar",
+    currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current mon and yr as currentDate text
+    daysTag.innerHTML = liTag;
+
+    // Add event listener to each day
+    document.querySelectorAll(".days li:not(.inactive)").forEach(day => {
+        day.addEventListener("click", () => {
+            const dayNumber = day.getAttribute("data-day");
+            openEventForm(dayNumber);
+        });
     });
-  })();
-  
+};
+
+renderCalendar();
+
+prevNextIcon.forEach(icon => { // getting prev and next icons
+    icon.addEventListener("click", () => { // adding click event on both icons
+        // if clicked icon is previous icon then decrement current month by 1 else increment it by 1
+        currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+
+        if(currMonth < 0 || currMonth > 11) { // if current month is less than 0 or greater than 11
+            // creating a new date of current year & month and pass it as date value
+            date = new Date(currYear, currMonth, new Date().getDate());
+            currYear = date.getFullYear(); // updating current year with new date year
+            currMonth = date.getMonth(); // updating current month with new date month
+        } else {
+            date = new Date(); // pass the current date as date value
+        }
+        renderCalendar(); // calling renderCalendar function
+    });
+});
+
+

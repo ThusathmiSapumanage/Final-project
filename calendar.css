@@ -1,297 +1,197 @@
-/* Reset margin, padding, and set box-sizing for all elements */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* General body styling */
-  body {
-    background: rgb(236, 241, 250); /* Light background color */
-    font-family: "Roboto", sans-serif; /* Font for the calendar */
-  }
-  
-  /* Utility classes for text alignment */
-  .text-center {
-    text-align: center;
-  }
-  
-  .text-right {
-    text-align: right;
-  }
-  
-  .text-muted {
-    color: #777; /* Muted text color */
-  }
-  
-  .cursor-pointer {
-    cursor: pointer;
-  }
-  
-  /*.disable-selection {
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-  }*/
-  
-  /* General positioning styles for calendar elements */
-  .calendar,
-  .calendar .add-event-day .add-event-day-field-btn,
-  .calendar .calendar-days li:after {
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-  }
-  
-  /* Main calendar container */
-  .calendar {
-    background: white;
-    width: 840px;
-    height: 490px;
-    border-radius: 10px; /* Rounded corners */
-    overflow: hidden;
-  }
-  
-  /* Positioning for various calendar elements */
-  .calendar .calendar-left-side-day-of-week,
-  .calendar .current-day-events ul,
-  .calendar .add-event-day,
-  .calendar .calendar-change-year,
-  .calendar .calendar-days li {
-    position: relative;
-  }
-  
-  /* Text color for left-side calendar elements */
-  .calendar .calendar-left-side-day,
-  .calendar .calendar-left-side-day-of-week,
-  .calendar .current-day-events,
-  .calendar .add-event-day-field-btn,
-  .calendar .add-event-day-field {
-    color: white;
-  }
-  
-  /* Uppercase styling for weekdays and day names */
-  .calendar .calendar-left-side-day-of-week,
-  .calendar .calendar-week {
-    text-transform: uppercase;
-  }
-  
-  /* Padding and layout for the left and right sections */
-  .calendar .right-side,
-  .calendar .left-side {
-    padding: 30px;
-    height: 100%;
-  }
-  
-  
-  /* Left side styling */
-  .calendar .left-side {
-    width: 320px;
-    background: #e4d00a;
-    float: left;
-  }
-  
-  /* Spacing for current day and events on the left side */
-  .calendar .current-day,
-  .calendar .current-day-events {
-    padding-top: 40px;
-  }
-  
-  /* Event list styling */
-  .calendar .current-day-events {
-    height: 215px;
-  }
-  .calendar .current-day-events ul {
-    padding-left: 30px;
-    list-style: none;
-  }
-  .calendar .current-day-events ul li::before {
-    content: "-";
-    position: absolute;
-    left: 3px;
-  }
-  .calendar h1.calendar-left-side-day {
-    font-size: 92px;
-  }
-  .calendar .add-event-day {
-    border-bottom: 1px solid white;
-  }
-  .calendar .add-event-day .add-event-day-field {
-    border: none;
-    background: transparent;
-    height: 34px;
-    width: 100%;
-    font-size: 16px;
-    padding-right: 30px;
-  }
-  .calendar .add-event-day .add-event-day-field:focus {
-    outline: none;
-  }
-  .calendar .add-event-day .add-event-day-field::placeholder {
-    color: #fff;
-  }
-  .calendar .add-event-day .add-event-day-field-btn {
-    left: inherit;
-    line-height: 34px;
-  }
-  .calendar .right-side {
-    width: 520px;
-    float: right;
-  }
-  .calendar .calendar-change-year {
-    font-size: 20px;
-  }
-  .calendar .calendar-change-year .calendar-change-year-slider {
-    margin: 15px 0;
-    color: #737373;
-  }
-  .calendar .calendar-change-year .calendar-change-year-slider .fa:hover {
-    color: #404040;
-  }
-  .calendar .calendar-days,
-  .calendar .calendar-week,
-  .calendar .calendar-month {
-    list-style: none;
-    font-size: 0;
-  }
-  .calendar .calendar-days li,
-  .calendar .calendar-week li,
-  .calendar .calendar-month li {
-    display: inline-block;
-    text-align: center;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  .calendar .calendar-month li {
-    width: calc(460px / 12);
-    height: 30px;
-    line-height: 30px;
-    color: #868686;
-    font-size: 13px;
-  }
-  .calendar .calendar-month li.active {
-    color: #171717;
-    font-weight: 600;
-  }
-  .calendar .calendar-days li {
-    width: calc(460px / 7);
-    height: 50px;
-    line-height: 50px;
-  }
-  .calendar .calendar-days li:after {
-    content: attr(data-day);
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    color: #959595;
-  }
-  .calendar .calendar-days li.another-month:after {
-    color: #ccc;
-  }
-  .calendar .calendar-days li:hover:after,
-  .calendar .calendar-days li.selected-day:after,
-  .calendar .calendar-days li.event-day:before,
-  .calendar .calendar-days li.active-day:after {
-    border-radius: 50%;
-  }
-  .calendar .calendar-days li:hover:after,
-  .calendar .calendar-days li.selected-day:after {
-    background: #ccc;
-    color: white;
-  }
-  .calendar .calendar-days li.event-day:before {
-    content: " ";
-    width: 5px;
-    height: 5px;
-    position: absolute;
-    top: 7px;
-    right: 7px;
-    background: #1400c7;
-  }
-  .calendar .calendar-days li.active-day:after {
-    color: white;
-    background: #007bff;
-  }
-  .calendar .calendar-week {
-    margin-bottom: 30px;
-    font-weight: 600;
-    color: #737373;
-    border-top: 1px solid #ccc;
-  }
-  .calendar .calendar-week li {
-    width: calc(460px / 7);
-    height: 30px;
-    line-height: 30px;
-  }
-  
-  /* Styling for Update and Delete Buttons */
-  .update-event-btn, .delete-event-btn {
-    padding: 5px 10px;
-    margin: 0 5px;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  /* Update Button Styling */
-  .update-event-btn {
-    background-color: #4caf50; /* Green */
-    color: white;
-  }
-  
-  .update-event-btn:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
-  }
-  
-  /* Delete Button Styling */
-  .delete-event-btn {
-    background-color: #f44336; /* Red */
-    color: white;
-  }
-  
-  .delete-event-btn:hover {
-    background-color: #d32f2f;
-    transform: scale(1.05);
-  }
-  
-  /* Optional: Style the event list items */
-  .current-day-events-list li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 10px;
-    border-bottom: 1px solid #ddd;
-    font-size: 16px;
-  }
-  
-  .current-day-events-list li:last-child {
-    border-bottom: none;
-  }
-  
-  
-  .book-event-btn {
-    padding: 5px 10px;
-    margin: 0 5px;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    background-color: #007bff; /* Blue */
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .book-event-btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: scale(1.05); /* Slight scaling effect */
-  }
-  
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column; /* Align items in a column (navbar + content) */
+  align-items: center;    /* Center horizontally */
+  justify-content: flex-start; /* Push content below the navbar */
+  min-height: 100vh;
+  width: 100%;
+  padding: 0; /* Reset padding to avoid unnecessary space */
+  margin: 0; /* Reset margin to ensure no extra space around body */
+  position: relative; /* Required for the ::before pseudo-element */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 80px); /* Subtract the height of the navbar (adjust as needed) */
+  background: url("assets/login.jpg"), #000;
+  background-position: center;
+  background-size: cover;
+  top: 80px; /* Push the background below the navbar */
+  z-index: -1; /* Ensure background appears behind content */
+}
+
+.wrapper {
+  width: 600px; /* Increase calendar size */
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.wrapper header{
+  display: flex;
+  align-items: center;
+  padding: 25px 30px 10px;
+  justify-content: space-between;
+}
+header .icons{
+  display: flex;
+}
+header .icons span{
+  height: 38px;
+  width: 38px;
+  margin: 0 1px;
+  cursor: pointer;
+  color: #878787;
+  text-align: center;
+  line-height: 38px;
+  font-size: 1.9rem;
+  user-select: none;
+  border-radius: 50%;
+}
+.icons span:last-child{
+  margin-right: -10px;
+}
+header .icons span:hover{
+  background: #f2f2f2;
+}
+header .current-date{
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+.calendar{
+  padding: 30px;
+}
+.calendar ul{
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  text-align: center;
+}
+.calendar .days{
+  margin-bottom: 20px;
+}
+.calendar li{
+  color: #333;
+  width: calc(100% / 7);
+  font-size: 1.07rem;
+  position: relative;
+}
+.calendar .weeks li{
+  font-weight: 500;
+  cursor: default;
+}
+.calendar .days li{
+  z-index: 1;
+  cursor: pointer;
+  position: relative;
+  margin-top: 30px;
+}
+.days li.inactive{
+  color: #aaa;
+}
+.days li.active{
+  color: #fff;
+}
+.days li::before{
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 50%;
+  height: 40px;
+  width: 40px;
+  z-index: -1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.days li.active::before{
+  background: #9B59B6;
+}
+.days li:not(.active):hover::before{
+  background: #f2f2f2;
+}
+
+.event-form-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.event-form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.event-form h3 {
+  margin-bottom: 15px;
+}
+
+.event-form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.event-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.event-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.event-form button#saveEvent {
+  background: #9B59B6;
+  color: #fff;
+}
+
+.event-form button#cancelEvent {
+  background: #e74c3c;
+  color: #fff;
+  margin-left: 10px;
+}
+
+
+.calendar .days li::after {
+  content: "";
+  display: none; /* Default hidden dot */
+  position: absolute;
+  top: -5px; /* Move the dot to the top */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: #9B59B6; /* Dot color */
+  border-radius: 50%; /* Make the dot circular */
+}
+
+.calendar .days li.has-event::after {
+  display: block; /* Show dot when the day has an event */
+}
+

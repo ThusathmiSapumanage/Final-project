@@ -1,78 +1,76 @@
-<html lang="en">
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calendar</title>
+    <meta charset="utf-8">
+    <title>calendar</title>
+    <link rel="stylesheet" href="calendar.css">
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
-    <link href="calendar.css" rel="stylesheet" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Main container for the calendar -->
-    <div class="calendar disable-selection" id="calendar">
-            <!-- Left side of the calendar: displays current day and events -->
-
-      <div class="left-side">
-        <div class="current-day text-center">
-          <h1 class="calendar-left-side-day"></h1>
-          <div class="calendar-left-side-day-of-week"></div>
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  />
+  <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Font Link for Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <script src="script.js" defer></script>
+    <nav>
+      <div class="nav__header">
+        <div class="nav__logo">
+          <a href="#" class="logo">
+            <img src="assets/logo.jpg" alt="logo" class="logo-white" />
+            <img src="assets/logo.jpg" alt="logo" class="logo-dark" />
+            <span>GAPHQ</span>
+          </a>
         </div>
-        <!-- Section for listing current day's events -->
-        <div class="current-day-events">
-          <div>Current Events:</div>
-          <ul class="current-day-events-list"></ul>
-        </div>
-        <!-- Section for adding a new event -->
-        <div class="add-event-day">
-          <input
-            type="text"
-            class="add-event-day-field"
-            placeholder="Create an Event"
-          />
-          <!-- Button to add a new event -->
-          <span
-            class="fa fa-plus-circle cursor-pointer add-event-day-field-btn"
-          ></span>
+        <div class="nav__menu__btn" id="menu-btn">
+          <i class="ri-menu-line"></i>
         </div>
       </div>
-      <!-- Right side of the calendar: displays navigation and day grid -->
-      <div class="right-side">
-        <!-- Year slider for navigating between years -->
-        <div class="text-right calendar-change-year">
-          <div class="calendar-change-year-slider">
-            <!-- Previous year navigation -->
-            <span
-              class="fa fa-caret-left cursor-pointer calendar-change-year-slider-prev"
-            ></span>
-             <!-- Current year display -->
-            <span class="calendar-current-year"></span>
-            <!-- Next year navigation -->
-            <span
-              class="fa fa-caret-right cursor-pointer calendar-change-year-slider-next"
-            ></span>
-          </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="rentalpackages.html">Rental packages</a></li>
+        <li><a href="#client">Testimonials</a></li>
+        <li><a href="#"></a></li>
+      </ul>
+      <div class="nav__btns">
+        <button class="btn" onclick="redirectToLogin()">Sign In</button>
+      </div>
+      <script>
+        function redirectToLogin() {
+          window.location.href = "login.html";
+        }
+      </script>
+    </nav>
+  </head>
+  <body> 
+    <div class="wrapper">
+      <header>
+        <p class="current-date"></p>
+        <div class="icons">
+          <span id="prev" class="material-symbols-rounded">chevron_left</span>
+          <span id="next" class="material-symbols-rounded">chevron_right</span>
         </div>
-        <!-- Section for displaying months in a year -->
-        <div class="calendar-month-list">
-          <ul class="calendar-month"></ul>
-        </div>
-         <!-- Section for displaying days of the week -->
-        <div class="calendar-week-list">
-          <ul class="calendar-week"></ul>
-        </div>
-        <!-- Section for displaying the days of the current month -->
-        <div class="calendar-day-list">
-          <ul class="calendar-days"></ul>
-        </div>
+      </header>
+      <div class="calendar">
+        <ul class="weeks">
+          <li>Sun</li>
+          <li>Mon</li>
+          <li>Tue</li>
+          <li>Wed</li>
+          <li>Thu</li>
+          <li>Fri</li>
+          <li>Sat</li>
+        </ul>
+        <ul class="days"></ul>
       </div>
     </div>
-    <!-- Linking the external JavaScript file for functionality -->
-    <script async src="./script.js"></script>
+
+      
   </body>
 </html>
