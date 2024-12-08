@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "gap";
+$dbname = "gaphq";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname, 3307);

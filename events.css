@@ -1,0 +1,486 @@
+* 
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* General body styling */
+body
+{
+  background: rgb(236, 241, 250); /* Light background color */
+  font-family: "Roboto", sans-serif; /* Font for the calendar */
+}
+
+/* Utility classes for text alignment */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-muted {
+  color: #777; /* Muted text color */
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/*.disable-selection {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}*/
+
+/* General positioning styles for calendar elements */
+.calendar,
+.calendar .add-event-day .add-event-day-field-btn,
+.calendar .calendar-days li:after {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+/* Main calendar container */
+.calendar {
+  background: white;
+  width: 840px;
+  height: 490px;
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden;
+  position: relative;
+}
+
+/* Positioning for various calendar elements */
+.calendar .calendar-left-side-day-of-week,
+.calendar .current-day-events ul,
+.calendar .add-event-day,
+.calendar .calendar-change-year,
+.calendar .calendar-days li {
+  position: relative;
+}
+
+/* Text color for left-side calendar elements */
+.calendar .calendar-left-side-day,
+.calendar .calendar-left-side-day-of-week,
+.calendar .current-day-events,
+.calendar .add-event-day-field-btn,
+.calendar .add-event-day-field {
+  color: white;
+}
+
+/* Uppercase styling for weekdays and day names */
+.calendar .calendar-left-side-day-of-week,
+.calendar .calendar-week {
+  text-transform: uppercase;
+}
+
+/* Padding and layout for the left and right sections */
+.calendar .right-side,
+.calendar .left-side {
+  padding: 30px;
+  height: 100%;
+}
+
+
+/* Left side styling */
+.calendar .left-side {
+  width: 320px;
+  background: #e4d00a;
+  float: left;
+}
+
+/* Spacing for current day and events on the left side */
+.calendar .current-day,
+.calendar .current-day-events {
+  padding-top: 40px;
+}
+
+/* Event list styling */
+.calendar .current-day-events {
+  height: 215px;
+}
+.calendar .current-day-events ul {
+  padding-left: 30px;
+  list-style: none;
+}
+.calendar .current-day-events ul li::before {
+  content: "-";
+  position: absolute;
+  left: 3px;
+}
+.calendar h1.calendar-left-side-day {
+  font-size: 92px;
+}
+.calendar .add-event-day {
+  border-bottom: 1px solid white;
+}
+.calendar .add-event-day .add-event-day-field {
+  border: none;
+  background: transparent;
+  height: 34px;
+  width: 100%;
+  font-size: 16px;
+  padding-right: 30px;
+}
+.calendar .add-event-day .add-event-day-field:focus {
+  outline: none;
+}
+.calendar .add-event-day .add-event-day-field::placeholder {
+  color: #fff;
+}
+.calendar .add-event-day .add-event-day-field-btn {
+  left: inherit;
+  line-height: 34px;
+}
+.calendar .right-side {
+  width: 520px;
+  float: right;
+}
+.calendar .calendar-change-year {
+  font-size: 20px;
+}
+.calendar .calendar-change-year .calendar-change-year-slider {
+  margin: 15px 0;
+  color: #737373;
+}
+.calendar .calendar-change-year .calendar-change-year-slider .fa:hover {
+  color: #404040;
+}
+.calendar .calendar-days,
+.calendar .calendar-week,
+.calendar .calendar-month {
+  list-style: none;
+  font-size: 0;
+}
+.calendar .calendar-days li,
+.calendar .calendar-week li,
+.calendar .calendar-month li {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+.calendar .calendar-month li {
+  width: calc(460px / 12);
+  height: 30px;
+  line-height: 30px;
+  color: #868686;
+  font-size: 13px;
+}
+.calendar .calendar-month li.active {
+  color: #171717;
+  font-weight: 600;
+}
+.calendar .calendar-days li {
+  width: calc(460px / 7);
+  height: 50px;
+  line-height: 50px;
+}
+.calendar .calendar-days li:after {
+  content: attr(data-day);
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  color: #959595;
+}
+.calendar .calendar-days li.another-month:after {
+  color: #ccc;
+}
+.calendar .calendar-days li:hover:after,
+.calendar .calendar-days li.selected-day:after,
+.calendar .calendar-days li.event-day:before,
+.calendar .calendar-days li.active-day:after {
+  border-radius: 50%;
+}
+.calendar .calendar-days li:hover:after,
+.calendar .calendar-days li.selected-day:after {
+  background: #ccc;
+  color: white;
+}
+.calendar .calendar-days li.event-day:before {
+  content: " ";
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  background: #1400c7;
+}
+.calendar .calendar-days li.active-day:after {
+  color: white;
+  background: #007bff;
+}
+.calendar .calendar-week {
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: #737373;
+  border-top: 1px solid #ccc;
+}
+.calendar .calendar-week li {
+  width: calc(460px / 7);
+  height: 30px;
+  line-height: 30px;
+}
+
+/* Styling for Update and Delete Buttons */
+.update-event-btn, .delete-event-btn {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Update Button Styling */
+.update-event-btn {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+.update-event-btn:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+/* Delete Button Styling */
+.delete-event-btn {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.delete-event-btn:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+/* Optional: Style the event list items */
+.current-day-events-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.current-day-events-list li:last-child {
+  border-bottom: none;
+}
+
+
+.book-event-btn {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #007bff; /* Blue */
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.book-event-btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight scaling effect */
+}
+
+.container
+{
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar
+{
+    width: 250px;
+    background: #151515;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 175dvh;
+}
+
+
+.sidebar .menu a
+{
+    display: block;
+    color: #fff;
+    padding: 14px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.5s ease;
+    margin: 10px 0;
+}
+
+.sidebar .menu a.active, .sidebar .menu a:hover
+{
+    background: #fdb827;
+    color: #000;
+}
+
+.sidebar .settings
+{
+    text-align: center;
+    color: #fff;
+    margin-top: auto;
+    font-size: 14px;
+    align-items:center;
+}
+
+.content
+{
+    flex: 1;
+    padding: 20px;
+}
+
+.header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    color:#F7941D;
+    position: relative;
+}
+
+.header h1
+{
+    font-size: 24px;
+}
+
+.header .search
+{
+    display: flex;
+    align-items: center;
+}
+
+.header .search input
+{
+    padding: 10px 35px;
+    border-radius: 20px;
+    border: none;
+    width: 250px;
+    margin-right: 10px;
+
+}
+
+.header .search button
+{
+    padding: 10px;
+    border: none;
+    background: #fdb827;
+    color: #000;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.5s ease;
+    margin-left: 10px;
+}
+
+.header .search button:hover
+{
+    background: rgb(255, 251, 0);
+}
+.search img
+{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    pointer-events: none;
+}
+
+.search
+{
+    position: relative;
+    display: inline-block;
+}
+
+.settings img
+{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.settings
+{
+    display: flex;
+    justify-content: center;
+    transition: background 0.5s ease;
+    cursor: pointer;
+}
+
+.settings:hover
+{
+    color: #F7941D;
+}
+
+.section-divider
+{
+    margin-top: 30px;
+    border-color: #F7941D;
+}
+
+.menu .dropdown-menu 
+{
+    display: none; 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    background: #151515; 
+}
+
+
+.menu .dropdown:hover .dropdown-menu 
+{
+    display: block; 
+    position: relative; 
+    padding-left: 20px; 
+}
+
+
+.menu .dropdown-menu li a 
+{
+    display: block;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.5s ease;
+}
+
+
+.menu .dropdown-menu li a:hover
+{
+    background: #fdb827;
+    color: #000;
+}
+
+
+.sidebar .menu a.active2, .sidebar .menu a.active2:hover
+{
+    background: #27fdd9;
+    color: #000;
+}
+
+.sidebar .menu a.active3:hover
+{
+    background: #27fdd9;
+    color: #000;
+}
