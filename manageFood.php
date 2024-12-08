@@ -1,19 +1,13 @@
-<!-- This should be made into a php once the DB is made -->
 <?php
 
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "dmw_cw";
-
-$conn = mysqli_connect($servername, $username, $password, $dbname,3307);
+include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM module WHERE MID = $id";
+    $sql = "DELETE FROM beveragesup WHERE bSupplierID = $id";
     mysqli_query($conn, $sql);
     echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'Viewmoduleforlec.php';</script>";
+    echo "<script>window.location.href = 'manageFood.php';</script>";
 }
 ?>
 
@@ -76,36 +70,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
             <table class="table centered">
                 <thead>
                     <tr>
-                        <th>Food item</th>
-                        <th>Discription</th>
-                        <th>Price per</th>
-                        <th>SupplierID</th>
+                        <th>Beverage Name</th>
+                        <th>Beverage Price</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $sql = "SELECT * FROM module";
+                    $sql = "SELECT * FROM beveragesup";
                     $result = mysqli_query($conn, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<tr>";
-                            echo "<td>" . $row['MID'] . "</td>";
-                            echo "<td>" . $row['MDiscription'] . "</td>";
-                            echo "<td>" . $row['MName'] . "</td>";
-                            echo "<td>";
+                            echo "<td>" . $row['bItems'] . "</td>";
+                            echo "<td>" . $row['bItemPrice'] . "</td>";
                             echo "<td class='actions'>
-                                <a href='module-update.php?id=" . $row['MID'] . "' class='btn update-btn'>Update</a>
+                                <a href='updateFood.php?id=" . $row['bSupplierID'] . "' class='btn update-btn'>Update</a>
                                 <form action='' method='POST' style='display: inline;'>
-                                    <input type='hidden' name='delete_id' value='" . $row['MID'] . "'>
+                                    <input type='hidden' name='delete_id' value='" . $row['bSupplierID'] . "'>
                                     <button type='submit' class='btn delete-btn'>Delete</button>
                                 </form>
                               </td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                        echo "<tr><td colspan='3'>No records found</td></tr>";
                     }
 
                     mysqli_close($conn);

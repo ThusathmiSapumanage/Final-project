@@ -4,16 +4,12 @@ include "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $name = $_POST['name'];
-    $email = $_POST['email'];
-    $contact = $_POST['contact'];
-    $address = $_POST['address'];
-    $suptype = $_POST['suptype'];
-    $managerid = $_POST['managerid'];
+    $price = $_POST['price'];
 
-    $sql = "INSERT INTO supplier (supName, supEmail, supPhone, supAddress, supType, managerID) VALUES ('$name', '$email', '$contact', '$address', '$suptype', '$managerid')";
+    $sql = "INSERT INTO beveragesup (bItems, bItemPrice) VALUES ('$name', '$price')";
 
     if (mysqli_query($conn, $sql)) {
-        header("Location: manageFoodSup.php");
+        header("Location: manageFood.php");
         exit;
     } 
     else
@@ -22,14 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
 }
 
-$sql = "SELECT managerID FROM manager";
-$result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Add Food and Beverage Suppliers </title>
+        <title> Add Food and Beverages </title>
         <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
@@ -45,9 +39,9 @@ $result = mysqli_query($conn, $sql);
                     <div class="dropdown">
                         <a href="supplierM.html" class="active">Supplies</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
+                            <li><a href="manageFood.php" class="active2">Manage Food</a></li>
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active2">Manage Food Supplier</a></li>
+                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
                         </ul>
                     </div>
@@ -69,7 +63,7 @@ $result = mysqli_query($conn, $sql);
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Food Supplier Management</h1>
+                    <h1>Food and Beverage Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
@@ -78,39 +72,15 @@ $result = mysqli_query($conn, $sql);
             	</header>
                 <div class="content-inner">
                     <div class="content-box">
-                        <h2>Add Food Supplier</h2>
-                        <form class = "form" action="addFoodsup.php" method="post">
-                            <label for="name">Name:</label>
+                        <h2>Add Food</h2>
+                        <form class = "form" action="addFood.php" method="post">
+                            <label for="name">Item Name:</label>
                             <input type="text" id="name" name="name" required>
 
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" required>
+                            <label for="email">Item Price:</label>
+                            <input type="text" id="price" name="price" required>
 
-                            <label for="contact">Contact:</label>
-                            <input type="text" id="contact" name="contact" required>
-
-                            <label for="address">Address:</label>
-                            <input type="text" id="address" name="address" required>
-
-                            <label for="suptype">Supplier Type:</label>
-                            <input type="text" id="suptype" name="suptype" value = "Food supplier" readonly>
-
-                            <label for="managerid">Manager ID:</label>
-                            <select id="managerid" name="managerid">
-                                <?php
-                                if (mysqli_num_rows($result) > 0) {
-                                    while($row = $result->fetch_assoc()) {
-                                        echo "<option value='" . $row['managerID'] . "'>" . $row['managerID'] . "</option>";
-                                    }
-                                }
-                                ?>
-                                else
-                                {
-                                    echo "<option value='' disabled>No Managers Available</option>";
-                                }
-                                ?>
-                            </select>
-                            <button class = "sub-btn" type="submit" name="submit">Add Food Supplier</button>
+                            <button class = "sub-btn" type="submit" name="submit">Add Food</button>
                         </form>
                     </div>
                 </div>

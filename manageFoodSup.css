@@ -1,0 +1,324 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body
+{
+    font-family: Arial, sans-serif;
+    background-image: url('images/Untitled\ design.jpg');
+    color: #fff;
+}
+
+.container
+{
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar
+{
+    width: 250px;
+    background: #151515;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 175dvh;
+}
+
+
+.sidebar .menu a
+{
+    display: block;
+    color: #fff;
+    padding: 14px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.5s ease;
+    margin: 10px 0;
+}
+
+.sidebar .menu a.active, .sidebar .menu a:hover
+{
+    background: #fdb827;
+    color: #000;
+}
+
+.sidebar .settings
+{
+    text-align: center;
+    color: #fff;
+    margin-top: auto;
+    font-size: 14px;
+    align-items:center;
+}
+
+.content
+{
+    flex: 1;
+    padding: 20px;
+}
+
+.header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    color:#F7941D;
+    position: relative;
+}
+
+.header h1
+{
+    font-size: 24px;
+}
+
+.header .search
+{
+    display: flex;
+    align-items: center;
+}
+
+.header .search input
+{
+    padding: 10px 35px;
+    border-radius: 20px;
+    border: none;
+    width: 250px;
+    margin-right: 10px;
+
+}
+
+.header .search button
+{
+    padding: 10px;
+    border: none;
+    background: #fdb827;
+    color: #000;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.5s ease;
+    margin-left: 10px;
+}
+
+.header .search button:hover
+{
+    background: rgb(255, 251, 0);
+}
+
+.search img
+{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    pointer-events: none;
+}
+
+.search
+{
+    position: relative;
+    display: inline-block;
+}
+
+.settings img
+{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.settings
+{
+    display: flex;
+    justify-content: center;
+    transition: background 0.5s ease;
+    cursor: pointer;
+}
+
+.settings:hover
+{
+    color: #F7941D;
+}
+
+.section-divider
+{
+    margin-top: 30px;
+    border-color: #F7941D;
+}
+
+.table1 { 
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-end;  
+    flex: 1 1 auto;  
+    background-color: rgba(255, 255, 255, 0.658);
+    border-radius: 20px; 
+    padding: 35px; 
+    position: relative; 
+}
+
+table.centered {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+table.centered, table.centered th, table.centered td {
+    border: 1px solid rgb(0, 0, 0);
+}
+
+
+table.centered th, table.centered td {
+    padding: 12px;
+    text-align: left;
+}
+
+table.centered th {
+    color: rgb(0, 0, 0);
+    background-color: #F7941D;;
+}
+
+table.centered td {
+    color: rgb(0, 0, 0);
+}
+
+table.centered td.actions {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 8px 12px;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    border: none; 
+    width: 90px; 
+    height: 40px; 
+    text-align: center;
+    cursor: pointer;
+}
+
+.update-btn {
+    background-image: linear-gradient(to right, #12a320, #3fcc65);
+}
+
+.delete-btn {
+    background-image: linear-gradient(to right, #540000, #970000);
+}
+
+.update-btn:hover {
+    background-image: linear-gradient(to right, #22841d, #03ff42);
+}
+
+.delete-btn:hover {
+    background-image: linear-gradient(to right, #ae0000, #ff0000);
+}
+
+.adding
+{
+    position: absolute;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    border: none; 
+    width: 200px; 
+    height: 40px; 
+    text-align: center;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #12a3a3, #00ffc3); 
+    right: 25px;
+}
+
+.adding a
+{
+    text-decoration: none;
+    color: #000;
+}
+
+.back
+{
+    position: absolute;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    border: none; 
+    width: 200px; 
+    height: 40px; 
+    text-align: center;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #8b12a3, #ff00f7); 
+    right: 25px;
+}
+
+.back a
+{
+    text-decoration: none;
+    color: #000;
+}
+.menu .dropdown-menu 
+{
+    display: none; 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    background: #151515; 
+}
+
+
+.menu .dropdown:hover .dropdown-menu 
+{
+    display: block; 
+    position: relative; 
+    padding-left: 20px; 
+}
+
+
+.menu .dropdown-menu li a 
+{
+    display: block;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.5s ease;
+}
+
+
+.menu .dropdown-menu li a:hover
+{
+    background: #fdb827;
+    color: #000;
+}
+
+.sidebar .menu a.active2, .sidebar .menu a.active2:hover
+{
+    background: #27fdd9;
+    color: #000;
+}
+
+.sidebar .menu a.active3:hover
+{
+    background: #27fdd9;
+    color: #000;
+}

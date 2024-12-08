@@ -6,6 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     $id = intval($_POST['delete_id']);
     $sql = "DELETE FROM supplier WHERE supID = $id";
     mysqli_query($conn, $sql);
+    echo "<script>alert('Supplier deleted successfully!'); window.location.href = 'manageFoodSup.php';</script>";
     echo "<script>window.location.href = 'manageFoodSup.php';</script>";
 }
 ?>
@@ -93,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             echo "<td>" . $row['supAddress'] . "</td>";
                             echo "<td>" . $row['managerID'] . "</td>";
                             echo "<td class='actions'>
-                                <a href='sup-update.php?id=" . $row['supID'] . "' class='btn update-btn'>Update</a>
+                                <a href='updateFoodsup.php?id=" . $row['supID'] . "' class='btn update-btn'>Update</a>
                                 <form action='' method='POST' style='display: inline;'>
                                     <input type='hidden' name='delete_id' value='" . $row['supID'] . "'>
                                     <button type='submit' class='btn delete-btn'>Delete</button>
