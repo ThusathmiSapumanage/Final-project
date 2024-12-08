@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Events</title>
+    <link rel="stylesheet" type="text/css" href="events.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="images/logo.png" alt="Logo">
+            </div>
+            <nav class="menu">
+                <a href="events.html" class="active">Events</a>
+                <div class="dropdown">
+                    <a href="supplierM.html">Supplies</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="manageFood.php" class="active3">Manage Food</a></li>
+                        <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
+                        <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
+                        <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
+                    </ul>
+                </div>
+                <a href="#">Finance</a>
+                <div class="dropdown">
+                    <a href="staffM.html">Staff</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
+                        <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
+                    </ul>
+                </div>
+                <a href="manageResource.php">Resource</a>
+                <a href="#">Client</a>
+                <a href="feedback.php">Feedback</a>
+            </nav>
+            <hr class="section-divider">
+            <div class="settings"><img src="images/settings.png" alt="Settings">Settings</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1>Event Management</h1>
+                <div class="search">
+                    <input type="text" placeholder="Search">
+                    <img src="images/search-interface-symbol.png" alt="Search Icon">
+                    <button>Search</button>
+                </div>
+            </header>
+            <div class="calendar disable-selection" id="calendar">
+                <!-- Left side of the calendar -->
+                <div class="left-side">
+                    <div class="current-day text-center">
+                        <h1 class="calendar-left-side-day"></h1>
+                        <div class="calendar-left-side-day-of-week"></div>
+                    </div>
+                    <!-- Current day's events -->
+                    <div class="current-day-events">
+                        <div>Current Events:</div>
+                        <ul class="current-day-events-list"></ul>
+                    </div>
+                    <!-- Add a new event -->
+                    <div class="add-event-day">
+                        <input type="text" class="add-event-day-field" placeholder="Create an Event">
+                        <span class="fa fa-plus-circle cursor-pointer add-event-day-field-btn"></span>
+                    </div>
+                </div>
+                <!-- Right side of the calendar -->
+                <div class="right-side">
+                    <div class="text-right calendar-change-year">
+                        <div class="calendar-change-year-slider">
+                            <span class="fa fa-caret-left cursor-pointer calendar-change-year-slider-prev"></span>
+                            <span class="calendar-current-year"></span>
+                            <span class="fa fa-caret-right cursor-pointer calendar-change-year-slider-next"></span>
+                        </div>
+                    </div>
+                    <div class="calendar-month-list">
+                        <ul class="calendar-month"></ul>
+                    </div>
+                    <div class="calendar-week-list">
+                        <ul class="calendar-week"></ul>
+                    </div>
+                    <div class="calendar-day-list">
+                        <ul class="calendar-days"></ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Link external JavaScript -->
+    <script src="events.js" async></script>
+</body>
+</html>

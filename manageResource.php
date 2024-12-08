@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Manage Merchandise Supplies</title>
+    <title>Manage Resources</title>
     <link rel="stylesheet" type="text/css" href="viewfood.css">
 </head>
 <body>
@@ -32,14 +32,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 <img src="images/logo.png" alt="Logo">
             </div>
             <nav class="menu">
-                <a href="##"><img src="">Events</a>
-                <a href="supplierM.html">Supplies</a>
-                <a href="##">Finance</a>
-                <a href="##">Staff</a>
-                <a href="manageResource.php" class="active">Resource</a>
-                <a href="##">Client</a>
-                <a href="feedback.html">Feedback</a>
-            </nav>
+                    <a href="events.html">Events</a>
+                    <div class="dropdown">
+                        <a href="supplierM.html">Supplies</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
+                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
+                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
+                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
+                        </ul>
+                    </div>
+                    <a href="#">Finance</a>
+                    <div class="dropdown">
+                        <a href="staffM.html">Staff</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
+                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
+                        </ul>
+                    </div>
+                    <a href="manageResource.php" class="active">Resource</a>
+                    <a href="#">Client</a>
+                    <a href="feedback.php">Feedback</a>
+                </nav>
             <hr class="section-divider">
             <div class="settings"><img src="Images/settings.png">Settings</div>
         </aside>
@@ -47,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
         <!-- Main Content -->
         <main class="content">
             <header class="header">
-                <h1>Merchandise Supply Management</h1>
+                <h1>Resource Management</h1>
                 <div class="search">
                     <input type="text" placeholder="Search">
                     <img src="Images/search-interface-symbol.png">
@@ -57,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 
             <!-- Suppliers Section -->
             <section class="suppliers">
-                <h2>Merchandise</h2>
+                <h2>Resources</h2>
                 <button class = "adding"><a href="addFood.php">Add Resource</a></button>
                 <div class="table1">
                     <table class="table centered">
