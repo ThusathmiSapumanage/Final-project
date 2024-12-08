@@ -2,48 +2,18 @@
 
 include "config.php";
 
-// Get supplier ID from URL
-$bID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    $des = $_POST['des'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and fetch form inputs
-    
-    $bID = intval($_POST['bSupplierID']); // Match name in form
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $price = mysqli_real_escape_string($conn, $_POST['price']);
+    $sql = "INSERT INTO inventory (inventoryDes) VALUES ('$des')";
 
-    // Update query
-    $sql = "UPDATE beveragesup
-            SET bItems = '$name',
-                bItemPrice = '$price'
-            WHERE bSupplierID = $bID"; 
-
-    // Execute query and redirect
     if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Update successful. Redirecting to the view page...');</script>";
-        echo "<script>window.location.href = 'manageFood.php';</script>";
+        header("Location: manageInventory.php");
         exit;
-    } else {
-        echo "Error updating supplier: " . mysqli_error($conn);
-    }
-}
-
-// Initialize supplier details
-$name = $price = "";
-
-if ($bID > 0) {
-    // Fetch supplier details
-    $sql2 = "SELECT * FROM beveragesup WHERE bSupplierID = $bID";
-    $result = mysqli_query($conn, $sql2);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $name = $row['bItems'];
-        $price = $row['bItemPrice'];
-    } else {
-        echo "<script>alert('Invalid Item ID. Redirecting back...');</script>";
-        echo "<script>window.location.href = 'manageFood.php';</script>";
-        exit;
+    } 
+    else
+    {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
 
@@ -52,7 +22,7 @@ if ($bID > 0) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Update Food and Beverages </title>
+        <title> Add Inventories</title>
         <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
@@ -68,11 +38,11 @@ if ($bID > 0) {
                     <div class="dropdown">
                         <a href="supplierM.html" class="active">Supplies</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active2">Manage Food</a></li>
+                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
                             <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
+                            <li><a href="manageInventory.php" class="active2">Manage Inventory</a></li>
                         </ul>
                     </div>
                     <a href="#">Finance</a>
@@ -93,7 +63,7 @@ if ($bID > 0) {
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Food Management</h1>
+                    <h1>Inventory Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
@@ -102,18 +72,13 @@ if ($bID > 0) {
             	</header>
                 <div class="content-inner">
                     <div class="content-box">
-                        <h2>Update Food</h2>
-                        <form class="form" action="updateFood.php" method="post">
-                        <label for="id">Food Item ID:</label>
-                        <input type="text" name="bSupplierID" value="<?php echo htmlspecialchars($bID); ?>" readonly>
+                        <h2>Add Inventory</h2>
+                        <form class = "form" action="addInventory.php" method="post">
 
-                        <label for="name">Item Name:</label>
-                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
+                            <label for="des">Description:</label>
+                            <input type="text" id="des" name="des" required>
 
-                        <label for="email">Item Price:</label>
-                        <input type="text" id="price" name="price" value="<?php echo htmlspecialchars($price); ?>" required>
-
-                        <button class = "sub-btn" type="submit" name="submit">Add Food</button>
+                            <button class = "sub-btn" type="submit" name="submit">Add Inventory</button>
                         </form>
                     </div>
                 </div>

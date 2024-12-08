@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             <li><a href="manageMerchandise.php" class="active2">Manage Merchandise</a></li>
                             <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
+                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
                         </ul>
                     </div>
                     <a href="#">Finance</a>
