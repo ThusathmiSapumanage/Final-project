@@ -1,0 +1,102 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    color: #333;
+  }
+  
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    max-width: 1200px;
+    padding: 20px;
+  }
+  
+  .content {
+    max-width: 500px;
+  }
+  
+  h1 {
+    font-size: 5rem;
+    color: #ff6b6b;
+    margin: 0;
+  }
+  
+  .subheading {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 10px 0;
+  }
+  
+  p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  .buttons {
+    margin: 20px 0;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #fff;
+    background: #ff6b6b;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    margin: 5px;
+  }
+  
+  .btn:hover {
+    background: #ff4040;
+  }
+  
+  .btn.outline {
+    color: #ff6b6b;
+    background: transparent;
+    border: 2px solid #ff6b6b;
+  }
+  
+  .btn.outline:hover {
+    background: #ff6b6b;
+    color: #fff;
+  }
+  
+  .illustration img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    h1 {
+      font-size: 4rem;
+    }
+  
+    .btn {
+      font-size: 0.9rem;
+      padding: 10px 15px;
+    }
+  }
+  

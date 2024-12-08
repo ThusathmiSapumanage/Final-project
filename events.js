@@ -290,6 +290,8 @@ const AVAILABLE_WEEK_DAYS = [
         if (!day) return false;
         let strDate = `${Number(month) + 1}/${day}/${year}`;
         this.updateTime(strDate);
+        
+        window.location.href = "book.html";
         this.drawAll();
       });
   
@@ -300,7 +302,11 @@ const AVAILABLE_WEEK_DAYS = [
         if (!this.eventList[dateFormatted]) this.eventList[dateFormatted] = [];
         this.eventList[dateFormatted].push(fieldValue);
         localStorage.setItem(localStorageName, JSON.stringify(this.eventList));
+
+        // Clear the event field after saving
         this.elements.eventField.value = "";
+
+        
         this.drawAll();
       });
     }
