@@ -12,6 +12,7 @@
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="testimonial.css" />
 
     <title>Document</title>
     <nav>
@@ -31,7 +32,7 @@
         <li><a href="#home">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="rentalpackages.html">Rental packages</a></li>
-        <li><a href="#client">Testimonials</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
         <li><a href="#"></a></li>
       </ul>
       <div class="nav__btns">
@@ -41,128 +42,127 @@
   </head>
   <body>
     <section class="section__container client__container" id="client">
-      <h2 class="section__header">What people say about us?</h2>
-      <p class="section__description">
-        Discover why our customers love renting with us! Read real reviews and
-        testimonials to see how we deliver exceptional service.
-      </p>
-      <!-- Slider main container -->
-      <div class="swiper">
-        <!-- Additional required wrapper -->
-        <div class="swiper-wrapper">
-          <!-- Slides -->
-          <div class="swiper-slide">
-            <div class="client__card">
-              <div class="client__details">
-                <img src="assets/client-1.jpg" alt="client" />
-                <div>
-                  <h4>Sarah Johnson</h4>
-                  <div class="client__rating">
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-line"></i></span>
-                  </div>
-                </div>
-              </div>
-              <p>
-                I had an amazing experience renting a car from this service. The
-                booking process was quick and easy, and the car was in perfect
-                condition. Highly recommend!
-              </p>
-            </div>
+      <div class="section__container">
+        <div class="header">
+          <p>TESTIMONIALS</p>
+          <h1>What our clients say about us.</h1>
+        </div>
+        <div class="testimonials__grid">
+          <div class="card">
+            <span><i class="ri-double-quotes-l"></i></span>
+            <p>
+              Planning my wedding felt overwhelming until I discovered this app! The seamless process, 
+              customizable options, and attentive support team made everything so easy. My big day was a dream come true,
+              thanks to this amazing platform!"
+            </p>
+            <hr />
+            <img src="assets/pic-1.jpg" alt="user" />
+            <p class="name">Allan Collins</p>
           </div>
-          <div class="swiper-slide">
-            <div class="client__card">
-              <div class="client__details">
-                <img src="assets/client-2.jpg" alt="client" />
-                <div>
-                  <h4>Michael Adams</h4>
-                  <div class="client__rating">
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-line"></i></span>
-                  </div>
-                </div>
-              </div>
-              <p>
-                Customer support was excellent! They helped me with all my
-                questions, and I felt confident about my booking. I will
-                definitely rent from them again.
-              </p>
-            </div>
+          <div class="card">
+            <span><i class="ri-double-quotes-l"></i></span>
+            <p>
+              We used the app to organize our annual corporate gala, and the results were outstanding. 
+              From vendor coordination to real-time updates, it had everything we needed. The event ran flawlessly,
+              impressing both our clients and employees!
+            </p>
+            <hr />
+            <img src="assets/pic-2.jpeg" alt="user" />
+            <p class="name">Clay Washington</p>
           </div>
-          <div class="swiper-slide">
-            <div class="client__card">
-              <div class="client__details">
-                <img src="assets/client-3.jpg" alt="client" />
-                <div>
-                  <h4>Emily Martinez</h4>
-                  <div class="client__rating">
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-line"></i></span>
-                  </div>
-                </div>
-              </div>
-              <p>
-                Affordable prices and great selection of vehicles! I found
-                exactly what I needed, and the pick-up and drop-off process was
-                seamless. Very happy with my rental.
-              </p>
-            </div>
+          <div class="card">
+            <span><i class="ri-double-quotes-l"></i></span>
+            <p>
+              I was skeptical about managing my daughter’s birthday party online, but this app blew me away. 
+              The intuitive interface and helpful recommendations saved me so much time. 
+              The party was a hit, and I couldn’t have done it without this tool!
+            </p>
+            <hr />
+            <img src="assets/pic-3.jpg" alt="user" />
+            <p class="name">Tanya Grant</p>
           </div>
-          <div class="swiper-slide">
-            <div class="client__card">
-              <div class="client__details">
-                <img src="assets/client-4.jpg" alt="client" />
-                <div>
-                  <h4>Jason Lee</h4>
-                  <div class="client__rating">
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-line"></i></span>
-                  </div>
-                </div>
-              </div>
-              <p>
-                The flexibility of free cancellations made my trip stress-free.
-                I ended up changing my plans, and it was no hassle to adjust my
-                booking. Great service overall!
-              </p>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="client__card">
-              <div class="client__details">
-                <img src="assets/client-5.jpg" alt="client" />
-                <div>
-                  <h4>David Thompson</h4>
-                  <div class="client__rating">
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-fill"></i></span>
-                    <span><i class="ri-star-line"></i></span>
-                  </div>
-                </div>
-              </div>
-              <p>
-                The car I rented was top-notch, and the driver was very
-                experienced. It made my road trip so much more enjoyable. Will
-                use them again next time!
-              </p>
-            </div>
-          </div>
+        </div>
+        <div class="footer">
+          <p>
+            Our expert team works closely with you to design an event that
+            reflects your unique vision. Whether it’s a corporate gathering, a
+            wedding, or a private celebration, we ensure every detail is
+            tailored to perfection. ✨ Ready to bring your dream event to life?
+          </p>
+          <button>GET A QUOTE</button>
         </div>
       </div>
     </section>
+    <footer class="footer">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+          <div class="footer__logo">
+            <a href="#" class="logo">
+              <img src="" />
+              <span>GAPHQ</span>
+            </a>
+          </div>
+
+          <ul class="footer__socials">
+            <li>
+              <a href="#"><i class="ri-facebook-fill"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="ri-twitter-fill"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="ri-linkedin-fill"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="ri-instagram-line"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="ri-youtube-fill"></i></a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Our Services</h4>
+          <ul class="footer__links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#deals">Rental packages</a></li>
+            <li><a href="#choose">Why Choose Us</a></li>
+            <li><a href="#client">Testimonials</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>rental packages</h4>
+          <ul class="footer__links">
+            <li><a href="#">Package 1</a></li>
+            <li><a href="#">Package 2</a></li>
+            <li><a href="#">Package 3</a></li>
+            <li><a href="#">Package 4</a></li>
+            <li><a href="#">Package 5</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Contact</h4>
+          <ul class="footer__links">
+            <li>
+              <a href="#">
+                <span><i class="ri-phone-fill"></i></span> +91 0987654321
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span><i class="ri-map-pin-fill"></i></span> Sri Lanka,Colombo
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span><i class="ri-mail-fill"></i></span> gaphq@gmail.com
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bar">Copyright © GAPHQ. All rights reserved.</div>
+    </footer>
   </body>
 </html>
