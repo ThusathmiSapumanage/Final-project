@@ -1,19 +1,14 @@
 <!-- This should be made into a php once the Database is made -->
 <?php
 
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "dmw_cw";
-
-$conn = mysqli_connect($servername, $username, $password, $dbname, 3307);
+include "config.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM module WHERE MID = $id";
+    $sql = "DELETE FROM tasks WHERE taskID = $id";
     mysqli_query($conn, $sql);
     echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'Viewmoduleforlec.php';</script>";
+    echo "<script>window.location.href = 'manageTasks.php';</script>";
 }
 ?>
 
@@ -73,39 +68,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
             <!-- Suppliers Section -->
             <section class="suppliers">
                 <h2>Tasks</h2>
-                <button class = "adding"><a href="addFood.php">Add Task</a></button>
+                <button class = "adding"><a href="addTask.php">Add Task</a></button>
                 <div class="table1">
                     <table class="table centered">
                         <thead>
                             <tr>
-                                <th>Module number</th>
-                                <th>Description</th>
-                                <th>Name</th>
+                                <th>Task ID</th>
+                                <th>Task description</th>
+                                <th>Task due date</th>
+                                <th>Task status</th>
+                                <th>Manager ID</th>
+                                <th>Staff ID</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM module";
+                            $sql = "SELECT * FROM tasks";
                             $result = mysqli_query($conn, $sql);
 
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
-                                    echo "<td>" . $row['MID'] . "</td>";
-                                    echo "<td>" . $row['MDiscription'] . "</td>";
-                                    echo "<td>" . $row['MName'] . "</td>";
+                                    echo "<td>" . $row['taskID'] . "</td>";
+                                    echo "<td>" . $row['taskDes'] . "</td>";
+                                    echo "<td>" . $row['taskDueDate'] . "</td>";
+                                    echo "<td>" . $row['taskStatus'] . "</td>";
+                                    echo "<td>" . $row['managerID'] . "</td>";
+                                    echo "<td>" . $row['staffID'] . "</td>";
                                     echo "<td class='actions'>
-                                        <a href='module-update.php?id=" . $row['MID'] . "' class='btn update-btn'>Update</a>
+                                        <a href='updateTask.php?id=" . $row['taskID'] . "' class='btn update-btn'>Update</a>
                                         <form action='' method='POST' style='display: inline;'>
-                                            <input type='hidden' name='delete_id' value='" . $row['MID'] . "'>
+                                            <input type='hidden' name='delete_id' value='" . $row['taskID'] . "'>
                                             <button type='submit' class='btn delete-btn'>Delete</button>
                                         </form>
                                       </td>";
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td colspan='4'>No records found</td></tr>";
+                                echo "<tr><td colspan='7'>No records found</td></tr>";
                             }
 
                             mysqli_close($conn);
