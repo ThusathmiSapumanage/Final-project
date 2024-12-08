@@ -41,7 +41,7 @@ $result = mysqli_query($conn, $sql);
                     <img src="images/logo.png" alt="Logo">
                 </div>
                 <nav class="menu">
-                    <a href="events.html">Events</a>
+                    <a href="calendar.html">Events</a>
                     <div class="dropdown">
                         <a href="supplierM.html" class="active">Supplies</a>
                         <ul class="dropdown-menu">

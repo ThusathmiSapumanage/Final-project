@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                     <img src="images/logo.png" alt="Logo">
                 </div>
                 <nav class="menu">
-                    <a href="events.html">Events</a>
+                    <a href="calendar.html">Events</a>
                     <div class="dropdown">
                         <a href="supplierM.html">Supplies</a>
                         <ul class="dropdown-menu">
