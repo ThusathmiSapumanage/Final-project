@@ -4,19 +4,13 @@ include "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $name = $_POST['name'];
-    $pic = $_POST['pic'];
-    $price = $_POST['price'];
-    $qty = $_POST['qty'];
-    $onsale = $_POST['onsale'];
-    $des = $_POST['des'];
-    $cata = $_POST['cata'];
+    $userid= $_POST['userid'];
     $managerid = $_POST['managerid'];
-    $inventory = $_POST['inventory'];
 
-    $sql = "INSERT INTO merchandise (mName, productImg, priceperU, qty, onSale, mDes, productCategory, managerID, inventoryID) VALUES ('$name', '$pic', '$price', '$qty', '$onsale', '$des', '$cata', '$managerid', '$inventory')";
+    $sql = "INSERT INTO staff (staffName, userID, managerID) VALUES ('$name', '$userid', '$managerid')";
 
     if (mysqli_query($conn, $sql)) {
-        header("Location: manageMerchandise.php");
+        header("Location: manageStaff.php");
         exit;
     } 
     else
@@ -28,14 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 $sql = "SELECT managerID FROM manager";
 $result = mysqli_query($conn, $sql);
 
-$sql2 = "SELECT inventoryID FROM inventory";
+$sql2 = "SELECT userID FROM userlogin";
 $result2 = mysqli_query($conn, $sql2);
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Add Mercahndise</title>
+        <title> Add Staff</title>
         <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
@@ -49,10 +43,10 @@ $result2 = mysqli_query($conn, $sql2);
                 <nav class="menu">
                     <a href="calendar.html">Events</a>
                     <div class="dropdown">
-                        <a href="supplierM.html" class="active">Supplies</a>
+                        <a href="supplierM.html">Supplies</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active2">Manage Merchandise</a></li>
+                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
                             <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
                             <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
@@ -60,9 +54,9 @@ $result2 = mysqli_query($conn, $sql2);
                     </div>
                     <a href="#">Finance</a>
                     <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
+                        <a href="staffM.html" class="active">Staff</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
+                            <li><a href="manageStaff.php" class="active2">Manage Staff</a></li>
                             <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
                         </ul>
                     </div>
@@ -76,7 +70,7 @@ $result2 = mysqli_query($conn, $sql2);
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Merchandise Management</h1>
+                    <h1>Staff Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
@@ -85,42 +79,11 @@ $result2 = mysqli_query($conn, $sql2);
             	</header>
                 <div class="content-inner">
                     <div class="content-box">
-                        <h2>Add Mercahndise</h2>
-                        <form class = "form" action="addMerchandise.php" method="post">
+                        <h2>Add Staff</h2>
+                        <form class = "form" action="addStaff.php" method="post">
 
-                            <label for="name">Merchandise Name:</label>
+                            <label for="name">Staff Name:</label>
                             <input type="text" id="name" name="name" required>
-
-                            <label for="pic">Picture:</label>
-                            <input type="file" id="pic" name="pic" accept="image/*" required>
-
-                            <label for="price">Price:</label>
-                            <input type="text" id="price" name="price" required>
-
-                            <label for="qty">Quantity:</label>
-                            <input type="text" id="qty" name="qty" required>
-
-                            <div class="radio-container">
-                                <label for="onsale">Is it on Sale ?</label>
-                                <label for="onsale-yes" class="radio-label">
-                                    <input type="radio" id="onsale" name="onsale" value="yes" required> Yes
-                                </label>
-                                <label for="onsale-no" class="radio-label">
-                                    <input type="radio" id="onsale" name="onsale" value="no" required> No
-                                </label>
-                            </div>
-
-                            <label for="des">Item description:</label>
-                            <input type="text" id="des" name="des" required>
-
-                            <label for="cata">Product Category (Please select one):</label>
-                            <select id="cata" name="cata" required>
-                                <option value="Clothing">Clothing</option>
-                                <option value="Accessories">Accessories</option>
-                                <option value="Toys">Toys</option>
-                                <option value="Stationery">Stationery</option>
-                                <option value="Others">Others</option>
-                            </select>
 
                             <label for="managerid">Manager ID:</label>
                             <select id="managerid" name="managerid">
@@ -136,20 +99,20 @@ $result2 = mysqli_query($conn, $sql2);
                                 ?>
                             </select>
 
-                            <label for="inventory">Inventory ID:</label>
-                            <select id="inventory" name="inventory">
-                                <option value="" disabled selected>Select Inventory</option>
+                            <label for="userid">User ID:</label>
+                            <select id="userid" name="userid">
+                                <option value="" disabled selected>Select UserID</option>
                                 <?php
                                 if (mysqli_num_rows($result2) > 0) {
                                     while ($row = $result2->fetch_assoc()) {
-                                        echo "<option value='" . $row['inventoryID'] . "'>" . $row['inventoryID'] . "</option>";
+                                        echo "<option value='" . $row['userID'] . "'>" . $row['userID'] . "</option>";
                                     }
                                 } else {
-                                    echo "<option value='' disabled>No Inventories Available</option>";
+                                    echo "<option value='' disabled>No user accounts available</option>";
                                 }
                                 ?>
                             </select>
-                            <button class = "sub-btn" type="submit" name="submit">Add Merchandise</button>
+                            <button class = "sub-btn" type="submit" name="submit">Add Staff</button>
                         </form>
                     </div>
                 </div>
