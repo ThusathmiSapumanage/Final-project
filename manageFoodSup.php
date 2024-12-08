@@ -1,19 +1,13 @@
-<!-- This should be made into a php once the DB is made -->
 <?php
 
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "dmw_cw";
-
-$conn = mysqli_connect($servername, $username, $password, $dbname,3307);
+include "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM module WHERE MID = $id";
+    $sql = "DELETE FROM supplier WHERE supID = $id";
     mysqli_query($conn, $sql);
-    echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'Viewmoduleforlec.php';</script>";
+    echo "<script>alert('Supplier deleted successfully!'); window.location.href = 'manageFoodSup.php';</script>";
+    echo "<script>window.location.href = 'manageFoodSup.php';</script>";
 }
 ?>
 
@@ -71,41 +65,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 <!-- Suppliers Section -->
                 <section class = "suppliers">
                     <h2>Food suppliers</h2>
-                    <button class = "adding"><a href="addFood.php">Add Food Supplier</a></button>
+                    <button class = "adding"><a href="addFoodsup.php">Add Food Supplier</a></button>
                     <div class="table1">
             <table class="table centered">
                 <thead>
                     <tr>
                         <th>Supplier ID</th>
-                        <th>Supplier Name</th>
-                        <th>Contact</th>
+                        <th>Name</th>
                         <th>Email</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th>Manager ID</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $sql = "SELECT * FROM module";
+                    $sql = "SELECT supID, supName, supEmail, supPhone, supAddress, managerID FROM supplier WHERE supType = 'Food supplier'";
                     $result = mysqli_query($conn, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<tr>";
-                            echo "<td>" . $row['MID'] . "</td>";
-                            echo "<td>" . $row['MDiscription'] . "</td>";
-                            echo "<td>" . $row['MName'] . "</td>";
-                            echo "<td>";
+                            echo "<td>" . $row['supID'] . "</td>";
+                            echo "<td>" . $row['supName'] . "</td>";
+                            echo "<td>" . $row['supEmail'] . "</td>";
+                            echo "<td>" . $row['supPhone'] . "</td>";
+                            echo "<td>" . $row['supAddress'] . "</td>";
+                            echo "<td>" . $row['managerID'] . "</td>";
                             echo "<td class='actions'>
-                                <a href='module-update.php?id=" . $row['MID'] . "' class='btn update-btn'>Update</a>
+                                <a href='updateFoodsup.php?id=" . $row['supID'] . "' class='btn update-btn'>Update</a>
                                 <form action='' method='POST' style='display: inline;'>
-                                    <input type='hidden' name='delete_id' value='" . $row['MID'] . "'>
+                                    <input type='hidden' name='delete_id' value='" . $row['supID'] . "'>
                                     <button type='submit' class='btn delete-btn'>Delete</button>
                                 </form>
                               </td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                        echo "<tr><td colspan='7'>No records found</td></tr>";
                     }
 
                     mysqli_close($conn);
