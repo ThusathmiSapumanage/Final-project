@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 <html>
     <head>
         <title> View Merchandise Suppliers </title>
-        <link rel="stylesheet" type="text/css" href="viewfood.css">
+        <link rel="stylesheet" type="text/css" href="viewmerchan.css">
     </head>
     <body>
         <div class="container">

@@ -1,19 +1,13 @@
-<!-- This should be made into a php once the DB is made -->
 <?php
 
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "dmw_cw";
-
-$conn = mysqli_connect($servername, $username, $password, $dbname, 3307);
+include "config.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM module WHERE MID = $id";
+    $sql = "DELETE FROM merchandise WHERE merchandiseID = $id";
     mysqli_query($conn, $sql);
     echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'Viewmoduleforlec.php';</script>";
+    echo "<script>window.location.href = 'manageMerchandise.php';</script>";
 }
 ?>
 
@@ -21,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 <html>
 <head>
     <title>Manage Merchandise Supplies</title>
-    <link rel="stylesheet" type="text/css" href="viewfood.css">
+    <link rel="stylesheet" type="text/css" href="viewmerchandise.css">
 </head>
 <body>
     <div class="container">
@@ -72,43 +66,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
             <!-- Suppliers Section -->
             <section class="suppliers">
                 <h2>Merchandise</h2>
-                <button class = "adding"><a href="addFood.php">Add Merchandise</a></button>
+                <button class = "adding"><a href="addMerchandise.php">Add Merchandise</a></button>
                 <div class="table1">
                     <table class="table centered">
                         <thead>
                             <tr>
-                                <th>Module number</th>
+                                <th>Merchandise Name</th>
+                                <th>Product Image</th>
+                                <th>Price per</th>
+                                <th>Qty</th>
+                                <th>Date Added</th>
+                                <th>On sale</th>
                                 <th>Description</th>
-                                <th>Name</th>
+                                <th>Category</th>
+                                <th>ManagerID</th>
+                                <th>InventoryID</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM module";
-                            $result = mysqli_query($conn, $sql);
+                                $sql = "SELECT * FROM merchandise"; 
+                                $result = mysqli_query($conn, $sql);
 
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td>" . $row['MID'] . "</td>";
-                                    echo "<td>" . $row['MDiscription'] . "</td>";
-                                    echo "<td>" . $row['MName'] . "</td>";
-                                    echo "<td class='actions'>
-                                        <a href='module-update.php?id=" . $row['MID'] . "' class='btn update-btn'>Update</a>
-                                        <form action='' method='POST' style='display: inline;'>
-                                            <input type='hidden' name='delete_id' value='" . $row['MID'] . "'>
-                                            <button type='submit' class='btn delete-btn'>Delete</button>
-                                        </form>
-                                      </td>";
-                                    echo "</tr>";
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<tr>";
+                                        echo "<td>" . htmlspecialchars($row['mName']) . "</td>";
+
+                                        // Display image
+                                        $imageData = base64_encode($row['productImg']);
+                                        echo "<td><img src='data:image/jpeg;base64," . $imageData . "' alt='Product Image' style='width:100px; height:auto;'></td>";
+
+                                        echo "<td>" . htmlspecialchars($row['priceperU']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['qty']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['dateAdded']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['onSale']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['mDes']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['productCategory']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['managerID']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['inventoryID']) . "</td>";
+                                        echo "<td class='actions'>
+                                                <a href='updateMerchandise.php?id=" . $row['merchandiseID'] . "' class='btn update-btn'>Update</a>
+                                                <form action='' method='POST' style='display: inline;'>
+                                                    <input type='hidden' name='delete_id' value='" . $row['merchandiseID'] . "'>
+                                                    <button type='submit' class='btn delete-btn'>Delete</button>
+                                                </form>
+                                            </td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='11'>No records found</td></tr>";
                                 }
-                            } else {
-                                echo "<tr><td colspan='4'>No records found</td></tr>";
-                            }
-
-                            mysqli_close($conn);
-                            ?>
+                                ?>
                         </tbody>
                     </table>
                 </div>

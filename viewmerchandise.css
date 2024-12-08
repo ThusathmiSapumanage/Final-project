@@ -153,6 +153,129 @@ body
     border-color: #F7941D;
 }
 
+.table1 { 
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-end;  
+    flex: 1 1 auto;  
+    background-color: rgba(255, 255, 255, 0.658);
+    border-radius: 20px; 
+    padding: 35px; 
+    position: relative; 
+}
+
+table.centered {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+table.centered, table.centered th, table.centered td {
+    border: 1px solid rgb(0, 0, 0);
+}
+
+
+table.centered th, table.centered td {
+    padding: 12px;
+    text-align: left;
+}
+
+table.centered th {
+    color: rgb(0, 0, 0);
+    background-color: #F7941D;;
+}
+
+table.centered td {
+    color: rgb(0, 0, 0);
+}
+
+table.centered td.actions {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 8px 12px;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    border: none; 
+    width: 90px; 
+    height: 40px; 
+    text-align: center;
+    cursor: pointer;
+}
+
+.update-btn {
+    background-image: linear-gradient(to right, #12a320, #3fcc65);
+}
+
+.delete-btn {
+    background-image: linear-gradient(to right, #540000, #970000);
+}
+
+.update-btn:hover {
+    background-image: linear-gradient(to right, #22841d, #03ff42);
+}
+
+.delete-btn:hover {
+    background-image: linear-gradient(to right, #ae0000, #ff0000);
+}
+
+.adding
+{
+    position: absolute;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    border: none; 
+    width: 200px; 
+    height: 40px; 
+    text-align: center;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #12a3a3, #00ffc3); 
+    right: -170px;
+}
+
+.adding a
+{
+    text-decoration: none;
+    color: #000;
+}
+
+.back
+{
+    position: absolute;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    border: none; 
+    width: 200px; 
+    height: 40px; 
+    text-align: center;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #8b12a3, #ff00f7); 
+    right: -170px;
+}
+
+.back a
+{
+    text-decoration: none;
+    color: #000;
+}
 .menu .dropdown-menu 
 {
     display: none; 
@@ -198,64 +321,4 @@ body
 {
     background: #27fdd9;
     color: #000;
-}
-
-.content-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 80vh;
-    position: relative;
-}
-
-
-.form {
-    margin-top: 50px;
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 500px;
-    background: white;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-.form label {
-    display: block;
-    font-size: 18px;
-    color: black;
-    margin-bottom: 5px;
-    min-height: 20px;
-}
-
-.form input {
-    padding: 15px 0;
-    font-size: 16px;
-    width: 100%;
-    margin-bottom: 20px;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid black;
-    color: black;
-    background: transparent;
-}
-
-.sub-btn{
-    font-size: 19px;
-    background: linear-gradient(to right, #8609ca, #c40de9);
-    color: white;
-    border-radius: 25px;
-    padding: 10px 30px;
-    width: 218px;
-    border: none;
-    cursor: pointer;
-    align-self: flex-end;
-    margin-top: 5px;
-    transition: background 0.3s ease;
-}
-
-.sub-btn:hover {
-    background: linear-gradient(to right, #d304cc, #b300ff);
 }
