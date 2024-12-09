@@ -1,0 +1,87 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+  color: #343a40;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: calc(
+    100% - 80px
+  ); /* Subtract the height of the navbar (adjust as needed) */
+  background: url("assets/bookpic.jpg"), #000;
+  background-position: center;
+  background-size: cover;
+  top: 80px; /* Push the background below the navbar */
+  z-index: -1; /* Ensure background appears behind content */
+  min-height: 150vh;
+  /*filter: blur(8px);*/
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: #6c757d;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.form-container {
+  max-width: 600px;
+  margin: 30px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #495057;
+}
+
+input[type="text"],
+input[type="file"],
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.quick-links {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quick-links li {
+  margin: 5px 0;
+}
+
+.quick-links a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.quick-links a:hover {
+  color: #0056b3;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
