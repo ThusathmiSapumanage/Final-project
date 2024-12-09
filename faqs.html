@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQs - Event Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>GAPHQ - Home</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav__header">
+          <div class="nav__logo">
+            <a href="#" class="logo">
+              <img src="assets/logo.jpg" alt="logo" class="logo-white" />
+              <img src="assets/logo.jpg" alt="logo" class="logo-dark" />
+              <span>GAPHQ</span>
+            </a>
+          </div>
+          <div class="nav__menu__btn" id="menu-btn">
+            <i class="ri-menu-line"></i>
+          </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="rentalpackages.html">Rental packages</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="#"></a></li>
+        </ul>
+        <div class="nav__btns">
+          <button class="btn" onclick="redirectToLogin()">Sign In</button>
+        </div>
+        <script>
+          function redirectToLogin() {
+            window.location.href = "login.html";
+          }
+        </script>
+      </nav>
+    <style>
+      /* General Styling */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2.5em;
+        color: #333;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      p {
+        text-align: center;
+        font-size: 1.1em;
+        color: #666;
+      }
+
+      /* Header Styling */
+      .faq-header {
+        background-color: #5f6368;
+        color: white;
+        
+      }
+
+      .faq-header h1 {
+        margin-bottom: 10px;
+      }
+
+      .faq-header p {
+        font-size: 1.1em;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* FAQ Section Styling */
+      .faq-section {
+        background-color: #ffffff;
+        padding: 40px 0;
+      }
+
+      .faq {
+        background-color: #f9f9f9;
+        margin-bottom: 15px;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .faq .question {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .faq .answer {
+        font-size: 1em;
+        color: #555;
+        padding-left: 20px;
+        padding-top: 10px;
+      }
+
+      /* Icon Styling */
+      .faq .question i {
+        margin-right: 10px;
+        color: #3498db;
+        font-size: 1.5em;
+      }
+
+     
+
+      /* Responsive Styling */
+      @media (max-width: 768px) {
+        .container {
+          width: 90%;
+        }
+        .faq-header h1 {
+          font-size: 2em;
+        }
+        .faq .question {
+          font-size: 1.1em;
+        }
+        .faq .answer {
+          font-size: 0.9em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="faq-header">
+      <div class="container">
+        <h1>Frequently Asked Questions</h1>
+        <p>Get the answers to your most common event management inquiries</p>
+      </div>
+    </header>
+
+    <section class="faq-section">
+      <div class="container">
+        <div class="faq">
+          <div class="question">
+            <i class="ri-question-line"></i> What services do you offer?
+          </div>
+          <div class="answer">
+            We provide a range of event management services, including wedding
+            planning, corporate events, conferences, parties, and other special
+            occasions.
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="question">
+            <i class="ri-question-line"></i> How do I book an event?
+          </div>
+          <div class="answer">
+            You can book an event through our website by filling out the booking
+            form, or you can contact us directly via phone or email for
+            personalized assistance.
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="question">
+            <i class="ri-question-line"></i> Can I customize my event package?
+          </div>
+          <div class="answer">
+            Yes, we offer customizable packages that can be tailored to your
+            specific needs and preferences. Our team will work with you to
+            create the perfect event.
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="question">
+            <i class="ri-question-line"></i> What is the cancellation policy?
+          </div>
+          <div class="answer">
+            Cancellations must be made at least 30 days before the event.
+            Refunds are subject to our terms and conditions.
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="question">
+            <i class="ri-question-line"></i> Do you provide event equipment?
+          </div>
+          <div class="answer">
+            Yes, we provide various event equipment such as sound systems,
+            lighting, decor, furniture, and more. We will coordinate with you to
+            ensure all your equipment needs are met.
+          </div>
+        </div>
+
+        <div class="faq">
+          <div class="question">
+            <i class="ri-question-line"></i> How far in advance should I book an
+            event?
+          </div>
+          <div class="answer">
+            We recommend booking at least 2-3 months in advance to ensure
+            availability, especially for busy seasons.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+        <div class="section__container footer__container">
+          <div class="footer__col">
+            <div class="footer__logo">
+              <a href="#" class="logo">
+                <img src="" />
+                <span>GAPHQ</span>
+              </a>
+            </div>
+      
+            <ul class="footer__socials">
+              <li>
+                <a href="#"><i class="ri-facebook-fill"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="ri-twitter-fill"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="ri-linkedin-fill"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="ri-instagram-line"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="ri-youtube-fill"></i></a>
+              </li>
+            </ul>
+      
+            <!-- Contact request form -->
+            <div class="contact-request">
+              <h4>Need More Information?</h4>
+              <form action="your-php-script.php" method="POST">
+                <textarea name="message" id="message" placeholder="Example@gmail.com" rows="2" required></textarea>
+                <button type="submit" class="btn">Send Request</button>
+              </form>
+            </div>
+          </div>
+          <div class="footer__col">
+            <h4>Our Services</h4>
+            <ul class="footer__links">
+              <li><a href="#home">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#deals">Rental packages</a></li>
+              <li><a href="#choose">Why Choose Us</a></li>
+              <li><a href="#client">Testimonials</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h4>Rental Packages</h4>
+            <ul class="footer__links">
+              <li><a href="#">Package 1</a></li>
+              <li><a href="#">Package 2</a></li>
+              <li><a href="#">Package 3</a></li>
+              <li><a href="#">Package 4</a></li>
+              <li><a href="#">Package 5</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h4>Contact</h4>
+            <ul class="footer__links">
+              <li>
+                <a href="#">
+                  <span><i class="ri-phone-fill"></i></span> +91 0987654321
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span><i class="ri-map-pin-fill"></i></span> Sri Lanka, Colombo
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span><i class="ri-mail-fill"></i></span> gaphq@gmail.com
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__bar">Copyright © GAPHQ. All rights reserved.</div>
+      </footer>
+  </body>
+</html>
