@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="financeM">Finance</a>
+                        <a href="financeM.html">Finance</a>
                         <ul class="dropdown-menu">
                         <li><a href="managePayments.php" class="active3">View Payments</a></li>
                         <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
