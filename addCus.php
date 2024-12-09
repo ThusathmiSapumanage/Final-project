@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                                 <option value="Call">Call</option>
                                 <option value="WhatsApp">WhatsApp</option>
                                 <option value="SMS">SMS</option>
-                            </select>
+                            </select></br>
 
                             <label for="company">Company Name</label>
                             <input type="text" id="company" name="company" required>

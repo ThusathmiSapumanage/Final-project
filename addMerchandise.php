@@ -112,16 +112,12 @@ $result2 = mysqli_query($conn, $sql2);
                             <label for="qty">Quantity:</label>
                             <input type="text" id="qty" name="qty" required>
 
-                            <div class="radio-container">
-                                <label for="onsale">Is it on Sale ?</label>
-                                <label for="onsale-yes" class="radio-label">
-                                    <input type="radio" id="onsale" name="onsale" value="yes" required> Yes
-                                </label>
-                                <label for="onsale-no" class="radio-label">
-                                    <input type="radio" id="onsale" name="onsale" value="no" required> No
-                                </label>
-                            </div>
-
+                            <label class="sale">On sale?</label></br>
+                            <label class = "yes">Yes</label>
+                            <input type="radio" name="yes" value="yes" />
+                            <label class = "no">No</label>
+                            <input type="radio" name="no" value="no" /></br>
+                            
                             <label for="des">Item description:</label>
                             <input type="text" id="des" name="des" required>
 
@@ -132,7 +128,7 @@ $result2 = mysqli_query($conn, $sql2);
                                 <option value="Toys">Toys</option>
                                 <option value="Stationery">Stationery</option>
                                 <option value="Others">Others</option>
-                            </select>
+                            </select></br>
 
                             <label for="managerid">Manager ID:</label>
                             <select id="managerid" name="managerid">
@@ -146,7 +142,7 @@ $result2 = mysqli_query($conn, $sql2);
                                     echo "<option value='' disabled>No Managers Available</option>";
                                 }
                                 ?>
-                            </select>
+                            </select></br>
 
                             <label for="inventory">Inventory ID:</label>
                             <select id="inventory" name="inventory">
@@ -160,7 +156,7 @@ $result2 = mysqli_query($conn, $sql2);
                                     echo "<option value='' disabled>No Inventories Available</option>";
                                 }
                                 ?>
-                            </select>
+                            </select></br>
                             <button class = "sub-btn" type="submit" name="submit">Add Merchandise</button>
                         </form>
                     </div>

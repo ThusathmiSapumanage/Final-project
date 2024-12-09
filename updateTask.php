@@ -142,7 +142,7 @@ $result3 = mysqli_query($conn, $sql4);
                                 <option value="Pending" <?php if ($status == "Pending") echo "selected"; ?>>Pending</option>
                                 <option value="In Progress" <?php if ($status == "In Progress") echo "selected"; ?>>In Progress</option>
                                 <option value="Completed" <?php if ($status == "Completed") echo "selected"; ?>>Completed</option>
-                            </select>
+                            </select><br>
 
                         <label for="manager">Manager ID:</label>
                         <select id="manager" name="managerid" required>
@@ -156,7 +156,7 @@ $result3 = mysqli_query($conn, $sql4);
                                 echo "<option value='' disabled>No Manager Available</option>";
                             }
                             ?>
-                        </select>
+                        </select><br>
 
                         <label for = "staff">Staff ID:</label>
                         <select id="staff" name="staffid" required>
@@ -170,7 +170,7 @@ $result3 = mysqli_query($conn, $sql4);
                                 echo "<option value='' disabled>No Staff Available</option>";
                             }
                             ?>
-                        </select>
+                        </select><br>
                         <button class="sub-btn" type="submit" name="submit">Update Task</button>
                         </form>
                     </div>

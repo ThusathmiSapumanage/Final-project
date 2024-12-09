@@ -30,7 +30,7 @@ $result = mysqli_query($conn, $sql);
 <html>
     <head>
         <title> Add Mercahndise Suppliers </title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+        <link rel="stylesheet" type="text/css" href="addMerchan.css">
     </head>
     <body>
         <div class="container">
@@ -122,7 +122,7 @@ $result = mysqli_query($conn, $sql);
                                     echo "<option value='' disabled>No Managers Available</option>";
                                 }
                                 ?>
-                            </select>
+                            </select></br>
                             <button class = "sub-btn" type="submit" name="submit">Add Merchandise Supplier</button>
                         </form>
                     </div>

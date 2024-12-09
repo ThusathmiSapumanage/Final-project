@@ -107,7 +107,7 @@ $result2 = mysqli_query($conn, $sql2);
                                 <option value="Pending">Pending</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Completed">Completed</option>
-                            </select>
+                            </select><br>
 
                             <label for="managerid">Manager ID:</label>
                             <select id="managerid" name="managerid">
@@ -121,7 +121,7 @@ $result2 = mysqli_query($conn, $sql2);
                                     echo "<option value='' disabled>No Managers Available</option>";
                                 }
                                 ?>
-                            </select>
+                            </select><br>
 
                             <label for="staff">Staff ID:</label>
                             <select id="staffid" name="staffid">
@@ -135,7 +135,7 @@ $result2 = mysqli_query($conn, $sql2);
                                     echo "<option value='' disabled>No staff available</option>";
                                 }
                                 ?>
-                            </select>
+                            </select><br>
                             <button class = "sub-btn" type="submit" name="submit">Add Task</button>
                         </form>
                     </div>

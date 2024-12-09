@@ -108,7 +108,7 @@ $result2 = mysqli_query($conn, $sql2);
                                     echo "<option value='' disabled>No Managers Available</option>";
                                 }
                                 ?>
-                            </select>
+                            </select><br>
 
                             <label for="userid">User ID:</label>
                             <select id="userid" name="userid">
@@ -122,7 +122,7 @@ $result2 = mysqli_query($conn, $sql2);
                                     echo "<option value='' disabled>No user accounts available</option>";
                                 }
                                 ?>
-                            </select>
+                            </select><br>
                             <button class = "sub-btn" type="submit" name="submit">Add Staff</button>
                         </form>
                     </div>
