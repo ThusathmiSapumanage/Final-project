@@ -3,25 +3,27 @@
 include "config.php";
 
 // Get supplier ID from URL
-$bID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$aID = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize and fetch form inputs
     
-    $bID = intval($_POST['bSupplierID']); // Match name in form
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $aID = intval($_POST['addonID']); // Match name in form
+    $des = mysqli_real_escape_string($conn, $_POST['des']);
+    $amount = mysqli_real_escape_string($conn, $_POST['amount']);
     $price = mysqli_real_escape_string($conn, $_POST['price']);
 
     // Update query
-    $sql = "UPDATE beveragesup
-            SET bItems = '$name',
-                bItemPrice = '$price'
-            WHERE bSupplierID = $bID"; 
+    $sql = "UPDATE addon
+            SET description = '$des',
+                Amount = '$amount',
+                addOnPrice = '$price'
+            WHERE addonID = $aID";
 
     // Execute query and redirect
     if (mysqli_query($conn, $sql)) {
         echo "<script>alert('Update successful. Redirecting to the view page...');</script>";
-        echo "<script>window.location.href = 'manageFood.php';</script>";
+        echo "<script>window.location.href = 'manageAddon.php';</script>";
         exit;
     } else {
         echo "Error updating supplier: " . mysqli_error($conn);
@@ -29,20 +31,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Initialize supplier details
-$name = $price = "";
+$des = $amount = $price = "";
 
-if ($bID > 0) {
+if ($aID > 0) {
     // Fetch supplier details
-    $sql2 = "SELECT * FROM beveragesup WHERE bSupplierID = $bID";
+    $sql2 = "SELECT * FROM addon WHERE addonID = $aID";
     $result = mysqli_query($conn, $sql2);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        $name = $row['bItems'];
-        $price = $row['bItemPrice'];
+        $des = $row['description'];
+        $amount = $row['Amount'];
+        $price = $row['addOnPrice'];
+
     } else {
         echo "<script>alert('Invalid Item ID. Redirecting back...');</script>";
-        echo "<script>window.location.href = 'manageFood.php';</script>";
+        echo "<script>window.location.href = 'manageAddon.php';</script>";
         exit;
     }
 }
@@ -52,7 +56,7 @@ if ($bID > 0) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Update Food and Beverages </title>
+        <title> Update Add-Ons </title>
         <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
@@ -65,15 +69,15 @@ if ($bID > 0) {
                 </div>
                 <nav class="menu">
                 <div class="dropdown">
-                        <a href="calendar.html">Events</a>
+                        <a href="calendar.html" class = "active">Events</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
+                            <li><a href="manageAddon.php" class="active2">Manage Add-Ons</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="supplierM.html" class="active">Supplies</a>
+                        <a href="supplierM.html">Supplies</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active2">Manage Food</a></li>
+                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
                             <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
@@ -98,7 +102,7 @@ if ($bID > 0) {
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Food Management</h1>
+                    <h1>Event Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
@@ -107,18 +111,22 @@ if ($bID > 0) {
             	</header>
                 <div class="content-inner">
                     <div class="content-box">
-                        <h2>Update Food</h2>
-                        <form class="form" action="updateFood.php" method="post">
-                        <label for="id">Food Item ID:</label>
-                        <input type="text" name="bSupplierID" value="<?php echo htmlspecialchars($bID); ?>" readonly>
+                        <h2>Update Add-Ons</h2>
+                        <form class="form" action="updateAddon.php" method="post">
 
-                        <label for="name">Item Name:</label>
-                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
+                            <label for="addonID">Add-On ID</label>
+                            <input type="text" name="addonID" value="<?php echo htmlspecialchars($aID); ?>" readonly>
 
-                        <label for="email">Item Price:</label>
-                        <input type="text" id="price" name="price" value="<?php echo htmlspecialchars($price); ?>" required>
+                            <label for="des">Description</label>
+                            <input type="text" id="des" name="des" value="<?php echo $des; ?>" required>
 
-                        <button class = "sub-btn" type="submit" name="submit">Update Food</button>
+                            <label for="amount">Amount</label>
+                            <input type="text" id="amount" name="amount" value="<?php echo $amount; ?>" required>
+
+                            <label for="price">Price Per Unit</label>
+                            <input type="text" id="price" name="price" value="<?php echo $price; ?>" required>
+
+                        <button class = "sub-btn" type="submit" name="submit">Update Add-Ons</button>
                         </form>
                     </div>
                 </div>

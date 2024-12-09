@@ -79,7 +79,7 @@ $result3 = mysqli_query($conn, $sql4);
                 <div class="dropdown">
                         <a href="calendar.html">Events</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active2">Manage Add-Ons</a></li>
+                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
