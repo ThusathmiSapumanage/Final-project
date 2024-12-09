@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Income and Expense Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <div class="container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="images/logo.png" alt="Logo">
+            </div>
+            <nav class="menu">
+                <div class="dropdown">
+                    <a href="calendar.html">Events</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a href="supplierM.html">Supplies</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="manageFood.php" class="active3">Manage Food</a></li>
+                        <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
+                        <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
+                        <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
+                        <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a href="financeM.html" class="active">Finance</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
+                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
+                        <li><a href="expensereport.html" class="active2">Expense Chart and Report</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a href="staffM.html">Staff</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
+                        <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
+                    </ul>
+                </div>
+                <a href="manageResource.php">Resource</a>
+                <a href="manageClient.php">Customer</a>
+                <a href="feedback.php">Feedback</a>
+            </nav>
+            <hr class="section-divider">
+            <div class="settings"><img src="images/settings.png" alt="Settings Icon"> Settings</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1>Income and Expense Report</h1>
+                <div class="search">
+                    <input type="text" placeholder="Search">
+                    <img src="Images/search-interface-symbol.png" alt="Search Icon">
+                    <button>Search</button>
+                </div>
+            </header>
+
+            <!-- Printable Table and Graph Section -->
+            <div id="printable">
+                <h2>Combined Data</h2>
+                <table id="dataTable" border="1">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Income</th>
+                            <th>Expense</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+
+                <!-- Graph -->
+                <div class="chart-container">
+                    <canvas id="combinedChart"></canvas>
+                </div>
+            </div>
+
+            <button class = "printbtn" onclick="window.print()">Print Report</button>
+        </main>
+    </div>
+
+    <script>
+        // Fetch combined data from the backend
+        fetch('expenses.php')
+            .then(response => response.json())
+            .then(data => {
+                // Populate the table
+                const tableBody = document.querySelector('#dataTable tbody');
+                data.tableData.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.date}</td>
+                        <td>${row.income !== null ? row.income : '-'}</td>
+                        <td>${row.expense !== null ? row.expense : '-'}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+
+                // Generate the graph
+                const ctx = document.getElementById('combinedChart').getContext('2d');
+                const combinedChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.dates, // X-axis labels
+                    datasets: [
+                        {
+                            label: 'Income',
+                            data: data.income,
+                            borderColor: 'green',
+                            backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                            fill: true
+                        },
+                        {
+                            label: 'Expenses',
+                            data: data.expenses,
+                            borderColor: 'red',
+                            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#000' // Black legend text
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date',
+                                color: '#000' // Black X-axis title
+                            },
+                            ticks: {
+                                color: '#000' // Black X-axis labels
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Amount',
+                                color: '#000' // Black Y-axis title
+                            },
+                            ticks: {
+                                color: '#000' // Black Y-axis labels
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
