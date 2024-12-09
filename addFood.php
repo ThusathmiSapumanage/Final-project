@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         </ul>
                     </div>
                     <a href="manageResource.php">Resource</a>
-                    <a href="#">Client</a>
+                    <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
                 </nav>
                 <hr class="section-divider"> 
