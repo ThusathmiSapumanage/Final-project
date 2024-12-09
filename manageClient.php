@@ -27,9 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 </div>
                 <nav class="menu">
                 <div class="dropdown">
-                        <a href="calendar.html" class="active">Events</a>
+                        <a href="calendar.html">Events</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active2">Manage Add-Ons</a></li>
+                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                         </ul>
                     </div>
                     <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php">Customer</a>
+                    <a href="manageClient.php" class="active">Customer</a>
                     <a href="feedback.php">Feedback</a>
                 </nav>
                 <hr class="section-divider"> 
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 <!-- Suppliers Section -->
                 <section class = "suppliers">
                     <h2>Customers</h2>
-                    <button class = "adding"><a href="addClient.php">Add Customer</a></button>
+                    <button class = "adding"><a href="addCus.php">Add Customer</a></button>
                     <div class="table1">
             <table class="table centered">
                 <thead>
