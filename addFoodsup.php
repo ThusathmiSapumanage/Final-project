@@ -63,8 +63,8 @@ $result = mysqli_query($conn, $sql);
                         <li><a href="managePayments.php" class="active3">View Payments</a></li>
                         <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
                         <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php">Expense Report</a></li>
-                        <li><a href="incomeReport.php">Income Report</a></li>
+                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
+                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
