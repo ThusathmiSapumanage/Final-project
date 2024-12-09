@@ -13,7 +13,7 @@
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="book.css"/>
+    <link rel="stylesheet" href="book.css" />
 
     <nav>
       <div class="nav__header">
@@ -29,7 +29,7 @@
         </div>
       </div>
       <ul class="nav__links" id="nav-links">
-        <li><a href="#home">Home</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="rentalpackages.html">Rental packages</a></li>
         <li><a href="testimonials.html">Testimonials</a></li>
@@ -45,76 +45,178 @@
       </script>
     </nav>
     <script>
-      window.onload = function() {
-          // Retrieve the selected package from localStorage
-          const selectedPackage = localStorage.getItem('selectedPackage');
-          if (selectedPackage) {
-              document.getElementById('selection').textContent = selectedPackage;
-          } else {
-              document.getElementById('selection').textContent = 'No package selected.';
-          }
+      window.onload = function () {
+        // Retrieve the selected package from localStorage
+        const selectedPackage = localStorage.getItem("selectedPackage");
+        if (selectedPackage) {
+          document.getElementById("selection").textContent = selectedPackage;
+        } else {
+          document.getElementById("selection").textContent =
+            "No package selected.";
+        }
+      };
+    </script>
+    <style>
+      /* Internal CSS for advertisements */
+      .ad-container {
+        width: 25%; /* Reduced the width to make it smaller */
+        padding: 10px; /* Adjusted padding for smaller size */
+        background-color: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
-  </script>
+
+      .ad {
+        padding: 8px;
+        border-radius: 8px;
+        color: white;
+        font-size: 12px; /* Smaller font size */
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .ad.one {
+        background-color: #ff5722;
+      }
+
+      .ad.two {
+        background-color: #2196f3;
+      }
+
+      .ad p {
+        margin: 0;
+        font-size: 12px;
+      }
+    </style>
   </head>
   <body>
     <section>
+      <!-- Advertisement Section -->
+      <div class="ad-container">
+        <div class="ad one">
+          <p>Get 20% Off on Your First Booking!</p>
+          <p>Use Code: NEWUSER</p>
+        </div>
+        <div class="ad two">
+          <p>Special Discount for Event Packages!</p>
+          <p>Save 30% on Weddings & Conferences!</p>
+        </div>
+      </div>
+      <form action="" method="POST" class="form-container">
+        <div class="form-group">
+          <label for="add-ons">Booking type:</label>
+          <input
+            type="radio"
+            id="add-ons"
+            name="add_ons"
+            placeholder="Enter any add-ons (e.g., decorations)"
+          />
+          <label for="html">COnfirmed booking</label><br />
+          <input
+            type="radio"
+            id="add-ons"
+            name="add_ons"
+            placeholder="Enter any add-ons (e.g., decorations)"
+          />
+          <label for="html">Tentative booking</label><br />
+        </div>
+        <div class="form-group">
+          <label for="event-type">Select Event Type:</label>
+          <select id="event-type" name="event_type">
+            <option value="">-- Choose an option --</option>
+            <option value="wedding">Wedding</option>
+            <option value="conference">Conference</option>
+            <option value="party">Party</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="add-ons">Add-ons:</label>
+          <input
+            type="text"
+            id="add-ons"
+            name="add_ons"
+            placeholder="Enter any add-ons (e.g., decorations)"
+          />
+        </div>
+        <div class="form-group">
+          <label for="discount-code">Discount Code:</label>
+          <input
+            type="text"
+            id="discount-code"
+            name="discount_code"
+            placeholder="Enter your discount code"
+          />
+        </div>
+        <div class="form-group">
+          <label for="merchandise">Merchandise:</label>
+          <ul class="quick-links">
+            <p id="selection"></p>
+            <li>
+              <a href="/viewMerchandise.html" target="_blank"
+                >View Merchandise</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="form-group">
+          <label for="guest-list">Upload Guest List:</label>
+          <input type="file" id="guest-list" name="guest_list" />
+        </div>
+        <div class="form-group">
+          <label>Quick Links:</label>
+          <ul class="quick-links">
+            <li><a href="/faqs.html" target="_blank">View FAQs</a></li>
+            <li>
+              <a href="/pastbookings.html" target="_blank">View Past Booking</a>
+            </li>
+            <li>
+              <a href="/rentalpackages.html" target="_blank">View Prices</a>
+            </li>
+          </ul>
+        </div>
+        <div class="form-group">
+          <label for="package">Package:</label>
+          <input
+            type="text"
+            id="package"
+            name="package"
+            placeholder="Enter your package"
+          />
+        </div>
+        <div class="form-group">
+          <label for="package">Design details:</label>
+          <input
+            type="text"
+            id="package"
+            name="package"
+            placeholder="Enter design details"
+          />
+        </div>
+        <div class="form-group">
+          <label for="nametag-design">Upload Nametag Design:</label>
+          <input type="file" id="nametag-design" name="nametag_design" />
+        </div>
+        <div class="form-group">
+          <!-- Set type="button" to prevent form submission -->
+          <button type="button" class="btn" onclick="redirectTopayment()">
+            Proceed to Checkout
+          </button>
+        </div>
         
-        <form action="/checkout" method="POST" class="form-container">
-            <div class="form-group">
-                <label for="event-type">Select Event Type:</label>
-                <select id="event-type" name="event_type">
-                    <option value="">-- Choose an option --</option>
-                    <option value="wedding">Wedding</option>
-                    <option value="conference">Conference</option>
-                    <option value="party">Party</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="add-ons">Add-ons:</label>
-                <input type="text" id="add-ons" name="add_ons" placeholder="Enter any add-ons (e.g., decorations)" />
-            </div>
-            <div class="form-group">
-                <label for="discount-code">Discount Code:</label>
-                <input type="text" id="discount-code" name="discount_code" placeholder="Enter your discount code" />
-            </div>
-            <div class="form-group">
-                <label for="merchandise">Merchandise:</label>
-                <ul class="quick-links">
-                  <p id="selection"></p>
-                  <li><a href="/viewMerchandise.html" target="_blank">View Merchandise</a></li>                  
-              </ul>
-                                
-            </div>
-            <div class="form-group">
-                <label for="guest-list">Upload Guest List:</label>
-                <input type="file" id="guest-list" name="guest_list" />
-            </div>
-            <div class="form-group">
-                <label>Quick Links:</label>
-                <ul class="quick-links">
-                    <li><a href="/faqs" target="_blank">View FAQs</a></li>
-                    <li><a href="/pastbookings.html" target="_blank">View Past Booking</a></li>
-                    <li><a href="/rentalpackages.html" target="_blank">View Prices</a></li>
-                </ul>
-            </div>
-            <div class="form-group">
-              <label for="package">Package:</label>
-              <input type="text" id="package" name="package" placeholder="Enter your package" />
-          </div>
-            <div class="form-group">
-                <label for="nametag-design">Upload Nametag Design:</label>
-                <input type="file" id="nametag-design" name="nametag_design" />
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn" onclick="redirectTopayment">Proceed to Checkout</button>
-            </div>
-            <script>
-              function redirectTopayment() {
-                window.location.href = "payment.html";
-              }
-            </script>
-        </form>
+        <script>
+          // JavaScript function to redirect the user
+          function redirectTopayment() {
+            window.location.href = "payment.html"; // This will redirect to payment.html
+          }
+        </script>
+        
+        
+      </form>
+      
     </section>
     <footer class="footer">
       <div class="section__container footer__container">

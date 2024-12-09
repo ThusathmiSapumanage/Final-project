@@ -18,7 +18,7 @@ body::before {
   background-size: cover;
   top: 80px; /* Push the background below the navbar */
   z-index: -1; /* Ensure background appears behind content */
-  min-height: 150vh;
+  min-height: 185vh;
   /*filter: blur(8px);*/
 }
 
@@ -33,7 +33,7 @@ header {
 
 .form-container {
   max-width: 600px;
-  margin: 30px auto;
+  margin: 20px auto;
   background: white;
   padding: 20px;
   border-radius: 8px;
