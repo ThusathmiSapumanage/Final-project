@@ -119,6 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                         </tbody>
                     </table>
                 </div>
+                <a href="staffM.html"><button class = "back">Back</button></a>
             </section>
         </main>
     </div>
