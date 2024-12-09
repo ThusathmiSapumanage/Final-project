@@ -64,7 +64,7 @@ $result2 = mysqli_query($conn, $sql3);
 <html>
     <head>
         <title> Update Food and Beverage Suppliers </title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+        <link rel="stylesheet" type="text/css" href="updateFoodsup.css">
     </head>
     <body>
         <div class="container">
@@ -156,7 +156,7 @@ $result2 = mysqli_query($conn, $sql3);
                                 echo "<option value='' disabled>No Managers Available</option>";
                             }
                             ?>
-                        </select>
+                        </select><br>
                         <button class="sub-btn" type="submit" name="submit">Update Food Supplier</button>
                         </form>
                     </div>

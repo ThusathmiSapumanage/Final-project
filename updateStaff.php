@@ -146,7 +146,7 @@ $result3 = mysqli_query($conn, $sql4);
                                 echo "<option value='' disabled>No Managers Available</option>";
                             }
                             ?>
-                        </select>
+                        </select><br>
 
                         <label for = "userid">User ID:</label>
                         <select id="userid" name="userid" required>
@@ -160,7 +160,7 @@ $result3 = mysqli_query($conn, $sql4);
                                 echo "<option value='' disabled>No User IDs Available</option>";
                             }
                             ?>
-                        </select>
+                        </select><br>
                         <button class="sub-btn" type="submit" name="submit">Update Staff</button>
                         </form>
                     </div>

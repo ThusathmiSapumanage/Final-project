@@ -248,7 +248,7 @@ body
     color: white;
     border-radius: 25px;
     padding: 10px 30px;
-    width: 218px;
+    width: 250px;
     border: none;
     cursor: pointer;
     align-self: flex-end;
@@ -258,4 +258,16 @@ body
 
 .sub-btn:hover {
     background: linear-gradient(to right, #d304cc, #b300ff);
+}
+
+form select
+{
+    font-size: 16px;
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+    box-sizing: border-box;
 }

@@ -141,7 +141,7 @@ if ($cusID > 0) {
                             <option value="Phone" <?php if ($communication == "Call") echo "selected"; ?>>Call</option>
                             <option value="Phone" <?php if ($communication == "WhatsApp") echo "selected"; ?>>WhatsApp</option>
                             <option value="SMS" <?php if ($communication == "SMS") echo "selected"; ?>>SMS</option>
-                        </select>
+                        </select><br>
 
                         <label for = "company">Company Name</label>
                         <input type="text" id="company" name="company" value="<?php echo $company; ?>" required>

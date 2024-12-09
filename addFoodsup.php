@@ -121,7 +121,7 @@ $result = mysqli_query($conn, $sql);
                                     echo "<option value='' disabled>No Managers Available</option>";
                                 }
                                 ?>
-                            </select>
+                            </select></br>
                             <button class = "sub-btn" type="submit" name="submit">Add Food Supplier</button>
                         </form>
                     </div>

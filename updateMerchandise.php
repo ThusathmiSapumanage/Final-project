@@ -81,7 +81,7 @@ $result3 = mysqli_query($conn, $sql4);
 <html>
 <head>
     <title>Update Merchandise</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="updateFoodsup.css">
 </head>
 <body>
     <div class="container">
@@ -164,7 +164,7 @@ $result3 = mysqli_query($conn, $sql4);
                         <select id="onsale" name="onsale" required>
                             <option value="yes" <?php if ($onsale == "yes") echo "selected"; ?>>Yes</option>
                             <option value="no" <?php if ($onsale == "no") echo "selected"; ?>>No</option>
-                        </select>
+                        </select><br>
 
                         <label for="des">Description:</label>
                         <input type="text" id="des" name="des" value="<?php echo htmlspecialchars($des); ?>" required>
@@ -176,7 +176,7 @@ $result3 = mysqli_query($conn, $sql4);
                             <option value="Toys" <?php if ($cata == "Toys") echo "selected"; ?>>Toys</option>
                             <option value="Stationery" <?php if ($cata == "Stationery") echo "selected"; ?>>Stationery</option>
                             <option value="Others" <?php if ($cata == "Others") echo "selected"; ?>>Others</option>
-                        </select>
+                        </select><br>
 
                         <label for="managerid">Manager ID:</label>
                         <select id="managerid" name="managerid" required>
@@ -191,7 +191,7 @@ $result3 = mysqli_query($conn, $sql4);
                                 echo "<option value='' disabled>No Managers Available</option>";
                             }
                             ?>
-                        </select>
+                        </select><br>
 
                         <label for="inventory">Inventory ID:</label>
                         <select id="inventory" name="inventory" required>
@@ -206,7 +206,7 @@ $result3 = mysqli_query($conn, $sql4);
                                 echo "<option value='' disabled>No Inventories Available</option>";
                             }
                             ?>
-                        </select>
+                        </select><br>
 
                         <button class="sub-btn" type="submit" name="submit">Update Merchandise</button>
                     </form>
