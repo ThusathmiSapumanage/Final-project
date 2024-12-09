@@ -1,11 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <p>hello</p>
-</body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="book.css"/>
+
+    <nav>
+      <div class="nav__header">
+        <div class="nav__logo">
+          <a href="#" class="logo">
+            <img src="assets/logo.jpg" alt="logo" class="logo-white" />
+            <img src="assets/logo.jpg" alt="logo" class="logo-dark" />
+            <span>GAPHQ</span>
+          </a>
+        </div>
+        <div class="nav__menu__btn" id="menu-btn">
+          <i class="ri-menu-line"></i>
+        </div>
+      </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="rentalpackages.html">Rental packages</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
+        <li><a href="#"></a></li>
+      </ul>
+      <div class="nav__btns">
+        <button class="btn" onclick="redirectToLogin()">Sign In</button>
+      </div>
+      <script>
+        function redirectToLogin() {
+          window.location.href = "login.html";
+        }
+      </script>
+    </nav>
+    <script>
+      window.onload = function() {
+          // Retrieve the selected package from localStorage
+          const selectedPackage = localStorage.getItem('selectedPackage');
+          if (selectedPackage) {
+              document.getElementById('selection').textContent = selectedPackage;
+          } else {
+              document.getElementById('selection').textContent = 'No package selected.';
+          }
+      }
+  </script>
+  </head>
+  <body>
+    <section>
+        
+        <form action="/checkout" method="POST" class="form-container">
+            <div class="form-group">
+                <label for="event-type">Select Event Type:</label>
+                <select id="event-type" name="event_type">
+                    <option value="">-- Choose an option --</option>
+                    <option value="wedding">Wedding</option>
+                    <option value="conference">Conference</option>
+                    <option value="party">Party</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="add-ons">Add-ons:</label>
+                <input type="text" id="add-ons" name="add_ons" placeholder="Enter any add-ons (e.g., decorations)" />
+            </div>
+            <div class="form-group">
+                <label for="discount-code">Discount Code:</label>
+                <input type="text" id="discount-code" name="discount_code" placeholder="Enter your discount code" />
+            </div>
+            <div class="form-group">
+                <label for="merchandise">Merchandise:</label>
+                <ul class="quick-links">
+                  <p id="selection"></p>
+                  <li><a href="/viewMerchandise.html" target="_blank">View Merchandise</a></li>                  
+              </ul>
+                                
+            </div>
+            <div class="form-group">
+                <label for="guest-list">Upload Guest List:</label>
+                <input type="file" id="guest-list" name="guest_list" />
+            </div>
+            <div class="form-group">
+                <label>Quick Links:</label>
+                <ul class="quick-links">
+                    <li><a href="/faqs" target="_blank">View FAQs</a></li>
+                    <li><a href="/pastbookings.html" target="_blank">View Past Booking</a></li>
+                    <li><a href="/rentalpackages.html" target="_blank">View Prices</a></li>
+                </ul>
+            </div>
+            <div class="form-group">
+              <label for="package">Package:</label>
+              <input type="text" id="package" name="package" placeholder="Enter your package" />
+          </div>
+            <div class="form-group">
+                <label for="nametag-design">Upload Nametag Design:</label>
+                <input type="file" id="nametag-design" name="nametag_design" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn" onclick="redirectTopayment">Proceed to Checkout</button>
+            </div>
+            <script>
+              function redirectTopayment() {
+                window.location.href = "payment.html";
+              }
+            </script>
+        </form>
+    </section>
+    <footer class="footer">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+          <div class="footer__logo">
+            <a href="#" class="logo">
+              <img src="" />
+              <span>GAPHQ</span>
+            </a>
+          </div>
+
+          <ul class="footer__socials">
+            <li>
+              <a href="#"><i class="ri-facebook-fill"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="ri-twitter-fill"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="ri-linkedin-fill"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="ri-instagram-line"></i></a>
+            </li>
+            <li>
+              <a href="#"><i class="ri-youtube-fill"></i></a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Our Services</h4>
+          <ul class="footer__links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#deals">Rental packages</a></li>
+            <li><a href="#choose">Why Choose Us</a></li>
+            <li><a href="#client">Testimonials</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>rental packages</h4>
+          <ul class="footer__links">
+            <li><a href="#">Package 1</a></li>
+            <li><a href="#">Package 2</a></li>
+            <li><a href="#">Package 3</a></li>
+            <li><a href="#">Package 4</a></li>
+            <li><a href="#">Package 5</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Contact</h4>
+          <ul class="footer__links">
+            <li>
+              <a href="#">
+                <span><i class="ri-phone-fill"></i></span> +91 0987654321
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span><i class="ri-map-pin-fill"></i></span> Sri Lanka,Colombo
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span><i class="ri-mail-fill"></i></span> gaphq@gmail.com
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bar">Copyright © GAPHQ. All rights reserved.</div>
+    </footer>
+  </body>
 </html>
