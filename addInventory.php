@@ -1,8 +1,29 @@
+<?php
+
+include "config.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    $des = $_POST['des'];
+
+    $sql = "INSERT INTO inventory (inventoryDes) VALUES ('$des')";
+
+    if (mysqli_query($conn, $sql)) {
+        header("Location: manageInventory.php");
+        exit;
+    } 
+    else
+    {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Supplier & Supply Management </title>
-        <link rel="stylesheet" type="text/css" href="supplierM.css">
+        <title> Add Inventories</title>
+        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
         <div class="container">
@@ -20,20 +41,20 @@
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="supplierM.html" class="active">Suppliers</a>
+                        <a href="supplierM.html" class="active">Supplies</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageFood.php" class="active3">Manage Food</a></li>
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
                             <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
+                            <li><a href="manageInventory.php" class="active2">Manage Inventory</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
                         <a href="financeM.html">Finance</a>
                         <ul class="dropdown-menu">
-                            <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                            <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
+                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
+                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -50,63 +71,28 @@
                 <hr class="section-divider"> 
                 <div class = "settings"><img src = Images/settings.png>Settings</div>
             </aside>
-
-            <!-- Main Content -->
+              <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Supplier & Supply Management</h1>
+                    <h1>Inventory Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
                         <button>Search</button>
                     </div>
             	</header>
+                <div class="content-inner">
+                    <div class="content-box">
+                        <h2>Add Inventory</h2>
+                        <form class = "form" action="addInventory.php" method="post">
 
-            <!-- Suppliers Section -->
-            <section class = "suppliers">
-                <h2>Suppliers</h2>
-                <div class = "list">
-                    <a href="manageFoodSup.php">
-                        <div class="sup-card">
-                            <img src="Images/food-security.png">
-                            <span>Food suppliers</span>
-                        </div>
-                    </a>
-                    <a href="manageMerchan.php">
-                        <div class="sup-card">
-                            <img src="Images/clerk.png">
-                            <span>Merchandise suppliers</span>
-                        </div>
-                    </a>
-                    <a href="manageInventory.php">
-                        <div class="sup-card">
-                            <img src="Images/inventory.png">
-                            <span>Inventory list</span>
-                        </div>
-                    </a>
-                </div>
-            </section>
+                            <label for="des">Description:</label>
+                            <input type="text" id="des" name="des" required>
 
-            <!-- Supplies Sectopn -->
-            <section class = "supplies">
-                <h2>Supplies</h2>
-                <div class = "list-cata">
-                    <div class ="supply-card">
-                        <div class = "icon">
-                            <img src = "Images/fast-food.png">
-                        </div>
-                        <p>Food & Beverages</p>
-                        <a href="manageFood.php"><button>View</button></a>
-                    </div>
-                    <div class ="supply-card">
-                        <div class = "icon">
-                            <img src = "Images/merchandise.png">
-                        </div>
-                        <p>Merchandise</p>
-                        <a href = "manageMerchandise.php"><button>View</button></a>
+                            <button class = "sub-btn" type="submit" name="submit">Add Inventory</button>
+                        </form>
                     </div>
                 </div>
-            </section>
             </main>
         </div>
     </body>

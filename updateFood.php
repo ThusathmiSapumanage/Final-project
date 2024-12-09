@@ -1,21 +1,59 @@
 <?php
 
-include 'config.php';
+include "config.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM beveragesup WHERE bSupplierID = $id";
-    mysqli_query($conn, $sql);
-    echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'manageFood.php';</script>";
+// Get supplier ID from URL
+$bID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize and fetch form inputs
+    
+    $bID = intval($_POST['bSupplierID']); // Match name in form
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $price = mysqli_real_escape_string($conn, $_POST['price']);
+
+    // Update query
+    $sql = "UPDATE beveragesup
+            SET bItems = '$name',
+                bItemPrice = '$price'
+            WHERE bSupplierID = $bID"; 
+
+    // Execute query and redirect
+    if (mysqli_query($conn, $sql)) {
+        echo "<script>alert('Update successful. Redirecting to the view page...');</script>";
+        echo "<script>window.location.href = 'manageFood.php';</script>";
+        exit;
+    } else {
+        echo "Error updating supplier: " . mysqli_error($conn);
+    }
 }
+
+// Initialize supplier details
+$name = $price = "";
+
+if ($bID > 0) {
+    // Fetch supplier details
+    $sql2 = "SELECT * FROM beveragesup WHERE bSupplierID = $bID";
+    $result = mysqli_query($conn, $sql2);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $name = $row['bItems'];
+        $price = $row['bItemPrice'];
+    } else {
+        echo "<script>alert('Invalid Item ID. Redirecting back...');</script>";
+        echo "<script>window.location.href = 'manageFood.php';</script>";
+        exit;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Manage Food and Beverage Supplies </title>
-        <link rel="stylesheet" type="text/css" href="viewfood.css">
+        <title> Update Food and Beverages </title>
+        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
         <div class="container">
@@ -66,58 +104,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Food Supply Management</h1>
+                    <h1>Food Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
                         <button>Search</button>
                     </div>
             	</header>
+                <div class="content-inner">
+                    <div class="content-box">
+                        <h2>Update Food</h2>
+                        <form class="form" action="updateFood.php" method="post">
+                        <label for="id">Food Item ID:</label>
+                        <input type="text" name="bSupplierID" value="<?php echo htmlspecialchars($bID); ?>" readonly>
 
-                <!-- Suppliers Section -->
-                <section class = "suppliers">
-                    <h2>Foods</h2>
-                    <button class = "adding"><a href="addFood.php">Add Food</a></button>
-                    <div class="table1">
-            <table class="table centered">
-                <thead>
-                    <tr>
-                        <th>Beverage Name</th>
-                        <th>Beverage Price</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $sql = "SELECT * FROM beveragesup";
-                    $result = mysqli_query($conn, $sql);
+                        <label for="name">Item Name:</label>
+                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
 
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
-                            echo "<td>" . $row['bItems'] . "</td>";
-                            echo "<td>" . $row['bItemPrice'] . "</td>";
-                            echo "<td class='actions'>
-                                <a href='updateFood.php?id=" . $row['bSupplierID'] . "' class='btn update-btn'>Update</a>
-                                <form action='' method='POST' style='display: inline;'>
-                                    <input type='hidden' name='delete_id' value='" . $row['bSupplierID'] . "'>
-                                    <button type='submit' class='btn delete-btn'>Delete</button>
-                                </form>
-                              </td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='3'>No records found</td></tr>";
-                    }
+                        <label for="email">Item Price:</label>
+                        <input type="text" id="price" name="price" value="<?php echo htmlspecialchars($price); ?>" required>
 
-                    mysqli_close($conn);
-                    ?>
-                </tbody>
-            </table>
-        </div>
-        <a href="supplierM.html"><button class = "back">Back</button></a>
-                </section>
+                        <button class = "sub-btn" type="submit" name="submit">Update Food</button>
+                        </form>
+                    </div>
+                </div>
             </main>
-         </div>
+        </div>
     </body>
 </html>

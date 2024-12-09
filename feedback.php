@@ -13,7 +13,12 @@
                     <img src="images/logo.png" alt="Logo">
                 </div>
                 <nav class="menu">
-                    <a href="events.html">Events</a>
+                <div class="dropdown">
+                        <a href="calendar.html">Events</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
+                        </ul>
+                    </div>
                     <div class="dropdown">
                         <a href="supplierM.html">Supplies</a>
                         <ul class="dropdown-menu">
@@ -21,9 +26,16 @@
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
                             <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
+                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
                         </ul>
                     </div>
-                    <a href="#">Finance</a>
+                    <div class="dropdown">
+                        <a href="financeM.html">Finance</a>
+                        <ul class="dropdown-menu">
+                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
+                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
+                        </ul>
+                    </div>
                     <div class="dropdown">
                         <a href="staffM.html">Staff</a>
                         <ul class="dropdown-menu">
@@ -32,7 +44,7 @@
                         </ul>
                     </div>
                     <a href="manageResource.php">Resource</a>
-                    <a href="#">Client</a>
+                    <a href="manageClient.php">Customer</a>
                     <a href="feedback.php" class="active">Feedback</a>
                 </nav>
                 <hr class="section-divider">
@@ -58,7 +70,7 @@
 
                         include "config.php";
 
-                        $sql = "SELECT * FROM feedback ORDER BY date DESC";
+                        $sql = "SELECT * FROM feedback ORDER BY fDate DESC";
                         $result = mysqli_query($conn, $sql);
 
                         if ($result->num_rows > 0) {
@@ -68,21 +80,21 @@
                                 echo '<span class="stars">' . str_repeat('★', $row['rating']) . '</span>';
                                 echo '</div>';
                                 echo '<div class="card-body">';
-                                echo '<h3>' . htmlspecialchars($row['title']) . '</h3>';
-                                echo '<p>' . htmlspecialchars($row['feedback']) . '</p>';
+                                echo '<h3>' . htmlspecialchars($row['fName']) . '</h3>';
+                                echo '<p>' . htmlspecialchars($row['fDescription']) . '</p>';
                                 echo '</div>';
                                 echo '<div class="card-footer">';
                                 echo '<div class="review-info">';
                                 echo '<img src="Images/user.png" alt="Reviewer pic">';
                                 echo '<div>';
-                                echo '<p>' . htmlspecialchars($row['name']) . '</p>';
-                                echo '<span>' . htmlspecialchars($row['date']) . '</span>';
+                                echo '<p>' . htmlspecialchars($row['clientID']) . '</p>';
+                                echo '<span>' . htmlspecialchars($row['fDate']) . '</span>';
                                 echo '</div>';
                                 echo '</div>';
                                 echo '</div>';
                                 echo '<div class="buttons">';
                                 echo '<form action="delete_feedback.php" method="POST" style="display: inline-block;">';
-                                echo '<input type="hidden" name="id" value="' . $row['id'] . '">';
+                                echo '<input type="hidden" name="id" value="' . $row['fID'] . '">';
                                 echo '<button type="submit" name="submit" class="del">Delete</button>';
                                 echo '</form>';
                                 echo '</div>';

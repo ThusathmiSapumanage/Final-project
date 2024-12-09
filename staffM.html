@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Supplier & Supply Management </title>
+        <title> Staff Management </title>
         <link rel="stylesheet" type="text/css" href="supplierM.css">
     </head>
     <body>
@@ -20,7 +20,7 @@
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="supplierM.html" class="active">Suppliers</a>
+                        <a href="supplierM.html">Suppliers</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageFood.php" class="active3">Manage Food</a></li>
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
@@ -37,7 +37,7 @@
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
+                        <a href="staffM.html" class="active">Staff</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
                             <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
@@ -54,7 +54,7 @@
             <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Supplier & Supply Management</h1>
+                    <h1>Staff Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
@@ -63,51 +63,26 @@
             	</header>
 
             <!-- Suppliers Section -->
-            <section class = "suppliers">
-                <h2>Suppliers</h2>
-                <div class = "list">
-                    <a href="manageFoodSup.php">
-                        <div class="sup-card">
-                            <img src="Images/food-security.png">
-                            <span>Food suppliers</span>
-                        </div>
-                    </a>
-                    <a href="manageMerchan.php">
-                        <div class="sup-card">
-                            <img src="Images/clerk.png">
-                            <span>Merchandise suppliers</span>
-                        </div>
-                    </a>
-                    <a href="manageInventory.php">
-                        <div class="sup-card">
-                            <img src="Images/inventory.png">
-                            <span>Inventory list</span>
-                        </div>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Supplies Sectopn -->
-            <section class = "supplies">
-                <h2>Supplies</h2>
+            <section class = "actions">
+                <h2>Staff Actions</h2>
                 <div class = "list-cata">
                     <div class ="supply-card">
                         <div class = "icon">
-                            <img src = "Images/fast-food.png">
+                            <img src = "Images/teamwork.png">
                         </div>
-                        <p>Food & Beverages</p>
-                        <a href="manageFood.php"><button>View</button></a>
+                        <p>Staff Member Management</p>
+                        <a href="manageStaff.php"><button>View</button></a>
                     </div>
                     <div class ="supply-card">
                         <div class = "icon">
-                            <img src = "Images/merchandise.png">
+                            <img src = "Images/planning.png">
                         </div>
-                        <p>Merchandise</p>
-                        <a href = "manageMerchandise.php"><button>View</button></a>
+                        <p>Task Management</p>
+                        <a href = "manageTasks.php"><button>View</button></a>
                     </div>
                 </div>
             </section>
-            </main>
-        </div>
+        </main>
+    </div>
     </body>
 </html>

@@ -1,19 +1,13 @@
-<!-- This should be made into a php once the DB is made -->
 <?php
 
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "dmw_cw";
-
-$conn = mysqli_connect($servername, $username, $password, $dbname,3307);
+include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM module WHERE MID = $id";
+    $sql = "DELETE FROM supplier WHERE supID = $id";
     mysqli_query($conn, $sql);
     echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'Viewmoduleforlec.php';</script>";
+    echo "<script>window.location.href = 'manageMerchan.php';</script>";
 }
 ?>
 
@@ -21,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 <html>
     <head>
         <title> View Merchandise Suppliers </title>
-        <link rel="stylesheet" type="text/css" href="viewfood.css">
+        <link rel="stylesheet" type="text/css" href="viewmerchan.css">
     </head>
     <body>
         <div class="container">
@@ -32,7 +26,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                     <img src="images/logo.png" alt="Logo">
                 </div>
                 <nav class="menu">
-                    <a href="events.html">Events</a>
+                <div class="dropdown">
+                        <a href="calendar.html">Events</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
+                        </ul>
+                    </div>
                     <div class="dropdown">
                         <a href="supplierM.html" class="active">Supplies</a>
                         <ul class="dropdown-menu">
@@ -40,9 +39,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
                             <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active2">Manage Merchandise Supplier</a></li>
+                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
                         </ul>
                     </div>
-                    <a href="#">Finance</a>
+                    <div class="dropdown">
+                        <a href="financeM.html">Finance</a>
+                        <ul class="dropdown-menu">
+                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
+                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
+                        </ul>
+                    </div>
                     <div class="dropdown">
                         <a href="staffM.html">Staff</a>
                         <ul class="dropdown-menu">
@@ -51,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                         </ul>
                     </div>
                     <a href="manageResource.php">Resource</a>
-                    <a href="#">Client</a>
+                    <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
                 </nav>
                 <hr class="section-divider"> 
@@ -71,32 +77,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 <!-- Suppliers Section -->
                 <section class = "suppliers">
                     <h2>Merchandise suppliers</h2>
-                    <button class = "adding"><a href="addFood.php">Add Merchandise Supplier</a></button>
+                    <button class = "adding"><a href="addMerchan.php">Add Merchandise Supplier</a></button>
                     <div class="table1">
             <table class="table centered">
                 <thead>
-                    <tr>
-                        <th>Module number</th>
-                        <th>Discription</th>
+                <tr>
+                        <th>Supplier ID</th>
                         <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th>Manager ID</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $sql = "SELECT * FROM module";
+                    $sql = "SELECT supID, supName, supEmail, supPhone, supAddress, managerID FROM supplier WHERE supType = 'Merchandise supplier'";
                     $result = mysqli_query($conn, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<tr>";
-                            echo "<td>" . $row['MID'] . "</td>";
-                            echo "<td>" . $row['MDiscription'] . "</td>";
-                            echo "<td>" . $row['MName'] . "</td>";
+                            echo "<td>" . $row['supID'] . "</td>";
+                            echo "<td>" . $row['supName'] . "</td>";
+                            echo "<td>" . $row['supEmail'] . "</td>";
+                            echo "<td>" . $row['supPhone'] . "</td>";
+                            echo "<td>" . $row['supAddress'] . "</td>";
+                            echo "<td>" . $row['managerID'] . "</td>";
                             echo "<td class='actions'>
-                                <a href='module-update.php?id=" . $row['MID'] . "' class='btn update-btn'>Update</a>
+                                <a href='updateMerchan.php?id=" . $row['supID'] . "' class='btn update-btn'>Update</a>
                                 <form action='' method='POST' style='display: inline;'>
-                                    <input type='hidden' name='delete_id' value='" . $row['MID'] . "'>
+                                    <input type='hidden' name='delete_id' value='" . $row['supID'] . "'>
                                     <button type='submit' class='btn delete-btn'>Delete</button>
                                 </form>
                               </td>";
@@ -105,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                     } 
                     else 
                     {
-                        echo "<tr><td colspan='4'>No records found</td></tr>";
+                        echo "<tr><td colspan='7'>No records found</td></tr>";
                     }
 
                     mysqli_close($conn);

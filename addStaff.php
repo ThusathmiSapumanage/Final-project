@@ -2,20 +2,35 @@
 
 include "config.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM staff WHERE staffID = $id";
-    mysqli_query($conn, $sql);
-    echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'manageStaff.php';</script>";
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    $name = $_POST['name'];
+    $userid= $_POST['userid'];
+    $managerid = $_POST['managerid'];
+
+    $sql = "INSERT INTO staff (staffName, userID, managerID) VALUES ('$name', '$userid', '$managerid')";
+
+    if (mysqli_query($conn, $sql)) {
+        header("Location: manageStaff.php");
+        exit;
+    } 
+    else
+    {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
 }
+
+$sql = "SELECT managerID FROM manager";
+$result = mysqli_query($conn, $sql);
+
+$sql2 = "SELECT userID FROM userlogin";
+$result2 = mysqli_query($conn, $sql2);
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Manage Staff </title>
-        <link rel="stylesheet" type="text/css" href="viewfood.css">
+        <title> Add Staff</title>
+        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
         <div class="container">
@@ -73,57 +88,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                         <button>Search</button>
                     </div>
             	</header>
+                <div class="content-inner">
+                    <div class="content-box">
+                        <h2>Add Staff</h2>
+                        <form class = "form" action="addStaff.php" method="post">
 
-                <!-- Suppliers Section -->
-                <section class = "suppliers">
-                    <h2>Staff</h2>
-                    <button class = "adding"><a href="addStaff.php">Add Staff Profile</a></button>
-                    <div class="table1">
-            <table class="table centered">
-                <thead>
-                    <tr>
-                        <th>Staff ID</th>
-                        <th>Availability</th>
-                        <th>Name</th>
-                        <th>UserID</th>
-                        <th>Manager ID</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $sql = "SELECT * FROM staff";
-                    $result = mysqli_query($conn, $sql);
+                            <label for="name">Staff Name:</label>
+                            <input type="text" id="name" name="name" required>
 
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
-                            echo "<td>" . $row['staffID'] . "</td>";
-                            echo "<td>" . $row['staffAvailability'] . "</td>";
-                            echo "<td>" . $row['staffName'] . "</td>";
-                            echo "<td>" . $row['userID'] . "</td>";
-                            echo "<td>" . $row['managerID'] . "</td>";
-                            echo "<td class='actions'>
-                                <a href='updateStaff.php?id=" . $row['staffID'] . "' class='btn update-btn'>Update</a>
-                                <form action='' method='POST' style='display: inline;'>
-                                    <input type='hidden' name='delete_id' value='" . $row['staffID'] . "'>
-                                    <button type='submit' class='btn delete-btn'>Delete</button>
-                                </form>
-                              </td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='6'>No records found</td></tr>";
-                    }
+                            <label for="managerid">Manager ID:</label>
+                            <select id="managerid" name="managerid">
+                                <option value="" disabled selected>Select Manager</option>
+                                <?php
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        echo "<option value='" . $row['managerID'] . "'>" . $row['managerID'] . "</option>";
+                                    }
+                                } else {
+                                    echo "<option value='' disabled>No Managers Available</option>";
+                                }
+                                ?>
+                            </select>
 
-                    mysqli_close($conn);
-                    ?>
-                </tbody>
-            </table>
-        </div>
-        <a href="staffM.html"><button class = "back">Back</button></a>
-                </section>
+                            <label for="userid">User ID:</label>
+                            <select id="userid" name="userid">
+                                <option value="" disabled selected>Select UserID</option>
+                                <?php
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while ($row = $result2->fetch_assoc()) {
+                                        echo "<option value='" . $row['userID'] . "'>" . $row['userID'] . "</option>";
+                                    }
+                                } else {
+                                    echo "<option value='' disabled>No user accounts available</option>";
+                                }
+                                ?>
+                            </select>
+                            <button class = "sub-btn" type="submit" name="submit">Add Staff</button>
+                        </form>
+                    </div>
+                </div>
             </main>
-         </div>
+        </div>
     </body>
 </html>

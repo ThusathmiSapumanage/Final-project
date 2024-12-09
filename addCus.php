@@ -1,8 +1,33 @@
+<?php
+
+include "config.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $communication = $_POST['communication'];
+    $company = $_POST['company'];
+    $email = $_POST['email'];
+
+    $sql = "INSERT INTO cusprofile (cName, cPhoneNumber, communicationMethod, companyName, cEmail) VALUES ('$name', '$phone', '$communication', '$company', '$email')";
+
+    if (mysqli_query($conn, $sql)) {
+        header("Location: manageClient.php");
+        exit;
+    } 
+    else
+    {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Supplier & Supply Management </title>
-        <link rel="stylesheet" type="text/css" href="supplierM.css">
+        <title> Add Customers </title>
+        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
         <div class="container">
@@ -20,7 +45,7 @@
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="supplierM.html" class="active">Suppliers</a>
+                        <a href="supplierM.html">Supplies</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageFood.php" class="active3">Manage Food</a></li>
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
@@ -32,8 +57,8 @@
                     <div class="dropdown">
                         <a href="financeM.html">Finance</a>
                         <ul class="dropdown-menu">
-                            <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                            <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
+                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
+                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -44,69 +69,51 @@
                         </ul>
                     </div>
                     <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php">Customer</a>
+                    <a href="manageClient.php" class="active">Customer</a>
                     <a href="feedback.php">Feedback</a>
                 </nav>
                 <hr class="section-divider"> 
                 <div class = "settings"><img src = Images/settings.png>Settings</div>
             </aside>
-
-            <!-- Main Content -->
+              <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Supplier & Supply Management</h1>
+                    <h1>Customer Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
                         <button>Search</button>
                     </div>
             	</header>
+                <div class="content-inner">
+                    <div class="content-box">
+                        <h2>Add Customers</h2>
+                        <form class = "form" action="addCus.php" method="post">
 
-            <!-- Suppliers Section -->
-            <section class = "suppliers">
-                <h2>Suppliers</h2>
-                <div class = "list">
-                    <a href="manageFoodSup.php">
-                        <div class="sup-card">
-                            <img src="Images/food-security.png">
-                            <span>Food suppliers</span>
-                        </div>
-                    </a>
-                    <a href="manageMerchan.php">
-                        <div class="sup-card">
-                            <img src="Images/clerk.png">
-                            <span>Merchandise suppliers</span>
-                        </div>
-                    </a>
-                    <a href="manageInventory.php">
-                        <div class="sup-card">
-                            <img src="Images/inventory.png">
-                            <span>Inventory list</span>
-                        </div>
-                    </a>
-                </div>
-            </section>
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
 
-            <!-- Supplies Sectopn -->
-            <section class = "supplies">
-                <h2>Supplies</h2>
-                <div class = "list-cata">
-                    <div class ="supply-card">
-                        <div class = "icon">
-                            <img src = "Images/fast-food.png">
-                        </div>
-                        <p>Food & Beverages</p>
-                        <a href="manageFood.php"><button>View</button></a>
-                    </div>
-                    <div class ="supply-card">
-                        <div class = "icon">
-                            <img src = "Images/merchandise.png">
-                        </div>
-                        <p>Merchandise</p>
-                        <a href = "manageMerchandise.php"><button>View</button></a>
+                            <label for="phone">Phone Number</label>
+                            <input type="text" id="phone" name="phone" required>
+
+                            <label for="communication">Communication Method: (Please select one)</label>
+                            <select id="communication" name="communication" required>
+                                <option value="Email">Email</option>
+                                <option value="Call">Call</option>
+                                <option value="WhatsApp">WhatsApp</option>
+                                <option value="SMS">SMS</option>
+                            </select>
+
+                            <label for="company">Company Name</label>
+                            <input type="text" id="company" name="company" required>
+
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+
+                            <button class = "sub-btn" type="submit" name="submit">Add Customer</button>
+                        </form>
                     </div>
                 </div>
-            </section>
             </main>
         </div>
     </body>
