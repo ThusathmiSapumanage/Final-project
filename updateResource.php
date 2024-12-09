@@ -2,61 +2,58 @@
 
 include "config.php";
 
-
-$aID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$rID = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    $aID = intval($_POST['addonID']); // Match name in form
+
+    $rID = intval($_POST['rID']);
+    $rname = mysqli_real_escape_string($conn, $_POST['rname']);
+    $availability = mysqli_real_escape_string($conn, $_POST['availability']);
     $des = mysqli_real_escape_string($conn, $_POST['des']);
-    $amount = mysqli_real_escape_string($conn, $_POST['amount']);
-    $price = mysqli_real_escape_string($conn, $_POST['price']);
+    $staffid = mysqli_real_escape_string($conn, $_POST['staffid']);
 
-
-    $sql = "UPDATE addon
-            SET description = '$des',
-                Amount = '$amount',
-                addOnPrice = '$price'
-            WHERE addonID = $aID";
+  
+    $sql = "UPDATE resource
+            SET resourceName = '$rname',
+                availability = '$availability',
+                description = '$des',
+                staffID = '$staffid'
+            WHERE resourceID = $rID";
 
     // Execute query and redirect
     if (mysqli_query($conn, $sql)) {
         echo "<script>alert('Update successful. Redirecting to the view page...');</script>";
-        echo "<script>window.location.href = 'manageAddon.php';</script>";
+        echo "<script>window.location.href = 'manageResource.php';</script>";
         exit;
     } else {
         echo "Error updating supplier: " . mysqli_error($conn);
     }
 }
 
-// Initialize supplier details
-$des = $amount = $price = "";
+$name = $availability = $des = $staffid = "";
 
-if ($aID > 0) {
-
-    
-    $sql2 = "SELECT * FROM addon WHERE addonID = $aID";
+if ($rID > 0) {
+    // Fetch supplier details
+    $sql2 = "SELECT * FROM resource WHERE resourceID = $rID";
     $result = mysqli_query($conn, $sql2);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
+        $name = $row['resourceName'];
+        $availability = $row['availability'];
         $des = $row['description'];
-        $amount = $row['Amount'];
-        $price = $row['addOnPrice'];
-
-    } else {
-        echo "<script>alert('Invalid Item ID. Redirecting back...');</script>";
-        echo "<script>window.location.href = 'manageAddon.php';</script>";
-        exit;
+        $staffid = $row['staffID'];
     }
 }
 
+$sql3 = "SELECT staffID FROM staff";
+$result2 = mysqli_query($conn, $sql3);
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Update Add-Ons </title>
+        <title> Update Resources </title>
         <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
@@ -69,9 +66,9 @@ if ($aID > 0) {
                 </div>
                 <nav class="menu">
                 <div class="dropdown">
-                        <a href="calendar.html" class = "active">Events</a>
+                        <a href="calendar.html">Events</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active2">Manage Add-Ons</a></li>
+                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -81,7 +78,7 @@ if ($aID > 0) {
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
                             <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
+                            <li><a href="manageMerchan.php" class="active2">Manage Inventory</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -101,7 +98,7 @@ if ($aID > 0) {
                             <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
                         </ul>
                     </div>
-                    <a href="manageResource.php">Resource</a>
+                    <a href="manageResource.php" class="active">Resource</a>
                     <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
                 </nav>
@@ -111,7 +108,7 @@ if ($aID > 0) {
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Event Management</h1>
+                    <h1>Resource Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
@@ -120,22 +117,36 @@ if ($aID > 0) {
             	</header>
                 <div class="content-inner">
                     <div class="content-box">
-                        <h2>Update Add-Ons</h2>
-                        <form class="form" action="updateAddon.php" method="post">
+                        <h2>Update Resources</h2>
+                        <form class="form" action="updateResource.php" method="post">
 
-                            <label for="addonID">Add-On ID</label>
-                            <input type="text" name="addonID" value="<?php echo htmlspecialchars($aID); ?>" readonly>
+                        <input type="hidden" name="rID" value="<?php echo $rID; ?>">
+                        <input type="text" name="rID" value="<?php echo htmlspecialchars($rID); ?>" readonly>
 
-                            <label for="des">Description</label>
-                            <input type="text" id="des" name="des" value="<?php echo $des; ?>" required>
+                        <label for="rname">Resource Name</label>
+                        <input type="text" id="rname" name="rname" value="<?php echo $name; ?>" required>
 
-                            <label for="amount">Amount</label>
-                            <input type="text" id="amount" name="amount" value="<?php echo $amount; ?>" required>
+                        <label for="availability">Availability</label>
+                        <input type="date" id="availability" name="availability" value="<?php echo $availability; ?>" required>
 
-                            <label for="price">Price Per Unit</label>
-                            <input type="text" id="price" name="price" value="<?php echo $price; ?>" required>
+                        <label for="des">Description</label>
+                        <input type="text" id="des" name="des" value="<?php echo $des; ?>" required>
 
-                        <button class = "sub-btn" type="submit" name="submit">Update Add-Ons</button>
+                        <label for="staffid">Staff ID</label>
+                        <select id="staffid" name="staffid">
+                            <?php
+                            if (mysqli_num_rows($result2) > 0) {
+                                while ($row2 = mysqli_fetch_assoc($result2)) {
+                                    if ($staffid == $row2['staffID']) {
+                                        echo "<option value='" . $row2['staffID'] . "' selected>" . $row2['staffID'] . "</option>";
+                                    } else {
+                                        echo "<option value='" . $row2['staffID'] . "'>" . $row2['staffID'] . "</option>";
+                                    }
+                                }
+                            }
+                            ?>
+                        </select>
+                        <button class="sub-btn" type="submit" name="submit">Update Resource</button>
                         </form>
                     </div>
                 </div>

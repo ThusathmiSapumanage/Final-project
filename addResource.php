@@ -2,61 +2,32 @@
 
 include "config.php";
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    $name = $_POST['name'];
+    $availability = $_POST['availability'];
+    $des = $_POST['des'];
+    $staffID = $_POST['staffID'];
 
-$aID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    $sql = "INSERT INTO resource (resourceName, availability, description, staffID) VALUES ('$name', '$availability', '$des', '$staffID')";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    $aID = intval($_POST['addonID']); // Match name in form
-    $des = mysqli_real_escape_string($conn, $_POST['des']);
-    $amount = mysqli_real_escape_string($conn, $_POST['amount']);
-    $price = mysqli_real_escape_string($conn, $_POST['price']);
-
-
-    $sql = "UPDATE addon
-            SET description = '$des',
-                Amount = '$amount',
-                addOnPrice = '$price'
-            WHERE addonID = $aID";
-
-    // Execute query and redirect
     if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Update successful. Redirecting to the view page...');</script>";
-        echo "<script>window.location.href = 'manageAddon.php';</script>";
+        header("Location: manageResource.php");
         exit;
-    } else {
-        echo "Error updating supplier: " . mysqli_error($conn);
+    } 
+    else
+    {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
 
-// Initialize supplier details
-$des = $amount = $price = "";
-
-if ($aID > 0) {
-
-    
-    $sql2 = "SELECT * FROM addon WHERE addonID = $aID";
-    $result = mysqli_query($conn, $sql2);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $des = $row['description'];
-        $amount = $row['Amount'];
-        $price = $row['addOnPrice'];
-
-    } else {
-        echo "<script>alert('Invalid Item ID. Redirecting back...');</script>";
-        echo "<script>window.location.href = 'manageAddon.php';</script>";
-        exit;
-    }
-}
-
+$sql = "SELECT staffID FROM staff";
+$result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Update Add-Ons </title>
+        <title> Add Resources</title>
         <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
@@ -69,9 +40,10 @@ if ($aID > 0) {
                 </div>
                 <nav class="menu">
                 <div class="dropdown">
-                        <a href="calendar.html" class = "active">Events</a>
+                        <a href="calendar.html">Events</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active2">Manage Add-Ons</a></li>
+                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
+                            <li><a href="managePayments.php" class="active3">Manage Payments</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -101,7 +73,7 @@ if ($aID > 0) {
                             <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
                         </ul>
                     </div>
-                    <a href="manageResource.php">Resource</a>
+                    <a href="manageResource.php" class="active">Resource</a>
                     <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
                 </nav>
@@ -111,7 +83,7 @@ if ($aID > 0) {
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Event Management</h1>
+                    <h1>Resource Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
@@ -120,22 +92,30 @@ if ($aID > 0) {
             	</header>
                 <div class="content-inner">
                     <div class="content-box">
-                        <h2>Update Add-Ons</h2>
-                        <form class="form" action="updateAddon.php" method="post">
+                        <h2>Add Resource</h2>
+                        <form class = "form" action="addResource.php" method="post">
 
-                            <label for="addonID">Add-On ID</label>
-                            <input type="text" name="addonID" value="<?php echo htmlspecialchars($aID); ?>" readonly>
+                            <label for="name">Resource Name</label>
+                            <input type="text" id="name" name="name" required>
+
+                            <label for="availability">Availability</label>
+                            <input type="date" id="availability" name="availability" required>
 
                             <label for="des">Description</label>
-                            <input type="text" id="des" name="des" value="<?php echo $des; ?>" required>
+                            <input type="text" id="des" name="des" required>
 
-                            <label for="amount">Amount</label>
-                            <input type="text" id="amount" name="amount" value="<?php echo $amount; ?>" required>
-
-                            <label for="price">Price Per Unit</label>
-                            <input type="text" id="price" name="price" value="<?php echo $price; ?>" required>
-
-                        <button class = "sub-btn" type="submit" name="submit">Update Add-Ons</button>
+                            <label for="staffID">Staff ID</label>
+                            <select id="staffID" name="staffID">
+                                <?php
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<option value = " . $row['staffID'] . ">" . $row['staffID'] . "</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
+                            <br>
+                            <button class = "sub-btn" type="submit" name="submit">Add Resource</button>
                         </form>
                     </div>
                 </div>
