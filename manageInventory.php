@@ -42,7 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             <li><a href="manageMerchan.php" class="active2">Manage Inventory</a></li>
                         </ul>
                     </div>
-                    <a href="#">Finance</a>
+                    <div class="dropdown">
+                        <a href="financeM">Finance</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="managePayments.php" class="active3">Manage Payments</a></li>
+                        </ul>
+                    </div>
                     <div class="dropdown">
                         <a href="staffM.html">Staff</a>
                         <ul class="dropdown-menu">

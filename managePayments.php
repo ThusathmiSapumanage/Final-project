@@ -36,10 +36,9 @@ include "config.php";
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="supplierM.html" class="active">Supplies</a>
+                        <a href="financeM">Finance</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active2">Manage Merchandise</a></li>
+                            <li><a href="managePayments.php" class="active3">Manage Payments</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">

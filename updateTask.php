@@ -92,7 +92,12 @@ $result3 = mysqli_query($conn, $sql4);
                             <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
                         </ul>
                     </div>
-                    <a href="#">Finance</a>
+                    <div class="dropdown">
+                        <a href="financeM">Finance</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="managePayments.php" class="active3">Manage Payments</a></li>
+                        </ul>
+                    </div>
                     <div class="dropdown">
                         <a href="staffM.html" class="active">Staff</a>
                         <ul class="dropdown-menu">
