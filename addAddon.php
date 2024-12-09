@@ -40,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         <a href="calendar.html" class = "active">Events</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageAddon.php" class="active2">Manage Add-Ons</a></li>
-                            <li><a href="managePayments.php" class="active3">Manage Payments</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -53,7 +52,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                             <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
                         </ul>
                     </div>
-                    <a href="#">Finance</a>
+                    <div class="dropdown">
+                        <a href="financeM">Finance</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="managePayments.php" class="active3">Manage Payments</a></li>
+                        </ul>
+                    </div>
                     <div class="dropdown">
                         <a href="staffM.html">Staff</a>
                         <ul class="dropdown-menu">

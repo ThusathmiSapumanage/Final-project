@@ -2,19 +2,12 @@
 
 include "config.php"; 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM merchandise WHERE merchandiseID = $id";
-    mysqli_query($conn, $sql);
-    echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'manageMerchandise.php';</script>";
-}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Manage Merchandise Supplies</title>
+    <title>Manage Payments</title>
     <link rel="stylesheet" type="text/css" href="viewmerchandise.css">
 </head>
 <body>
@@ -42,7 +35,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
                         </ul>
                     </div>
-                    <a href="#">Finance</a>
+                    <div class="dropdown">
+                        <a href="supplierM.html" class="active">Supplies</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
+                            <li><a href="manageMerchandise.php" class="active2">Manage Merchandise</a></li>
+                        </ul>
+                    </div>
                     <div class="dropdown">
                         <a href="staffM.html">Staff</a>
                         <ul class="dropdown-menu">
