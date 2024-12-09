@@ -4,17 +4,17 @@ include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM beveragesup WHERE bSupplierID = $id";
+    $sql = "DELETE FROM addon WHERE addonID = $id";
     mysqli_query($conn, $sql);
     echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'manageFood.php';</script>";
+    echo "<script>window.location.href = 'manageAddon.php';</script>";
 }
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Manage Food and Beverage Supplies </title>
+        <title> Manage Add-Ons </title>
         <link rel="stylesheet" type="text/css" href="viewfood.css">
     </head>
     <body>
@@ -27,13 +27,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 </div>
                 <nav class="menu">
                 <div class="dropdown">
-                        <a href="calendar.html">Events</a>
+                        <a href="calendar.html" class="active">Events</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageAddon.php" class="active2">Manage Add-Ons</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="supplierM.html" class="active">Supplies</a>
+                        <a href="supplierM.html">Supplies</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageFood.php" class="active2">Manage Food</a></li>
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>

@@ -26,7 +26,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                     <img src="images/logo.png" alt="Logo">
                 </div>
                 <nav class="menu">
-                    <a href="calendar.html">Events</a>
+                <div class="dropdown">
+                        <a href="calendar.html">Events</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="manageAddon.php" class="active2">Manage Add-Ons</a></li>
+                        </ul>
+                    </div>
                     <div class="dropdown">
                         <a href="supplierM.html" class="active">Supplies</a>
                         <ul class="dropdown-menu">
