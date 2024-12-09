@@ -7,7 +7,7 @@ include "config.php";
 <!DOCTYPE html>
 <html>
 <head>
-    <title>View Payments</title>
+    <title>View Expenses</title>
     <link rel="stylesheet" type="text/css" href="manageFoodSup.css">
 </head>
 <body>
@@ -36,10 +36,10 @@ include "config.php";
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="financeM"  class="active">Finance</a>
+                        <a href="financeM.html"  class="active">Finance</a>
                         <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active2">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
+                            <li><a href="managePayments.php" class="active3">View Payments</a></li>
+                            <li><a href="manageExpense.php" class="active2">View Expenses</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -70,33 +70,41 @@ include "config.php";
 
             <!-- Suppliers Section -->
             <section class="suppliers">
-                <h2>Payments made by customers</h2>
+                <h2>Expenses at gapHQ</h2>
                 <div class="table1">
                     <table class="table centered">
                         <thead>
                             <tr>
-                                <th>Payment ID</th>
-                                <th>Amount Payable</th>
-                                <th>Payment Date</th>
-                                <th>Customer ID</th>
+                                <th>Expense ID</th>
+                                <th>Expense date</th>
+                                <th>Type</th>
+                                <th>Payable</th>
+                                <th>Expense status</th>
+                                <th>Expense description</th>
+                                <th>Manager ID</th>
+                                <th>Amount</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $sql = "SELECT * FROM payment"; 
+                                $sql = "SELECT * FROM expenses"; 
                                 $result = mysqli_query($conn, $sql);
 
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         echo "<tr>";
-                                        echo "<td>" . $row['paymentID'] . "</td>";
-                                        echo "<td>" . $row['amountPayable'] . "</td>";
-                                        echo "<td>" . $row['paymentDate'] . "</td>";
-                                        echo "<td>" . $row['clientID'] . "</td>";
+                                        echo "<td>" . $row['expenseID'] . "</td>";
+                                        echo "<td>" . $row['expenseDate'] . "</td>";
+                                        echo "<td>" . $row['expenseType'] . "</td>";
+                                        echo "<td>" . $row['expenseAmount'] . "</td>";
+                                        echo "<td>" . $row['expensePayableM'] . "</td>";
+                                        echo "<td>" . $row['expenseStatus'] . "</td>";
+                                        echo "<td>" . $row['expenseDes'] . "</td>";
+                                        echo "<td>" . $row['managerID'] . "</td>";
                                         echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='4'>No records found</td></tr>";
+                                    echo "<tr><td colspan='8'>No records found</td></tr>";
                                 }
                                 ?>
                         </tbody>

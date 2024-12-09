@@ -93,7 +93,8 @@ if ($cusID > 0) {
                     <div class="dropdown">
                         <a href="financeM">Finance</a>
                         <ul class="dropdown-menu">
-                            <li><a href="managePayments.php" class="active3">Manage Payments</a></li>
+                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
+                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
