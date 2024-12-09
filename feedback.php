@@ -64,7 +64,7 @@
 
                         include "config.php";
 
-                        $sql = "SELECT * FROM feedback ORDER BY date DESC";
+                        $sql = "SELECT * FROM feedback ORDER BY fDate DESC";
                         $result = mysqli_query($conn, $sql);
 
                         if ($result->num_rows > 0) {
@@ -74,21 +74,21 @@
                                 echo '<span class="stars">' . str_repeat('★', $row['rating']) . '</span>';
                                 echo '</div>';
                                 echo '<div class="card-body">';
-                                echo '<h3>' . htmlspecialchars($row['title']) . '</h3>';
-                                echo '<p>' . htmlspecialchars($row['feedback']) . '</p>';
+                                echo '<h3>' . htmlspecialchars($row['fName']) . '</h3>';
+                                echo '<p>' . htmlspecialchars($row['fDescription']) . '</p>';
                                 echo '</div>';
                                 echo '<div class="card-footer">';
                                 echo '<div class="review-info">';
                                 echo '<img src="Images/user.png" alt="Reviewer pic">';
                                 echo '<div>';
-                                echo '<p>' . htmlspecialchars($row['name']) . '</p>';
-                                echo '<span>' . htmlspecialchars($row['date']) . '</span>';
+                                echo '<p>' . htmlspecialchars($row['clientID']) . '</p>';
+                                echo '<span>' . htmlspecialchars($row['fDate']) . '</span>';
                                 echo '</div>';
                                 echo '</div>';
                                 echo '</div>';
                                 echo '<div class="buttons">';
                                 echo '<form action="delete_feedback.php" method="POST" style="display: inline-block;">';
-                                echo '<input type="hidden" name="id" value="' . $row['id'] . '">';
+                                echo '<input type="hidden" name="id" value="' . $row['fID'] . '">';
                                 echo '<button type="submit" name="submit" class="del">Delete</button>';
                                 echo '</form>';
                                 echo '</div>';
