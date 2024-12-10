@@ -48,7 +48,7 @@ const openEventForm = (day) => {
           events[eventKey] = { name: eventName, time: eventTime };
           alert(`Event "${eventName}" at ${eventTime} ${existingEvent ? 'updated' : 'saved'} for ${months[currMonth]} ${day}, ${currYear}`);
           renderCalendar(); // Re-render calendar to show updated even
-          window.location.href = "book.html";t
+          window.location.href = "book.php";t
       } else {
           alert("Please fill in all fields.");
       }
