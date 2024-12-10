@@ -1,3 +1,38 @@
+<?php
+include "config.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+  $bstart = $_POST['bstart'];
+  $bend = $_POST['bend'];
+  $bname = $_POST['bname'];
+  $bprice = $_POST['bprice'];
+  $btype = $_POST['btype'];
+  $hallid = $_POST['hallid'];
+  $clientid = $_POST['clientid'];
+  $managerid = $_POST['managerid'];
+
+  $sql = "INSERT INTO booking (bStartDate, bEndDate, bName, bPrice, bType, hallID, clientID, managerID) VALUES ('$bstart', '$bend', '$bname', '$bprice', '$btype', '$hallid', '$clientid', '$managerid')";
+
+    if (mysqli_query($conn, $sql)) {
+        header("Location: payment.html");
+        exit;
+    } 
+    else
+    {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+}
+
+$sql = "SELECT managerID FROM manager";
+$result = mysqli_query($conn, $sql);
+
+$sql2 = "SELECT hallID FROM hall";
+$result2 = mysqli_query($conn, $sql2);
+
+$sql3 = "SELECT clientID FROM cusprofile";
+$result3 = mysqli_query($conn, $sql3);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -106,66 +141,71 @@
         </div>
       </div>
       <form action="" method="POST" class="form-container">
+
         <div class="form-group">
-          <label for="add-ons">Booking type:</label>
-          <input
-            type="radio"
-            id="add-ons"
-            name="add_ons"
-            placeholder="Enter any add-ons (e.g., decorations)"
-          />
-          <label for="html">COnfirmed booking</label><br />
-          <input
-            type="radio"
-            id="add-ons"
-            name="add_ons"
-            placeholder="Enter any add-ons (e.g., decorations)"
-          />
-          <label for="html">Tentative booking</label><br />
-        </div>
-        <div class="form-group">
-          <label for="event-type">Select Event Type:</label>
-          <select id="event-type" name="event_type">
-            <option value="">-- Choose an option --</option>
-            <option value="wedding">Wedding</option>
-            <option value="conference">Conference</option>
-            <option value="party">Party</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="add-ons">Add-ons:</label>
-          <input
-            type="text"
-            id="add-ons"
-            name="add_ons"
-            placeholder="Enter any add-ons (e.g., decorations)"
-          />
-        </div>
-        <div class="form-group">
-          <label for="discount-code">Discount Code:</label>
-          <input
-            type="text"
-            id="discount-code"
-            name="discount_code"
-            placeholder="Enter your discount code"
-          />
-        </div>
+
+          <label for="btype">Booking Type:</label>
+          <select id = "btype" name = "btype">
+            <option value = "Tentative">Tentative</option>
+            <option value = "Confirmed">Confirmed</option>
+          </select></br></br>
+
+          <label for="bstart">Booking Start Date:</label>
+          <input type="date" id="bstart" name="bstart" required />
+
+          <label for="bend">Booking End Date:</label>
+          <input type="date" id="bend" name="bend" required />
+
+          <label for="bname">Booking Name:</label>
+          <input type="text" id="bname" name="bname" required />
+
+          <label for="bprice">Booking Price:</label>
+          <input type="text" id="bprice" name="bprice" required /></br>
+
+          <label for="hallid">Hall ID:</label>
+          <select id="hallid" name="hallid">
+
+            <?php
+            if (mysqli_num_rows($result2) > 0) {
+                while ($row = mysqli_fetch_assoc($result2)) {
+                    echo "<option value = " . $row['hallID'] . ">" . $row['hallID'] . "</option>";
+                }
+            }
+            ?>
+          </select></br></br>
+
+          <label for="clientid">Client ID:</label>
+          <select id="clientid" name="clientid">
+            <?php
+            if (mysqli_num_rows($result3) > 0) {
+                while ($row = mysqli_fetch_assoc($result3)) {
+                    echo "<option value = " . $row['clientID'] . ">" . $row['clientID'] . "</option>";
+                }
+            }
+            ?>
+          </select></br></br>
+
+          <label for="managerid">Manager ID:</label>
+          <select id="managerid" name="managerid">
+            <?php
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<option value = " . $row['managerID'] . ">" . $row['managerID'] . "</option>";
+                }
+            }
+            ?>
+          </select></br></br>
+        
         <div class="form-group">
           <label for="merchandise">Merchandise:</label>
           <ul class="quick-links">
             <p id="selection"></p>
             <li>
-              <a href="/viewMerchandise.html" target="_blank"
-                >View Merchandise</a
-              >
+              <a href="/viewMerchandise.html" target="_blank">View Merchandise</a>
             </li>
           </ul>
         </div>
-        <div class="form-group">
-          <label for="guest-list">Upload Guest List:</label>
-          <input type="file" id="guest-list" name="guest_list" />
-        </div>
+
         <div class="form-group">
           <label>Quick Links:</label>
           <ul class="quick-links">
@@ -178,45 +218,21 @@
             </li>
           </ul>
         </div>
-        <div class="form-group">
-          <label for="package">Package:</label>
-          <input
-            type="text"
-            id="package"
-            name="package"
-            placeholder="Enter your package"
-          />
-        </div>
-        <div class="form-group">
-          <label for="package">Design details:</label>
-          <input
-            type="text"
-            id="package"
-            name="package"
-            placeholder="Enter design details"
-          />
-        </div>
-        <div class="form-group">
-          <label for="nametag-design">Upload Nametag Design:</label>
-          <input type="file" id="nametag-design" name="nametag_design" />
-        </div>
+
         <div class="form-group">
           <!-- Set type="button" to prevent form submission -->
           <button type="button" class="btn" onclick="redirectTopayment()">
             Proceed to Checkout
           </button>
         </div>
-        
+
         <script>
           // JavaScript function to redirect the user
           function redirectTopayment() {
             window.location.href = "payment.html"; // This will redirect to payment.html
           }
         </script>
-        
-        
       </form>
-      
     </section>
     <footer class="footer">
       <div class="section__container footer__container">
@@ -249,21 +265,21 @@
         <div class="footer__col">
           <h4>Our Services</h4>
           <ul class="footer__links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#deals">Rental packages</a></li>
-            <li><a href="#choose">Why Choose Us</a></li>
-            <li><a href="#client">Testimonials</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="rentalpackages.html">Rental packages</a></li>
+            
+            <li><a href="testimonials.html">Testimonials</a></li>
           </ul>
         </div>
         <div class="footer__col">
           <h4>rental packages</h4>
           <ul class="footer__links">
-            <li><a href="#">Package 1</a></li>
-            <li><a href="#">Package 2</a></li>
-            <li><a href="#">Package 3</a></li>
-            <li><a href="#">Package 4</a></li>
-            <li><a href="#">Package 5</a></li>
+            <li><a href="rentalpackages.html">Package 1</a></li>
+            <li><a href="rentalpackages.html">Package 2</a></li>
+            <li><a href="rentalpackages.html">Package 3</a></li>
+            <li><a href="rentalpackages.html">Package 4</a></li>
+            <li><a href="rentalpackages.html">Package 5</a></li>
           </ul>
         </div>
         <div class="footer__col">
