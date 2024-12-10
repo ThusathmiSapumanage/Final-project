@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $name = $availability = $des = $staffid = "";
 
 if ($rID > 0) {
-    // Fetch supplier details
+    
     $sql2 = "SELECT * FROM resource WHERE resourceID = $rID";
     $result = mysqli_query($conn, $sql2);
 
@@ -101,6 +101,7 @@ $result2 = mysqli_query($conn, $sql3);
                     <a href="manageResource.php" class="active">Resource</a>
                     <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
+                    <a href="manageIssues.php">Report Issues</a>
                 </nav>
                 <hr class="section-divider"> 
                 <div class = "settings"><img src = Images/settings.png>Settings</div>

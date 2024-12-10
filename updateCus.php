@@ -2,7 +2,7 @@
 
 include "config.php";
 
-// Get supplier ID from URL
+
 $cusID = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -34,11 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Initialize supplier details
+
 $name = $phone = $communication = $company = $email = "";
 
 if ($cusID > 0) {
-    // Fetch supplier details
+    
     $sql2 = "SELECT * FROM cusprofile WHERE clientID = $cusID";
     $result = mysqli_query($conn, $sql2);
 
@@ -110,6 +110,7 @@ if ($cusID > 0) {
                     <a href="manageResource.php">Resource</a>
                     <a href="manageClient.php" class="active">Customer</a>
                     <a href="feedback.php">Feedback</a>
+                    <a href="manageIssues.php">Report Issues</a>
                 </nav>
                 <hr class="section-divider"> 
                 <div class = "settings"><img src = Images/settings.png>Settings</div>

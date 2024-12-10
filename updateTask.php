@@ -2,7 +2,6 @@
 
 include "config.php";
 
-// Get supplier ID from URL
 $tID = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -34,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Initialize supplier details
+
 $taskdes = $due = $status = $managerid = $staffid = "";
 
 if ($tID > 0) {
-    // Fetch supplier details
+    
     $sql2 = "SELECT * FROM tasks WHERE taskID = $tID";
     $result = mysqli_query($conn, $sql2);
 
@@ -112,6 +111,7 @@ $result3 = mysqli_query($conn, $sql4);
                     <a href="manageResource.php">Resource</a>
                     <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
+                    <a href="manageIssues.php">Report Issues</a>
                 </nav>
                 <hr class="section-divider"> 
                 <div class = "settings"><img src = Images/settings.png>Settings</div>

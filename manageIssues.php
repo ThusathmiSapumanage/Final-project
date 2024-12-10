@@ -1,21 +1,8 @@
-<?php
-
-include "config.php";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM supplier WHERE supID = $id";
-    mysqli_query($conn, $sql);
-    echo "<script>alert('Supplier deleted successfully!'); window.location.href = 'manageFoodSup.php';</script>";
-    echo "<script>window.location.href = 'manageFoodSup.php';</script>";
-}
-?>
-
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Manage Food and Beverage Suppliers </title>
-        <link rel="stylesheet" type="text/css" href="viewfood.css">
+        <title> View reported issues </title>
+        <link rel="stylesheet" type="text/css" href="viewmerchan.css">
     </head>
     <body>
         <div class="container">
@@ -33,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="supplierM.html" class="active">Supplies</a>
+                        <a href="supplierM.html">Supplies</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageFood.php" class="active3">Manage Food</a></li>
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active2">Manage Food Supplier</a></li>
+                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
                             <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
                         </ul>
@@ -62,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                     <a href="manageResource.php">Resource</a>
                     <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
+                    <a href="manageIssues.php" class = "active">Report Issues</a>
                 </nav>
                 <hr class="section-divider"> 
                 <div class = "settings"><img src = Images/settings.png>Settings</div>
@@ -70,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Food Supplier Management</h1>
+                    <h1>Reported Issue Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
@@ -80,46 +67,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 
                 <!-- Suppliers Section -->
                 <section class = "suppliers">
-                    <h2>Food suppliers</h2>
-                    <button class = "adding"><a href="addFoodsup.php">Add Food Supplier</a></button>
+                    <h2>Reported Issues</h2>
+                    <button class = "adding"><a href="addIssue.php">Add Issue</a></button>
                     <div class="table1">
             <table class="table centered">
                 <thead>
-                    <tr>
-                        <th>Supplier ID</th>
+                <tr>
+                        <th>Report ID</th>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Contact</th>
-                        <th>Address</th>
-                        <th>Manager ID</th>
-                        <th>Actions</th>
+                        <th>Report date</th>
+                        <th>Report type</th>
+                        <th>Report description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $sql = "SELECT supID, supName, supEmail, supPhone, supAddress, managerID FROM supplier WHERE supType = 'Food supplier'";
+
+                    include 'config.php';
+
+                    $sql = "SELECT * FROM eventreport";
+
                     $result = mysqli_query($conn, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<tr>";
-                            echo "<td>" . $row['supID'] . "</td>";
-                            echo "<td>" . $row['supName'] . "</td>";
-                            echo "<td>" . $row['supEmail'] . "</td>";
-                            echo "<td>" . $row['supPhone'] . "</td>";
-                            echo "<td>" . $row['supAddress'] . "</td>";
-                            echo "<td>" . $row['managerID'] . "</td>";
-                            echo "<td class='actions'>
-                                <a href='updateFoodsup.php?id=" . $row['supID'] . "' class='btn update-btn'>Update</a>
-                                <form action='' method='POST' style='display: inline;'>
-                                    <input type='hidden' name='delete_id' value='" . $row['supID'] . "'>
-                                    <button type='submit' class='btn delete-btn'>Delete</button>
-                                </form>
-                              </td>";
+                            echo "<td>" . $row['reportID'] . "</td>";
+                            echo "<td>" . $row['reportName'] . "</td>";
+                            echo "<td>" . $row['reportDate'] . "</td>";
+                            echo "<td>" . $row['reportType'] . "</td>";
+                            echo "<td>" . $row['reportDes'] . "</td>";
                             echo "</tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='7'>No records found</td></tr>";
+                    } 
+                    else 
+                    {
+                        echo "<tr><td colspan='5'>No records found</td></tr>";
                     }
 
                     mysqli_close($conn);
@@ -127,7 +110,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 </tbody>
             </table>
         </div>
-        <a href="supplierM.html"><button class = "back">Back</button></a>
                 </section>
             </main>
          </div>

@@ -128,6 +128,7 @@ $result3 = mysqli_query($conn, $sql4);
                 <a href="manageResource.php">Resource</a>
                 <a href="manageClient.php">Customer</a>
                 <a href="feedback.php">Feedback</a>
+                <a href="manageIssues.php">Report Issues</a>
             </nav>
             <hr class="section-divider">
             <div class="settings"><img src="Images/settings.png" alt="Settings">Settings</div>
