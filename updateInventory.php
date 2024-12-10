@@ -2,7 +2,7 @@
 
 include "config.php";
 
-// Get supplier ID from URL
+
 $iID = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -25,11 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Initialize supplier details
+
 $des = "";
 
 if ($iID > 0) {
-    // Fetch supplier details
+    
     $sql2 = "SELECT * FROM inventory WHERE inventoryID = $iID";
     $result = mysqli_query($conn, $sql2);
 
@@ -77,6 +77,9 @@ if ($iID > 0) {
                         <ul class="dropdown-menu">
                         <li><a href="managePayments.php" class="active3">View Payments</a></li>
                         <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
+                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
+                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
+                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -89,6 +92,7 @@ if ($iID > 0) {
                     <a href="manageResource.php">Resource</a>
                     <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
+                    <a href="manageIssues.php">Report Issues</a>
                 </nav>
                 <hr class="section-divider"> 
                 <div class = "settings"><img src = Images/settings.png>Settings</div>

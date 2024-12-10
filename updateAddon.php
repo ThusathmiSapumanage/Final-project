@@ -2,18 +2,16 @@
 
 include "config.php";
 
-// Get supplier ID from URL
 $aID = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and fetch form inputs
     
     $aID = intval($_POST['addonID']); // Match name in form
     $des = mysqli_real_escape_string($conn, $_POST['des']);
     $amount = mysqli_real_escape_string($conn, $_POST['amount']);
     $price = mysqli_real_escape_string($conn, $_POST['price']);
 
-    // Update query
+
     $sql = "UPDATE addon
             SET description = '$des',
                 Amount = '$amount',
@@ -34,7 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $des = $amount = $price = "";
 
 if ($aID > 0) {
-    // Fetch supplier details
+
+    
     $sql2 = "SELECT * FROM addon WHERE addonID = $aID";
     $result = mysqli_query($conn, $sql2);
 
@@ -89,6 +88,9 @@ if ($aID > 0) {
                         <ul class="dropdown-menu">
                         <li><a href="managePayments.php" class="active3">View Payments</a></li>
                         <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
+                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
+                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
+                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -101,6 +103,7 @@ if ($aID > 0) {
                     <a href="manageResource.php">Resource</a>
                     <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
+                    <a href="manageIssues.php">Report Issues</a>
                 </nav>
                 <hr class="section-divider"> 
                 <div class = "settings"><img src = Images/settings.png>Settings</div>

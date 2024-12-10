@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 <html>
     <head>
         <title> Manage Customers </title>
-        <link rel="stylesheet" type="text/css" href="viewfood.css">
+        <link rel="stylesheet" type="text/css" href="manageClient.css">
     </head>
     <body>
         <div class="container">
@@ -47,6 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                         <ul class="dropdown-menu">
                         <li><a href="managePayments.php" class="active3">View Payments</a></li>
                         <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
+                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
+                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
+                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -59,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                     <a href="manageResource.php">Resource</a>
                     <a href="manageClient.php" class="active">Customer</a>
                     <a href="feedback.php">Feedback</a>
+                    <a href="manageIssues.php">Report Issues</a>
                 </nav>
                 <hr class="section-divider"> 
                 <div class = "settings"><img src = Images/settings.png>Settings</div>
@@ -106,16 +110,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             echo "<td>" . $row['companyName'] . "</td>";
                             echo "<td>" . $row['cEmail'] . "</td>";
                             echo "<td class='actions'>
-                                <a href='updateCus.php?id=" . $row['clientID'] . "' class='btn update-btn'>Update</a>
-                                <form action='' method='POST' style='display: inline;'>
-                                    <input type='hidden' name='delete_id' value='" . $row['clientID'] . "'>
-                                    <button type='submit' class='btn delete-btn'>Delete</button>
-                                </form>
-                              </td>";
-                            echo "</tr>";
+                            <a href='updateCus.php?id=" . $row['clientID'] . "' class='btn update-btn'>Update</a>
+                            <form action='' method='POST' style='display: inline;'>
+                                <input type='hidden' name='delete_id' value='" . $row['clientID'] . "'>
+                                <button type='submit' class='btn delete-btn'>Delete</button>
+                            </form>
+                            <a href='addDiscount.php?clientID=" . $row['clientID'] . "' class='btn discount-btn'>Give Discount</a>
+                            </td>";
+                        echo "</tr>";
                         }
                     } else {
                         echo "<tr><td colspan='7'>No records found</td></tr>";
+                    }
+
+                    mysqli_close($conn);
+                    ?>
+                </tbody>
+            </table>
+                </section>
+                <section>
+                    <h2>Discounts</h2>
+                    <div class="table1">
+                </br></br>
+            <table class="table centered">
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Discount ID</th>
+                        <th>Discount Name</th>
+                        <th>Discount Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+
+                    include 'config.php';
+
+                   $sql2 = "SELECT clientdiscount.clientID AS customer_id, clientdiscount.dID AS discount_id, discount.dName AS discount_name, discount.dType AS discount_type FROM clientdiscount JOIN discount ON clientdiscount.dID = discount.dID";
+                   $result2 = mysqli_query($conn, $sql2);
+
+                    if (mysqli_num_rows($result2) > 0) {
+                        while ($row = mysqli_fetch_assoc($result2)) {
+                            echo "<tr>";
+                            echo "<td>" . $row['customer_id'] . "</td>";
+                            echo "<td>" . $row['discount_id'] . "</td>";
+                            echo "<td>" . $row['discount_name'] . "</td>";
+                            echo "<td>" . $row['discount_type'] . "</td>";
+                            echo "</tr>";
+                        }                        
+                    }
+                    else {
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
                     }
 
                     mysqli_close($conn);

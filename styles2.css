@@ -1,0 +1,297 @@
+/* General Layout */
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body
+{
+    font-family: Arial, sans-serif;
+    background-image: url('images/Untitled\ design.jpg');
+    color: #ffffff;
+}
+
+.container
+{
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar
+{
+    width: 250px;
+    background: #151515;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 175dvh;
+}
+
+.sidebar .menu a
+{
+    display: block;
+    color: #fff;
+    padding: 14px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.5s ease;
+    margin: 10px 0;
+}
+
+.sidebar .menu a.active, .sidebar .menu a:hover
+{
+    background: #fdb827;
+    color: #000;
+}
+
+.sidebar .settings
+{
+    text-align: center;
+    color: #fff;
+    margin-top: auto;
+    font-size: 14px;
+    align-items:center;
+}
+
+.content
+{
+    flex: 1;
+    padding: 20px;
+}
+
+.header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    color:#F7941D;
+    position: relative;
+}
+
+.header h1
+{
+    font-size: 24px;
+}
+
+.header .search
+{
+    display: flex;
+    align-items: center;
+}
+
+.header .search input
+{
+    padding: 10px 35px;
+    border-radius: 20px;
+    border: none;
+    width: 250px;
+    margin-right: 10px;
+
+}
+
+.header .search button
+{
+    padding: 10px;
+    border: none;
+    background: #fdb827;
+    color: #000;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.5s ease;
+    margin-left: 10px;
+}
+
+.header .search button:hover
+{
+    background: rgb(255, 251, 0);
+}
+
+.search img
+{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    pointer-events: none;
+}
+
+.search
+{
+    position: relative;
+    display: inline-block;
+}
+
+.settings img
+{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.settings
+{
+    display: flex;
+    justify-content: center;
+    transition: background 0.5s ease;
+    cursor: pointer;
+}
+
+.settings:hover
+{
+    color: #F7941D;
+}
+
+.section-divider
+{
+    margin-top: 30px;
+    border-color: #F7941D;
+}
+
+.menu .dropdown-menu 
+{
+    display: none; 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    background: #151515; 
+}
+
+
+.menu .dropdown:hover .dropdown-menu 
+{
+    display: block; 
+    position: relative; 
+    padding-left: 20px; 
+}
+
+
+.menu .dropdown-menu li a 
+{
+    display: block;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.5s ease;
+}
+
+
+.menu .dropdown-menu li a:hover
+{
+    background: #fdb827;
+    color: #000;
+}
+
+
+.sidebar .menu a.active2, .sidebar .menu a.active2:hover
+{
+    background: #27fdd9;
+    color: #000;
+}
+
+.sidebar .menu a.active3:hover
+{
+    background: #27fdd9;
+    color: #000;
+}
+
+/* Report Section */
+.report-section {
+    margin-top: 20px;
+}
+
+.report-box {
+    background-color: rgba(255, 255, 255, 0.712); /* Dim orange background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.993);
+}
+
+.report-box h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+    font-size: 16px;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #fff;
+    text-align: center;
+}
+
+table th {
+    background-color: #d26a08;
+}
+
+/* Print-specific styles */
+@media print {
+    .sidebar {
+        display: none;
+    }
+
+    .container {
+        background: none; /* Remove background color */
+        margin: 0; /* Remove margins */
+        padding: 0; /* Remove padding */
+        width: 100%; /* Stretch the container to full width */
+    }
+
+    /* Adjust main content to occupy full width */
+    .content {
+        margin-left: 0;
+        width: 100%;
+        color: #000;
+    }
+
+    .header {
+        display: none;
+    }
+
+    /* Ensure the table and chart fit properly */
+    #printable {
+        margin: 0 auto;
+        width: 100%;
+        padding: 20px;
+    }
+
+    /* Optional: Hide the print button itself */
+    button {
+        display: none;
+    }
+    
+}
+
+.printbtn
+{
+    font-size: 19px;
+    background: linear-gradient(to right, #9f4c09, #e9820d);
+    color: white;
+    border-radius: 25px;
+    padding: 10px 30px;
+    width: 300px;
+    border: none;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 20px;
+    transition: background 0.3s ease;
+    margin-left: 670px;;
+}
+
+.chart-container {
+    background-color: #fff; /* White background */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+}
+

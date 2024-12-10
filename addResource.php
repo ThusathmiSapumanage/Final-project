@@ -1,21 +1,34 @@
 <?php
 
-include 'config.php';
+include "config.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM beveragesup WHERE bSupplierID = $id";
-    mysqli_query($conn, $sql);
-    echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'manageFood.php';</script>";
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    $name = $_POST['name'];
+    $availability = $_POST['availability'];
+    $des = $_POST['des'];
+    $staffID = $_POST['staffID'];
+
+    $sql = "INSERT INTO resource (resourceName, availability, description, staffID) VALUES ('$name', '$availability', '$des', '$staffID')";
+
+    if (mysqli_query($conn, $sql)) {
+        header("Location: manageResource.php");
+        exit;
+    } 
+    else
+    {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
 }
+
+$sql = "SELECT staffID FROM staff";
+$result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Manage Food and Beverage Supplies </title>
-        <link rel="stylesheet" type="text/css" href="viewfood.css">
+        <title> Add Resources</title>
+        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
         <div class="container">
@@ -30,12 +43,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                         <a href="calendar.html">Events</a>
                         <ul class="dropdown-menu">
                             <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
+                            <li><a href="managePayments.php" class="active3">Manage Payments</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
-                        <a href="supplierM.html" class="active">Supplies</a>
+                        <a href="supplierM.html">Supplies</a>
                         <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active2">Manage Food</a></li>
+                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
                             <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
                             <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
                             <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
@@ -59,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
                         </ul>
                     </div>
-                    <a href="manageResource.php">Resource</a>
+                    <a href="manageResource.php" class="active">Resource</a>
                     <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
                     <a href="manageIssues.php">Report Issues</a>
@@ -70,58 +84,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
               <!-- Main Content -->
             <main class = "content">
                 <header class="header">
-                    <h1>Food Supply Management</h1>
+                    <h1>Resource Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <img src="Images/search-interface-symbol.png">
                         <button>Search</button>
                     </div>
             	</header>
+                <div class="content-inner">
+                    <div class="content-box">
+                        <h2>Add Resource</h2>
+                        <form class = "form" action="addResource.php" method="post">
 
-                <!-- Suppliers Section -->
-                <section class = "suppliers">
-                    <h2>Foods</h2>
-                    <button class = "adding"><a href="addFood.php">Add Food</a></button>
-                    <div class="table1">
-            <table class="table centered">
-                <thead>
-                    <tr>
-                        <th>Beverage Name</th>
-                        <th>Beverage Price</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $sql = "SELECT * FROM beveragesup";
-                    $result = mysqli_query($conn, $sql);
+                            <label for="name">Resource Name</label>
+                            <input type="text" id="name" name="name" required>
 
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
-                            echo "<td>" . $row['bItems'] . "</td>";
-                            echo "<td>" . $row['bItemPrice'] . "</td>";
-                            echo "<td class='actions'>
-                                <a href='updateFood.php?id=" . $row['bSupplierID'] . "' class='btn update-btn'>Update</a>
-                                <form action='' method='POST' style='display: inline;'>
-                                    <input type='hidden' name='delete_id' value='" . $row['bSupplierID'] . "'>
-                                    <button type='submit' class='btn delete-btn'>Delete</button>
-                                </form>
-                              </td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='3'>No records found</td></tr>";
-                    }
+                            <label for="availability">Availability</label>
+                            <input type="date" id="availability" name="availability" required>
 
-                    mysqli_close($conn);
-                    ?>
-                </tbody>
-            </table>
-        </div>
-        <a href="supplierM.html"><button class = "back">Back</button></a>
-                </section>
+                            <label for="des">Description</label>
+                            <input type="text" id="des" name="des" required>
+
+                            <label for="staffID">Staff ID</label>
+                            <select id="staffID" name="staffID">
+                                <?php
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<option value = " . $row['staffID'] . ">" . $row['staffID'] . "</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
+                            <br>
+                            <button class = "sub-btn" type="submit" name="submit">Add Resource</button>
+                        </form>
+                    </div>
+                </div>
             </main>
-         </div>
+        </div>
     </body>
 </html>

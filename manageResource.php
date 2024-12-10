@@ -1,19 +1,14 @@
 <!-- This should be made into a php once the Database is made -->
 <?php
 
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "dmw_cw";
-
-$conn = mysqli_connect($servername, $username, $password, $dbname, 3307);
+include "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM module WHERE MID = $id";
+    $sql = "DELETE FROM resource WHERE resourceID = $id";
     mysqli_query($conn, $sql);
     echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'Viewmoduleforlec.php';</script>";
+    echo "<script>window.location.href = 'manageResource.php';</script>";
 }
 ?>
 
@@ -53,6 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                         <ul class="dropdown-menu">
                         <li><a href="managePayments.php" class="active3">View Payments</a></li>
                         <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
+                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
+                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
+                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -65,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                     <a href="manageResource.php" class="active">Resource</a>
                     <a href="manageClient.php">Customer</a>
                     <a href="feedback.php">Feedback</a>
+                    <a href="manageIssues.php">Report Issues</a>
                 </nav>
             <hr class="section-divider">
             <div class="settings"><img src="Images/settings.png">Settings</div>
@@ -84,39 +83,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
             <!-- Suppliers Section -->
             <section class="suppliers">
                 <h2>Resources</h2>
-                <button class = "adding"><a href="addFood.php">Add Resource</a></button>
+                <button class = "adding"><a href="addResource.php">Add Resource</a></button>
                 <div class="table1">
                     <table class="table centered">
                         <thead>
                             <tr>
-                                <th>Module number</th>
+                                <th>Resource ID</th>
+                                <th>Resource name</th>
+                                <th>Availability</th>
                                 <th>Description</th>
-                                <th>Name</th>
+                                <th>Staff ID</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM module";
+                            $sql = "SELECT * FROM resource";
                             $result = mysqli_query($conn, $sql);
 
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
-                                    echo "<td>" . $row['MID'] . "</td>";
-                                    echo "<td>" . $row['MDiscription'] . "</td>";
-                                    echo "<td>" . $row['MName'] . "</td>";
+                                    echo "<td>" . $row['resourceID'] . "</td>";
+                                    echo "<td>" . $row['resourceName'] . "</td>";
+                                    echo "<td>" . $row['availability'] . "</td>";
+                                    echo "<td>" . $row['description'] . "</td>";
+                                    echo "<td>" . $row['staffID'] . "</td>";
                                     echo "<td class='actions'>
-                                        <a href='module-update.php?id=" . $row['MID'] . "' class='btn update-btn'>Update</a>
+                                        <a href='updateResource.php?id=" . $row['resourceID'] . "' class='btn update-btn'>Update</a>
                                         <form action='' method='POST' style='display: inline;'>
-                                            <input type='hidden' name='delete_id' value='" . $row['MID'] . "'>
+                                            <input type='hidden' name='delete_id' value='" . $row['resourceID'] . "'>
                                             <button type='submit' class='btn delete-btn'>Delete</button>
                                         </form>
                                       </td>";
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td colspan='4'>No records found</td></tr>";
+                                echo "<tr><td colspan='6'>No records found</td></tr>";
                             }
 
                             mysqli_close($conn);
