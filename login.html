@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Login</title>
+    <link rel="StyleSheet" type="text/css" href="adminlog.css" />
+
+    <script type="text/javascript" src="loginValidate.js"></script>
+  </head>
+  <body>
+    <div>
+      <form
+        action="login.php"
+        name="loginForm"
+        method="POST"
+        onsubmit="return validation()"
+      >
+        <div class="loginform">
+          <div class="logo">
+            <img src="images/gap-icon.jpg" alt="Logo" />
+          </div>
+
+          <h3>Welcome</h3>
+          <h1>gapHQ</h1>
+
+          <label class="Username">Username</label> <br />
+          <input type="Text" name="txtName" class="txtName" /><br /><br />
+
+          <label class="password">Password</label> <br />
+          <input
+            type="password"
+            name="txtPassword"
+            class="txtPassword"
+          /><br /><br />
+
+          <label class="select">Who is logging in today ?</label>
+          <select name="userType" class="userType">
+            <option value="Customer">Customer</option>
+            <option value="Admin">Admin</option></select
+          ><br /><br />
+          <input type="submit" name="login" value="Log in" class="btnlogin" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

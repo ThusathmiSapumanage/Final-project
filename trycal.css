@@ -1,0 +1,265 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body
+{
+    font-family: Arial, sans-serif;
+    background-image: url('images/Untitled\ design.jpg');
+    color: #000000;
+}
+
+.container
+{
+    display: flex;
+    height: 100vh;
+}
+
+.calendar-title
+{
+    font-size: 24px;
+    color: #F7941D;
+    font-weight: bold;
+}
+
+.sidebar
+{
+    width: 250px;
+    background: #151515;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 175dvh;
+}
+
+.sidebar .menu a
+{
+    display: block;
+    color: #fff;
+    padding: 14px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.5s ease;
+    margin: 10px 0;
+}
+
+.sidebar .menu a.active, .sidebar .menu a:hover
+{
+    background: #fdb827;
+    color: #000;
+}
+
+.sidebar .settings
+{
+    text-align: center;
+    color: #fff;
+    margin-top: auto;
+    font-size: 14px;
+    align-items:center;
+}
+
+/* Centering the calendar in the layout */
+.content {
+    flex: 1; /* Allow the content to take up remaining space */
+    display: flex;
+    flex-direction: column; /* Stack controls and calendar vertically */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 20px;
+    overflow: auto; /* Handle any extra content */
+}
+
+#calendar {
+    max-width: 900px;
+    width: 100%;
+    background: #ce6a1d; /* Retains a clean background for the calendar */
+    padding: 20px;
+    border-radius: 8px; /* Optional, if you want slightly rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a modern look */
+    overflow: hidden; /* Remove extra scrollbars */
+    margin-top: 20px; /* Add space between controls and calendar */
+}
+
+.header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    color:#F7941D;
+    position: relative;
+}
+
+.header h1
+{
+    font-size: 24px;
+}
+
+.header .search
+{
+    display: flex;
+    align-items: center;
+}
+
+.header .search input
+{
+    padding: 10px 35px;
+    border-radius: 20px;
+    border: none;
+    width: 250px;
+    margin-right: 10px;
+}
+
+.header .search button
+{
+    padding: 10px;
+    border: none;
+    background: #fdb827;
+    color: #000;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.5s ease;
+    margin-left: 10px;
+}
+
+.header .search button:hover
+{
+    background: rgb(255, 251, 0);
+}
+
+.search img
+{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    pointer-events: none;
+}
+
+.search
+{
+    position: relative;
+    display: inline-block;
+}
+
+.settings img
+{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.settings
+{
+    display: flex;
+    justify-content: center;
+    transition: background 0.5s ease;
+    cursor: pointer;
+}
+
+.settings:hover
+{
+    color: #F7941D;
+}
+
+.section-divider
+{
+    margin-top: 30px;
+    border-color: #F7941D;
+}
+
+.menu .dropdown-menu 
+{
+    display: none; 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    background: #151515; 
+}
+
+.menu .dropdown:hover .dropdown-menu 
+{
+    display: block; 
+    position: relative; 
+    padding-left: 20px; 
+}
+
+.menu .dropdown-menu li a 
+{
+    display: block;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.5s ease;
+}
+
+.menu .dropdown-menu li a:hover
+{
+    background: #fdb827;
+    color: #000;
+}
+
+.sidebar .menu a.active2, .sidebar .menu a.active2:hover
+{
+    background: #27fdd9;
+    color: #000;
+}
+
+.sidebar .menu a.active3:hover
+{
+    background: #27fdd9;
+    color: #000;
+}
+
+/* Ensure the calendar fits inside the content area */
+#calendar {
+    max-width: 900px;
+    width: 100%;
+    height: 600px; /* Set a fixed height */
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: scroll; /* Ensure vertical scrolling */
+    margin-top: 20px; /* Add space between controls and calendar */
+}
+
+#calendar::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}
+
+/* Make the content container take full space */
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Stack controls and calendar vertically */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: auto; /* Handle any extra content */
+}
+
+/* Flexbox fixes for height issues */
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+/* New class for calendar controls */
+.calendar-controls {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* Space between controls and calendar */
+}

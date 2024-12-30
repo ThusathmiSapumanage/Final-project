@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .form-container, .invoice-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            text-align: center;
+        }
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .invoice-table th, .invoice-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .invoice-table th {
+            background-color: #f4f4f4;
+        }
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        @media print {
+            .form-container, .button-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h1>Invoice Generator</h1>
+    <form id="invoiceForm">
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" required><br><br>
+        <label for="invoiceDate">Invoice Date:</label>
+        <input type="date" id="invoiceDate" required><br><br>
+        
+        <h3>Item Details</h3>
+        <table id="itemsTable">
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </table>
+        <button type="button" onclick="addItem()">Add Item</button><br><br>
+        <button type="button" onclick="generateInvoice()">Generate Invoice</button>
+    </form>
+</div>
+
+<div class="invoice-container" id="invoiceContainer" style="display: none;">
+    <header>
+        <h2>Invoice</h2>
+        <p><strong>Customer:</strong> <span id="displayCustomer"></span></p>
+        <p><strong>Date:</strong> <span id="displayDate"></span></p>
+    </header>
+    <table class="invoice-table" id="invoiceTable">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="invoiceBody"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Total Amount:</strong></td>
+                <td id="totalAmount"></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="button-container">
+        <button onclick="window.print()">Print Invoice</button>
+        <button onclick="resetForm()">Reset</button>
+    </div>
+</div>
+
+<script>
+    function addItem() {
+        const table = document.getElementById('itemsTable');
+        const row = table.insertRow(-1);
+        row.innerHTML = `
+            <td><input type="text" placeholder="Item Name" required></td>
+            <td><input type="number" placeholder="Quantity" required></td>
+            <td><input type="number" placeholder="Price" step="0.01" required></td>
+            <td><button type="button" onclick="deleteRow(this)">Remove</button></td>
+        `;
+    }
+
+    function deleteRow(button) {
+        const row = button.parentElement.parentElement;
+        row.remove();
+    }
+
+    function generateInvoice() {
+        const customerName = document.getElementById('customerName').value;
+        const invoiceDate = document.getElementById('invoiceDate').value;
+
+        if (!customerName || !invoiceDate) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        const itemsTable = document.getElementById('itemsTable');
+        const invoiceBody = document.getElementById('invoiceBody');
+        invoiceBody.innerHTML = ''; // Clear previous data
+
+        let totalAmount = 0;
+
+        for (let i = 1; i < itemsTable.rows.length; i++) { // Skip the header
+            const row = itemsTable.rows[i];
+            const item = row.cells[0].children[0].value;
+            const quantity = parseFloat(row.cells[1].children[0].value);
+            const price = parseFloat(row.cells[2].children[0].value);
+            const total = quantity * price;
+
+            if (!item || isNaN(quantity) || isNaN(price)) {
+                alert('Please fill in all item details.');
+                return;
+            }
+
+            totalAmount += total;
+
+            invoiceBody.innerHTML += `
+                <tr>
+                    <td>${item}</td>
+                    <td>${quantity}</td>
+                    <td>${price.toFixed(2)}</td>
+                    <td>${total.toFixed(2)}</td>
+                </tr>
+            `;
+        }
+
+        document.getElementById('displayCustomer').textContent = customerName;
+        document.getElementById('displayDate').textContent = invoiceDate;
+        document.getElementById('totalAmount').textContent = totalAmount.toFixed(2);
+
+        document.querySelector('.form-container').style.display = 'none';
+        document.getElementById('invoiceContainer').style.display = 'block';
+    }
+
+    function resetForm() {
+        document.getElementById('invoiceForm').reset();
+        document.getElementById('itemsTable').innerHTML = `
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        `;
+        document.querySelector('.form-container').style.display = 'block';
+        document.getElementById('invoiceContainer').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

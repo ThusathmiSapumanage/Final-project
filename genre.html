@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Report</title>
+</head>
+<body>
+    <h2>Select Fields for Report</h2>
+    <form action="generate_report.php" method="POST">
+        <h3>Finance Table</h3>
+        <input type="checkbox" name="fields[]" value="paymentID"> Finance ID<br>
+        <input type="checkbox" name="fields[]" value="amountPayable"> Finance Name<br>
+        <input type="checkbox" name="fields[]" value="paymentDate"> Finance Date<br>
+
+        <h3>Client Table</h3>
+        <input type="checkbox" name="fields[]" value="clientID"> Client ID<br>
+        <input type="checkbox" name="fields[]" value="cName"> Client Name<br>
+        <input type="checkbox" name="fields[]" value="cPhoneNumber"> Amount<br>
+
+        <input type="submit" value="Generate Report">
+    </form>
+</body>
+</html>
