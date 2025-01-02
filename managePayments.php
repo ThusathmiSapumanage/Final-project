@@ -14,52 +14,7 @@ include "config.php";
     <div class="container">
 
         <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <img src="images/logo.png" alt="Logo">
-            </div>
-            <nav class="menu">
-            <div class="dropdown">
-                        <a href="calendar.html">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html" class="active">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active2">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-            <hr class="section-divider">
-            <div class="settings"><img src="Images/settings.png">Settings</div>
-        </aside>
+        <?php include 'header.php'; ?>
 
         <!-- Main Content -->
         <main class="content">
@@ -72,8 +27,8 @@ include "config.php";
                 </div>
             </header>
 
-            <!-- Suppliers Section -->
-            <section class="suppliers">
+            <!-- Payments Section -->
+            <section class="payments">
                 <h2>Payments made by customers</h2>
                 <div class="table1">
                     <table class="table centered">
@@ -82,31 +37,35 @@ include "config.php";
                                 <th>Payment ID</th>
                                 <th>Amount Payable</th>
                                 <th>Payment Date</th>
+                                <th>Currency</th>
+                                <th>Finance Manager ID</th>
                                 <th>Customer ID</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $sql = "SELECT * FROM payment"; 
+                                $sql = "SELECT * FROM clientpayment"; 
                                 $result = mysqli_query($conn, $sql);
 
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         echo "<tr>";
-                                        echo "<td>" . $row['paymentID'] . "</td>";
-                                        echo "<td>" . $row['amountPayable'] . "</td>";
-                                        echo "<td>" . $row['paymentDate'] . "</td>";
-                                        echo "<td>" . $row['clientID'] . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['paymentID']) . "</td>";
+                                        echo "<td>" . htmlspecialchars(number_format($row['amountPayable'], 2)) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['paymentDate']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['currency']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['FmanagerID']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['clientID']) . "</td>";
                                         echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='4'>No records found</td></tr>";
+                                    echo "<tr><td colspan='6'>No records found</td></tr>";
                                 }
                                 ?>
                         </tbody>
                     </table>
                 </div>
-                <a href="financeM.html"><button class = "back">Back</button></a>
+                <a href="financeM.php"><button class="back">Back</button></a>
             </section>
         </main>
     </div>

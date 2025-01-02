@@ -1,55 +1,90 @@
 <?php
-include 'config.php';
 
-// Get the client ID from the URL
-if (isset($_GET['clientID'])) {
-    $clientID = intval($_GET['clientID']);
-} else {
-    echo "<script>alert('No client selected.'); window.location.href = 'manageClient.php';</script>";
-    exit;
+include "config.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    // Collect and sanitize inputs
+    $discountID = mysqli_real_escape_string($conn, $_POST['discountID']);
+    $discountName = mysqli_real_escape_string($conn, $_POST['discountName']);
+    $discountType = mysqli_real_escape_string($conn, $_POST['discountType']);
+    $discountAmount = mysqli_real_escape_string($conn, $_POST['discountAmount']);
+    $emanagerID = mysqli_real_escape_string($conn, $_POST['emanagerID']);
+
+    // Save basic discount details in the discount table
+    $sql = "INSERT INTO discount (discountID, discountName, discountType, discountAmount) 
+            VALUES ('$discountID', '$discountName', '$discountType', '$discountAmount')";
+    
+    if (mysqli_query($conn, $sql)) {
+        // Save discount to the managerdiscount table
+        $managerSql = "INSERT INTO managerdiscount (EmanagerID, discountID) VALUES ('$emanagerID', '$discountID')";
+        mysqli_query($conn, $managerSql);
+
+        // Redirect to the appropriate form
+        if ($discountType == "General") {
+            header("Location: addGeneraldis.php?discountID=$discountID");
+        } elseif ($discountType == "Special") {
+            header("Location: addSpecialdis.php?discountID=$discountID");
+        }
+        exit;
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
 }
 
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $discountID = intval($_POST['discountID']);
+// Fetch Event Manager IDs for dropdown
+$sql_emanager = "SELECT EmanagerID FROM eventmanager";
+$result_emanager = mysqli_query($conn, $sql_emanager);
 
-    // Insert into clientdiscount table
-    $sql = "INSERT INTO clientdiscount (clientID, dID) VALUES ($clientID, $discountID)";
-    if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Discount successfully assigned!'); window.location.href = 'manageClient.php';</script>";
-    } else {
-        echo "<script>alert('Error assigning discount: " . mysqli_error($conn) . "');</script>";
-    }
+if (!$result_emanager) {
+    die("Error fetching Event Manager IDs: " . mysqli_error($conn));
 }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Assign Discount</title>
-    <link rel="stylesheet" type="text/css" href="formStyles.css">
+    <title>Add Discount</title>
+    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
 </head>
 <body>
-    <div class="form-container">
-        <h1>Assign Discount</h1>
-        <form action="" method="POST">
-            <label for="clientID">Client ID:</label>
-            <input type="text" name="clientID" id="clientID" value="<?php echo $clientID; ?>" readonly>
+    <div class="container">
+        <main class="content">
+            <header class="header">
+                <h1>Add Discount</h1>
+            </header>
+            <div class="content-inner">
+                <div class="content-box">
+                    <form class="form" action="addDiscount.php" method="post">
+                        <label for="discountID">Discount ID:</label>
+                        <input type="text" id="discountID" name="discountID" placeholder = "SD for special discount and GD for genaral discount" required>
+                        <smaller style = "color: black;">Example: SD001 or GD001</smaller>
+                        <br>
 
-            <label for="discountID">Select Discount:</label>
-            <select name="discountID" id="discountID" required>
-                <?php
-                $discountQuery = "SELECT * FROM discount";
-                $discountResult = mysqli_query($conn, $discountQuery);
-                while ($discountRow = mysqli_fetch_assoc($discountResult)) {
-                    echo "<option value='" . $discountRow['dID'] . "'>" . $discountRow['dName'] . " (" . $discountRow['dType'] . ")</option>";
-                }
-                ?>
-            </select>
+                        <label for="discountName">Discount Name:</label>
+                        <input type="text" id="discountName" name="discountName" required>
+                        <label for="discountType">Discount Type:</label>
+                        <select id="discountType" name="discountType" required>
+                            <option value="General">General</option>
+                            <option value="Special">Special</option>
+                        </select>
+                        <br>
+                        <label for="discountAmount">Discount Amount:</label>
+                        <input type="number" id="discountAmount" name="discountAmount" step="0.01" required>
+                        <label for="emanagerID">Event Manager ID:</label>
+                        <select id="emanagerID" name="emanagerID" required>
+                            <?php
+                            while ($row = mysqli_fetch_assoc($result_emanager)) {
+                                echo "<option value='" . htmlspecialchars($row['EmanagerID']) . "'>" . htmlspecialchars($row['EmanagerID']) . "</option>";
+                            }
+                            ?>
+                        </select>
+                        <br>
 
-            <button type="submit" class="btn submit-btn">Assign Discount</button>
-            <a href="manageClient.php" class="btn cancel-btn">Cancel</a>
-        </form>
+                        <button type="submit" name="submit">Add Discount</button>
+                    </form>
+                </div>
+            </div>
+        </main>
     </div>
 </body>
 </html>

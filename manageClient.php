@@ -3,173 +3,148 @@
 include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM cusprofile WHERE clientID = $id";
-    mysqli_query($conn, $sql);
-    echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'manageClient.php';</script>";
-}
-?>
+    $clientID = intval($_POST['delete_id']);
 
+    // Delete associated discounts first
+    $sql_delete_discounts = "DELETE FROM receivediscount WHERE clientID = $clientID";
+    mysqli_query($conn, $sql_delete_discounts);
+
+    // Delete customer
+    $sql_delete_customer = "DELETE FROM client WHERE clientID = $clientID";
+    if (mysqli_query($conn, $sql_delete_customer)) {
+        echo "<script>alert('Customer deleted successfully!'); window.location.href = 'manageClient.php';</script>";
+        exit;
+    } else {
+        echo "Error deleting customer: " . mysqli_error($conn);
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Manage Customers </title>
-        <link rel="stylesheet" type="text/css" href="manageClient.css">
-    </head>
-    <body>
-        <div class="container">
+<head>
+    <title>Manage Customers</title>
+    <link rel="stylesheet" type="text/css" href="manageClient.css">
+</head>
+<body>
+    <div class="container">
 
-            <!-- Sidebar -->
-            <aside class = "sidebar">
-                <div class="logo">
-                    <img src="images/logo.png" alt="Logo">
+        <!-- Sidebar -->
+        <?php include 'header.php'; ?>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1>Customer Management</h1>
+                <div class="search">
+                    <input type="text" placeholder="Search">
+                    <img src="images/search-interface-symbol.png">
+                    <button>Search</button>
                 </div>
-                <nav class="menu">
-                <div class="dropdown">
-                        <a href="calendar.html">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php" class="active">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-                <hr class="section-divider"> 
-                <div class = "settings"><img src = Images/settings.png>Settings</div>
-            </aside>
-              <!-- Main Content -->
-            <main class = "content">
-                <header class="header">
-                    <h1>Customer Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
-            	</header>
+            </header>
 
-                <!-- Suppliers Section -->
-                <section class = "suppliers">
-                    <h2>Customers</h2>
-                    <button class = "adding"><a href="addCus.php">Add Customer</a></button>
-                    <div class="table1">
-            <table class="table centered">
-                <thead>
-                    <tr>
-                        <th>Customer ID</th>
-                        <th>Name</th>
-                        <th>Contact</th>
-                        <th>Communication method</th>
-                        <th>Company name</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $sql = "SELECT * FROM cusprofile";
-                    $result = mysqli_query($conn, $sql);
+            <!-- Customers Section -->
+            <section class="suppliers">
+                <h2>Customers</h2>
+                <button class="adding"><a href="addCus.php">Add Customer</a></button>
+                <div class="table1">
+                    <table class="table centered">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Customer Name</th>
+                                <th>Company Name</th>
+                                <th>Communication Method</th>
+                                <th>Contact Number</th>
+                                <th>Password</th>
+                                <th>Designation</th>
+                                <th>Email</th>
+                                <th>Manager ID</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sql = "SELECT * FROM client";
+                            $result = mysqli_query($conn, $sql);
 
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
-                            echo "<td>" . $row['clientID'] . "</td>";
-                            echo "<td>" . $row['cName'] . "</td>";
-                            echo "<td>" . $row['cPhoneNumber'] . "</td>";
-                            echo "<td>" . $row['communicationMethod'] . "</td>";
-                            echo "<td>" . $row['companyName'] . "</td>";
-                            echo "<td>" . $row['cEmail'] . "</td>";
-                            echo "<td class='actions'>
-                            <a href='updateCus.php?id=" . $row['clientID'] . "' class='btn update-btn'>Update</a>
-                            <form action='' method='POST' style='display: inline;'>
-                                <input type='hidden' name='delete_id' value='" . $row['clientID'] . "'>
-                                <button type='submit' class='btn delete-btn'>Delete</button>
-                            </form>
-                            <a href='addDiscount.php?clientID=" . $row['clientID'] . "' class='btn discount-btn'>Give Discount</a>
-                            </td>";
-                        echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='7'>No records found</td></tr>";
-                    }
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . htmlspecialchars($row['clientID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['clientname']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['companyName']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['communicationMethod']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['cPhoneNumber']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['clientPass']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['cDesignation']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['cEmail']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['HmanagerID']) . "</td>";
+                                    echo "<td class='actions'>
+                                        <a href='updateCus.php?id=" . htmlspecialchars($row['clientID']) . "' class='btn update-btn'>Update</a>
+                                        <form action='' method='POST' style='display: inline;'>
+                                            <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['clientID']) . "'>
+                                            <button type='submit' class='btn delete-btn'>Delete</button>
+                                        </form>
+                                        <a href='reciveDiscount.php?clientID=" . htmlspecialchars($row['clientID']) . "' class='btn discount-btn'>Give Discount</a>
+                                      </td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='10'>No records found</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-                    mysqli_close($conn);
-                    ?>
-                </tbody>
-            </table>
-                </section>
-                <section>
-                    <h2>Discounts</h2>
-                    <div class="table1">
-                </br></br>
-            <table class="table centered">
-                <thead>
-                    <tr>
-                        <th>Customer ID</th>
-                        <th>Discount ID</th>
-                        <th>Discount Name</th>
-                        <th>Discount Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
+            <!-- Received Discounts Section -->
+            <section>
+                <h2>Customer Discounts</h2>
+                <div class="table1">
+                    <table class="table centered">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Discount ID</th>
+                                <th>Discount Name</th>
+                                <th>Discount Type</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sql = "SELECT r.clientID, r.discountID, d.discountName, d.discountType 
+                                    FROM receivediscount r
+                                    JOIN discount d ON r.discountID = d.discountID";
+                            $result = mysqli_query($conn, $sql);
 
-                    include 'config.php';
-
-                   $sql2 = "SELECT clientdiscount.clientID AS customer_id, clientdiscount.dID AS discount_id, discount.dName AS discount_name, discount.dType AS discount_type FROM clientdiscount JOIN discount ON clientdiscount.dID = discount.dID";
-                   $result2 = mysqli_query($conn, $sql2);
-
-                    if (mysqli_num_rows($result2) > 0) {
-                        while ($row = mysqli_fetch_assoc($result2)) {
-                            echo "<tr>";
-                            echo "<td>" . $row['customer_id'] . "</td>";
-                            echo "<td>" . $row['discount_id'] . "</td>";
-                            echo "<td>" . $row['discount_name'] . "</td>";
-                            echo "<td>" . $row['discount_type'] . "</td>";
-                            echo "</tr>";
-                        }                        
-                    }
-                    else {
-                        echo "<tr><td colspan='4'>No records found</td></tr>";
-                    }
-
-                    mysqli_close($conn);
-                    ?>
-                </tbody>
-            </table>
-        </div>
-                </section>
-            </main>
-         </div>
-    </body>
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . htmlspecialchars($row['clientID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['discountID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['discountName']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['discountType']) . "</td>";
+                                    echo "<td class='actions'>
+                                        <form action='' method='POST' style='display: inline;'>
+                                            <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['clientID']) . "'>
+                                            <input type='hidden' name='discount_id' value='" . htmlspecialchars($row['discountID']) . "'>
+                                            <button type='submit' class='btn delete-btn'>Remove</button>
+                                        </form>
+                                      </td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='5'>No discounts found</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
 </html>

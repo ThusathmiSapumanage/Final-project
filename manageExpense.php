@@ -14,52 +14,7 @@ include "config.php";
     <div class="container">
 
         <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <img src="images/logo.png" alt="Logo">
-            </div>
-            <nav class="menu">
-            <div class="dropdown">
-                        <a href="calendar.html">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html"  class="active">Finance</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                            <li><a href="manageExpense.php" class="active2">View Expenses</a></li>
-                            <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                            <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                            <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-            <hr class="section-divider">
-            <div class="settings"><img src="Images/settings.png">Settings</div>
-        </aside>
+        <?php include 'header.php'; ?>
 
         <!-- Main Content -->
         <main class="content">
@@ -72,7 +27,7 @@ include "config.php";
                 </div>
             </header>
 
-            <!-- Suppliers Section -->
+            <!-- Expenses Section -->
             <section class="suppliers">
                 <h2>Expenses at gapHQ</h2>
                 <div class="table1">
@@ -80,13 +35,14 @@ include "config.php";
                         <thead>
                             <tr>
                                 <th>Expense ID</th>
-                                <th>Expense date</th>
+                                <th>Payment Date</th>
+                                <th>Description</th>
                                 <th>Type</th>
-                                <th>Payable</th>
-                                <th>Expense status</th>
-                                <th>Expense description</th>
-                                <th>Manager ID</th>
                                 <th>Amount</th>
+                                <th>Payment Method</th>
+                                <th>Paid Status</th>
+                                <th>Head Manager ID</th>
+                                <th>Finance Manager ID</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,24 +53,25 @@ include "config.php";
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         echo "<tr>";
-                                        echo "<td>" . $row['expenseID'] . "</td>";
-                                        echo "<td>" . $row['expenseDate'] . "</td>";
-                                        echo "<td>" . $row['expenseType'] . "</td>";
-                                        echo "<td>" . $row['expenseAmount'] . "</td>";
-                                        echo "<td>" . $row['expensePayableM'] . "</td>";
-                                        echo "<td>" . $row['expenseStatus'] . "</td>";
-                                        echo "<td>" . $row['expenseDes'] . "</td>";
-                                        echo "<td>" . $row['managerID'] . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['expenseID']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['expensePaymentDate']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['expenseDescription']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['expenseType']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['expenseAmount']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['expensePaymentMethod']) . "</td>";
+                                        echo "<td>" . ($row['expensePaidStatus'] ? 'Paid' : 'Not Paid') . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['HmanagerID']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['FmanagerID']) . "</td>";
                                         echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='8'>No records found</td></tr>";
+                                    echo "<tr><td colspan='9'>No records found</td></tr>";
                                 }
-                                ?>
+                            ?>
                         </tbody>
                     </table>
                 </div>
-                <a href="financeM.html"><button class = "back">Back</button></a>
+                <a href="financeM.html"><button class="back">Back</button></a>
             </section>
         </main>
     </div>

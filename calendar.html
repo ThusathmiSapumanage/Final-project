@@ -10,11 +10,296 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <!-- manage calendar events -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="trycal.css">
+    <style>
+        .section-divider {
+            margin: 20px 0;
+            border: 1px solid #444;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/Untitled\ design.jpg');
+            color: #000000;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .calendar-title {
+            font-size: 24px;
+            color: #F7941D;
+            font-weight: bold;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #151515;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 175dvh;
+        }
+
+        .sidebar .menu a {
+            display: block;
+            color: #fff;
+            padding: 14px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.5s ease;
+            margin: 10px 0;
+        }
+
+        .sidebar .menu a.active, .sidebar .menu a:hover {
+            background: #fdb827;
+            color: #000;
+        }
+
+        .sidebar .settings {
+            text-align: center;
+            color: #fff;
+            margin-top: auto;
+            font-size: 14px;
+            align-items: center;
+        }
+
+        /* Centering the calendar in the layout */
+        .content {
+            flex: 1; /* Allow the content to take up remaining space */
+            display: flex;
+            flex-direction: column; /* Stack controls and calendar vertically */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            padding: 20px;
+            overflow: auto; /* Handle any extra content */
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            color: #F7941D;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .header .search {
+            display: flex;
+            align-items: center;
+        }
+
+        .header .search input {
+            padding: 10px 35px;
+            border-radius: 20px;
+            border: none;
+            width: 250px;
+            margin-right: 10px;
+        }
+
+        .header .search button {
+            padding: 10px;
+            border: none;
+            background: #fdb827;
+            color: #000;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.5s ease;
+            margin-left: 10px;
+        }
+
+        .header .search button:hover {
+            background: rgb(255, 251, 0);
+        }
+
+        .search img {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            pointer-events: none;
+        }
+
+        .search {
+            position: relative;
+            display: inline-block;
+        }
+
+        .settings img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .settings {
+            display: flex;
+            justify-content: center;
+            transition: background 0.5s ease;
+            cursor: pointer;
+        }
+
+        .settings:hover {
+            color: #F7941D;
+        }
+        .menu .dropdown-menu {
+            display: none;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background: #151515;
+        }
+
+        .menu .dropdown:hover .dropdown-menu {
+            display: block;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .menu .dropdown-menu li a {
+            display: block;
+            color: #fff;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.5s ease;
+        }
+
+        .menu .dropdown-menu li a:hover {
+            background: #fdb827;
+            color: #000;
+        }
+
+        .sidebar .menu a.active2, .sidebar .menu a.active2:hover {
+            background: #27fdd9;
+            color: #000;
+        }
+
+        .sidebar .menu a.active3:hover {
+            background: #27fdd9;
+            color: #000;
+        }
+
+        /* Ensure the calendar fits inside the content area */
+        #calendar {
+            max-width: 900px;
+            width: 100%;
+            height: 600px; /* Set a fixed height */
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: scroll; /* Ensure vertical scrolling */
+            margin-top: 20px; /* Add space between controls and calendar */
+        }
+
+        #calendar::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+
+        /* Make the content container take full space */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column; /* Stack controls and calendar vertically */
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: auto; /* Handle any extra content */
+        }
+
+        /* Flexbox fixes for height issues */
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+
+        /* New class for calendar controls */
+        .calendar-controls {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px; /* Space between controls and calendar */
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 50%;
+            position: relative;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .modal-footer {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .modal-footer button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-cancel {
+            background-color: #9E9E9E;
+            color: white;
+        }
+
+        .btn-save:hover { background-color: #45a049; }
+        .btn-delete:hover { background-color: #d32f2f; }
+        .btn-cancel:hover { background-color: #757575; }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar -->
+
         <aside class="sidebar">
             <div class="logo">
                 <img src="images/logo.png" alt="Logo">
@@ -27,7 +312,7 @@
                     </ul>
                 </div>
                 <div class="dropdown">
-                    <a href="supplierM.html">Suppliers</a>
+                    <a href="supplierM.html">Supplies</a>
                     <ul class="dropdown-menu">
                         <li><a href="manageFood.php" class="active3">Manage Food</a></li>
                         <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
@@ -56,96 +341,167 @@
                 <a href="manageResource.php">Resource</a>
                 <a href="manageClient.php">Customer</a>
                 <a href="feedback.php">Feedback</a>
-                <a href="manageIssues.php">Report Issues</a>
             </nav>
-            <hr class="section-divider"> 
-            <div class="settings"><img src="images/settings.png" alt="Settings">Settings</div>
+            <hr class="section-divider">
+            <div class="settings"><img src="images/settings.png" alt="Settings Icon"> Settings</div>
         </aside>
+        
+        <!-- Calendar -->
+        <div id="calendar"></div>
 
-        <!-- Main Content -->
-        <main class="content">
-            <div class="calendar-title">Calendar Controls</div>
-            <div id="calendar"></div>
-        </main>
+        <!-- Modal -->
+        <div id="eventModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Event Details</h3>
+                </div>
+                <form id="eventForm">
+                    <label for="eventName">Event Name:</label>
+                    <input type="text" id="eventName" name="eventName" required><br><br>
+
+                    <label for="eventType">Event Type:</label>
+                    <select id="eventType" name="eventType" required>
+                        <option value="Wedding">Wedding</option>
+                        <option value="Birthday">Birthday</option>
+                        <option value="Corporate">Corporate</option>
+                        <option value="Other">Other</option>
+                    </select><br><br>
+
+                    <label for="visitDate">Visit Date:</label>
+                    <input type="date" id="eventDate" name="eventDate"><br><br>
+
+                    <label for="eventStatus">Event Status:</label>
+                    <select id="eventStatus" name="eventStatus" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                    </select><br><br>
+
+                    <label for="nameTag">Name Tag Design:</label>
+                    <input type="file" id="nameTag" name="nameTag"><br><br>
+
+                    <label for="eventSchedule">Event Schedule:</label>
+                    <input type="file" id="eventSchedule" name="eventSchedule"><br><br>
+
+                    <label for="managerID">Manager ID:</label>
+                    <select id="managerID" name="managerID" required></select><br><br>
+
+                    <label for="hallID">Hall ID:</label>
+                    <select id="hallID" name="hallID" required></select><br><br>
+
+                    <label for="clientID">Client ID:</label>
+                    <select id="clientID" name="clientID" required></select><br><br>
+
+                    <input type="hidden" id="eventStart" name="eventStart">
+                    <input type="hidden" id="eventEnd" name="eventEnd">
+                    <input type="hidden" id="eventId" name="eventId">
+
+                    <div class="modal-footer">
+                        <button type="submit" id="saveEvent" class="btn-save">Save Event</button>
+                        <button type="button" id="deleteEvent" class="btn-delete">Delete Event</button>
+                        <button type="button" id="closeModal" class="btn-cancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today', //buttons
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay' //view
+<script>
+    $(document).ready(function () {
+        // Initialize FullCalendar
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            selectable: true,
+            selectHelper: true,
+            select: function (start, end) {
+                // Reset the form
+                $('#eventForm')[0].reset();
+                $('#eventId').val('');
+                $('#eventStart').val(start.format("YYYY-MM-DD HH:mm:ss"));
+                $('#eventEnd').val(end.format("YYYY-MM-DD HH:mm:ss"));
+
+                // Fetch dropdown options dynamically
+                fetchDropdownOptions('manager', '#managerID');
+                fetchDropdownOptions('hall', '#hallID');
+                fetchDropdownOptions('client', '#clientID');
+
+                // Show the modal as a popup
+                $('#eventModal').fadeIn();
+            },
+            editable: true,
+            eventClick: function (event) {
+                // Populate form fields for editing
+                $('#eventId').val(event.id);
+                $('#eventName').val(event.title);
+                $('#eventStart').val(event.start.format("YYYY-MM-DD HH:mm:ss"));
+                $('#eventEnd').val(event.end ? event.end.format("YYYY-MM-DD HH:mm:ss") : '');
+
+                // Fetch dropdown options dynamically
+                fetchDropdownOptions('manager', '#managerID');
+                fetchDropdownOptions('hall', '#hallID');
+                fetchDropdownOptions('client', '#clientID');
+
+                // Show the modal for editing
+                $('#eventModal').fadeIn();
+            },
+            events: 'fetch_events.php'
+        });
+
+        // Handle form submission for saving or updating an event
+        $('#eventForm').on('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const url = $('#eventId').val() ? 'update_event.php' : 'save_event.php';
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert(response);
+                    $('#calendar').fullCalendar('refetchEvents');
+                    $('#eventModal').fadeOut();
                 },
-                defaultView: 'agendaWeek', // Allows date and time selection
-                selectable: true, //shows selected time
-                selectHelper: true,
-                select: function(start, end) {
-                    var title = prompt("Enter Event Title:");
-                    if (title) {
-                        var eventData = {
-                            title: title,
-                            start: start.format("YYYY-MM-DD HH:mm:ss"),
-                            end: end.format("YYYY-MM-DD HH:mm:ss")
-                        };
-                        $.ajax({
-                            url: 'save_event.php',
-                            type: 'POST',
-                            data: {
-                                title: eventData.title,
-                                start: eventData.start,
-                                end: eventData.end
-                            },
-                            success: function() {
-                                alert("Event added!");
-                                $('#calendar').fullCalendar('refetchEvents'); // Refresh events on calendar
-                            },
-                            error: function() {
-                                alert("Could not save event.");
-                            }
-                        });
-                    }
-                    $('#calendar').fullCalendar('unselect');
-                },
-                editable: true, // Allow events to be dragged and resized
-                eventDrop: function(event) { // Update event on drag-and-drop
-                    $.ajax({
-                        url: 'update_event.php',
-                        type: 'POST',
-                        data: {
-                            id: event.id,
-                            start: event.start.format("YYYY-MM-DD HH:mm:ss"),
-                            end: event.end ? event.end.format("YYYY-MM-DD HH:mm:ss") : null
-                        },
-                        success: function() {
-                            alert("Event updated!");
-                        },
-                        error: function() {
-                            alert("Could not update event.");
-                        }
-                    });
-                },
-                eventClick: function(event) { // Delete event on click
-                    if (confirm("Do you want to delete this event?")) {
-                        $.ajax({
-                            url: 'delete_event.php',
-                            type: 'POST',
-                            data: {
-                                id: event.id
-                            },
-                            success: function() {
-                                $('#calendar').fullCalendar('refetchEvents');
-                                alert("Event deleted!");
-                            },
-                            error: function() {
-                                alert("Could not delete event.");
-                            }
-                        });
-                    }
-                },
-                events: 'fetch_events.php' // Load events from the server
+                error: function () {
+                    alert('Failed to save the event.');
+                }
             });
         });
-    </script>
+
+        // Handle event deletion
+        $('#deleteEvent').on('click', function () {
+            if (confirm('Are you sure you want to delete this event?')) {
+                const eventId = $('#eventId').val();
+                $.post('delete_event.php', { id: eventId }, function (response) {
+                    alert(response);
+                    $('#calendar').fullCalendar('refetchEvents');
+                    $('#eventModal').fadeOut();
+                }).fail(function () {
+                    alert('Failed to delete the event.');
+                });
+            }
+        });
+
+        // Close the modal
+        $('#closeModal').on('click', function () {
+            $('#eventModal').fadeOut();
+        });
+
+        // Fetch dropdown options dynamically
+        function fetchDropdownOptions(type, selector) {
+            $.get(`fetch_options.php?type=${type}`, function (data) {
+                $(selector).html(data);
+            }).fail(function () {
+                alert(`Failed to load ${type} options.`);
+            });
+        }
+    });
+</script>
+
 </body>
 </html>

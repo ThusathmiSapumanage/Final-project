@@ -1,120 +1,93 @@
 <?php
-
-include "config.php";
+include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $phone = $_POST['phone'];
-    $communication = $_POST['communication'];
-    $company = $_POST['company'];
-    $email = $_POST['email'];
+    // Collect and sanitize input
+    $clientName = mysqli_real_escape_string($conn, $_POST['clientname']);
+    $companyName = mysqli_real_escape_string($conn, $_POST['companyName']);
+    $communicationMethod = mysqli_real_escape_string($conn, $_POST['communicationMethod']);
+    $cPhoneNumber = mysqli_real_escape_string($conn, $_POST['cPhoneNumber']);
+    $clientPass = mysqli_real_escape_string($conn, $_POST['clientPass']);
+    $cDesignation = mysqli_real_escape_string($conn, $_POST['cDesignation']);
+    $cEmail = mysqli_real_escape_string($conn, $_POST['cEmail']);
+    $HmanagerID = mysqli_real_escape_string($conn, $_POST['HmanagerID']);
 
-    $sql = "INSERT INTO cusprofile (cName, cPhoneNumber, communicationMethod, companyName, cEmail) VALUES ('$name', '$phone', '$communication', '$company', '$email')";
+    // Insert into `client` table
+    $sql = "INSERT INTO client (clientname, companyName, communicationMethod, cPhoneNumber, clientPass, cDesignation, cEmail, HmanagerID) 
+            VALUES ('$clientName', '$companyName', '$communicationMethod', '$cPhoneNumber', '$clientPass', '$cDesignation', '$cEmail', '$HmanagerID')";
 
     if (mysqli_query($conn, $sql)) {
-        header("Location: manageClient.php");
+        echo "<script>alert('Client added successfully!'); window.location.href = 'manageClient.php';</script>";
         exit;
-    } 
-    else
-    {
+    } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
 
+// Fetch `HmanagerID` for dropdown
+$sql_managers = "SELECT HmanagerID FROM headmanager";
+$result_managers = mysqli_query($conn, $sql_managers);
+
+if (!$result_managers) {
+    die("Error fetching manager IDs: " . mysqli_error($conn));
+}
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Add Customers </title>
+        <title>Add Client</title>
         <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
         <div class="container">
 
-            <!-- Sidebar -->
-            <aside class = "sidebar">
-                <div class="logo">
-                    <img src="images/logo.png" alt="Logo">
-                </div>
-                <nav class="menu">
-                    <div class="dropdown">
-                        <a href="calendar.html">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php" class="active">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-                <hr class="section-divider"> 
-                <div class = "settings"><img src = Images/settings.png>Settings</div>
-            </aside>
-              <!-- Main Content -->
-            <main class = "content">
+        <?php include 'header.php'; ?>
+            <!-- Main Content -->
+            <main class="content">
                 <header class="header">
-                    <h1>Customer Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
-            	</header>
+                    <h1>Add Client</h1>
+                </header>
                 <div class="content-inner">
                     <div class="content-box">
-                        <h2>Add Customers</h2>
-                        <form class = "form" action="addCus.php" method="post">
+                        <h2>Add Client</h2>
+                        <form class="form" action="addCus.php" method="post">
+                            <label for="clientname">Client Name:</label>
+                            <input type="text" id="clientname" name="clientname" required>
 
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
+                            <label for="companyName">Company Name:</label>
+                            <input type="text" id="companyName" name="companyName" required>
 
-                            <label for="phone">Phone Number</label>
-                            <input type="text" id="phone" name="phone" required>
-
-                            <label for="communication">Communication Method: (Please select one)</label>
-                            <select id="communication" name="communication" required>
+                            <label for="communicationMethod">Communication Method:</label>
+                            <select id="communicationMethod" name="communicationMethod" required>
+                                <option value="Phone">Phone</option>
                                 <option value="Email">Email</option>
-                                <option value="Call">Call</option>
-                                <option value="WhatsApp">WhatsApp</option>
-                                <option value="SMS">SMS</option>
-                            </select></br>
+                                <option value="Chat">Chat</option>
+                            </select>
+                            <br>
 
-                            <label for="company">Company Name</label>
-                            <input type="text" id="company" name="company" required>
+                            <label for="cPhoneNumber">Phone Number:</label>
+                            <input type="text" id="cPhoneNumber" name="cPhoneNumber" required>
 
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
+                            <label for="clientPass">Password:</label>
+                            <input type="password" id="clientPass" name="clientPass" required> <!-- Password field -->
 
-                            <button class = "sub-btn" type="submit" name="submit">Add Customer</button>
+                            <label for="cDesignation">Designation:</label>
+                            <input type="text" id="cDesignation" name="cDesignation" required>
+
+                            <label for="cEmail">Email:</label>
+                            <input type="email" id="cEmail" name="cEmail" required>
+
+                            <label for="HmanagerID">Manager ID:</label>
+                            <select id="HmanagerID" name="HmanagerID" required>
+                                <?php
+                                while ($row = mysqli_fetch_assoc($result_managers)) {
+                                    echo "<option value='" . htmlspecialchars($row['HmanagerID']) . "'>" . htmlspecialchars($row['HmanagerID']) . "</option>";
+                                }
+                                ?>
+                            </select>
+                            <br>
+                            <button class="sub-btn" type="submit" name="submit">Add Client</button>
                         </form>
                     </div>
                 </div>

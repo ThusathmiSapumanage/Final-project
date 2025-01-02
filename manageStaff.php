@@ -2,132 +2,231 @@
 
 include "config.php";
 
+// Handle delete action
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM staff WHERE staffID = $id";
-    mysqli_query($conn, $sql);
-    echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'manageStaff.php';</script>";
+    $id = mysqli_real_escape_string($conn, $_POST['delete_id']);
+
+    // Delete from specific tables first to satisfy foreign key constraints
+    $sql_photographer = "DELETE FROM photographer WHERE PstaffID = '$id'";
+    $sql_graphicdesigner = "DELETE FROM graphicdesigner WHERE GstaffID = '$id'";
+    
+    // Execute deletions from specific tables
+    mysqli_query($conn, $sql_photographer);
+    mysqli_query($conn, $sql_graphicdesigner);
+
+    // Now delete from `hiringstaff` table
+    $sql_hiringstaff = "DELETE FROM hiringstaff WHERE staffID = '$id'";
+    if (mysqli_query($conn, $sql_hiringstaff)) {
+        echo "<script>alert('Staff profile deleted successfully! Redirecting to the view page...');</script>";
+        echo "<script>window.location.href = 'manageStaff.php';</script>";
+    } else {
+        echo "Error deleting staff: " . mysqli_error($conn);
+    }
 }
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Manage Staff </title>
+        <title>Manage Staff</title>
         <link rel="stylesheet" type="text/css" href="viewfood.css">
+        <style>
+            .table-section {
+                margin-bottom: 30px; /* Adds space between the tables */
+            }
+            .hidden-password {
+                font-family: monospace;
+                letter-spacing: 0.3em;
+            }
+        </style>
     </head>
     <body>
         <div class="container">
 
             <!-- Sidebar -->
-            <aside class = "sidebar">
-                <div class="logo">
-                    <img src="images/logo.png" alt="Logo">
-                </div>
-                <nav class="menu">
-                <div class="dropdown">
-                        <a href="calendar.html">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html" class="active">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active2">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-                <hr class="section-divider"> 
-                <div class = "settings"><img src = Images/settings.png>Settings</div>
-            </aside>
-              <!-- Main Content -->
-            <main class = "content">
+            <?php include 'header.php'; ?>
+
+
+            <!-- Main Content -->
+            <main class="content">
                 <header class="header">
                     <h1>Staff Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
-            	</header>
+                </header>
 
-                <!-- Suppliers Section -->
-                <section class = "suppliers">
-                    <h2>Staff</h2>
-                    <button class = "adding"><a href="addStaff.php">Add Staff Profile</a></button>
-                    <div class="table1">
-            <table class="table centered">
-                <thead>
-                    <tr>
-                        <th>Staff ID</th>
-                        <th>Availability</th>
-                        <th>Name</th>
-                        <th>UserID</th>
-                        <th>Manager ID</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $sql = "SELECT * FROM staff";
-                    $result = mysqli_query($conn, $sql);
-
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
-                            echo "<td>" . $row['staffID'] . "</td>";
-                            echo "<td>" . $row['staffAvailability'] . "</td>";
-                            echo "<td>" . $row['staffName'] . "</td>";
-                            echo "<td>" . $row['userID'] . "</td>";
-                            echo "<td>" . $row['managerID'] . "</td>";
-                            echo "<td class='actions'>
-                                <a href='updateStaff.php?id=" . $row['staffID'] . "' class='btn update-btn'>Update</a>
-                                <form action='' method='POST' style='display: inline;'>
-                                    <input type='hidden' name='delete_id' value='" . $row['staffID'] . "'>
-                                    <button type='submit' class='btn delete-btn'>Delete</button>
-                                </form>
-                              </td>";
-                            echo "</tr>";
+                <!-- Photographers Section -->
+                <section class="table-section">
+                    <h2>Photographers</h2>
+                    <a href="addStaff.php" class="adding">Add Staff</a>
+                    <style>
+                        .adding {
+                            display: inline-block;
+                            margin-bottom: 10px;
+                            padding: 10px 20px;
+                            background-color: #4CAF50;
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            position: absolute;
+                            right: -190px;
+                            top: 90px;
                         }
-                    } else {
-                        echo "<tr><td colspan='6'>No records found</td></tr>";
-                    }
 
-                    mysqli_close($conn);
-                    ?>
-                </tbody>
-            </table>
-        </div>
-        <a href="staffM.html"><button class = "back">Back</button></a>
+                        .adding:hover {
+                            background-color: #45a049;
+                        }
+
+                        .table1 {
+                            width: 100%;
+                            border-collapse: collapse;
+                        }
+
+                        .table1 th, .table1 td {
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                        }
+
+                        .table1 th {
+                            background-color: #f2f2f2;
+                            text-align: center;
+                        }
+
+                        .table1 td {
+                            text-align: center;
+                        }
+
+                        .actions .btn {
+                            padding: 5px 10px;
+                            margin: 2px;
+                            text-decoration: none;
+                            border-radius: 3px;
+                            color: white;
+                        }
+
+                        .update-btn {
+                            background-color: #4CAF50;
+                        }
+
+                        .update-btn:hover {
+                            background-color: #45a049;
+                        }
+
+                        .delete-btn {
+                            background-color: #f44336;
+                        }
+
+                        .delete-btn:hover {
+                            background-color: #da190b;
+                        }
+                    </style>
+                    <div class="table1">
+                        <table class="table centered">
+                            <thead>
+                                <tr>
+                                    <th>Staff ID</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Availability</th>
+                                    <th>Hourly Rate</th>
+                                    <th>Password</th>
+                                    <th>Manager ID</th>
+                                    <th>Event Coverage Count</th>
+                                    <th>Specialization</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $sql = "SELECT h.*, p.eventCoverageCount, p.specialization 
+                                        FROM hiringstaff h 
+                                        JOIN photographer p ON h.staffID = p.PstaffID";
+                                $result = mysqli_query($conn, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<tr>";
+                                        echo "<td>" . htmlspecialchars($row['staffID']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['staffName']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['staffType']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['staffAvailability']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['hourlyRate']) . "</td>";
+                                        echo "<td class='hidden-password'>******</td>";
+                                        echo "<td>" . htmlspecialchars($row['HmanagerID']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['eventCoverageCount']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['specialization']) . "</td>";
+                                        echo "<td class='actions'>
+                                                <a href='updatePhotog.php?id=" . htmlspecialchars($row['staffID']) . "' class='btn update-btn'>Update</a>
+                                                <form action='' method='POST' style='display: inline;'>
+                                                    <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['staffID']) . "'>
+                                                    <button type='submit' class='btn delete-btn'>Delete</button>
+                                                </form>
+                                              </td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='10'>No records found</td></tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Graphic Designers Section -->
+                <section class="table-section">
+                    <h2>Graphic Designers</h2>
+                    <div class="table1">
+                        <table class="table centered">
+                            <thead>
+                                <tr>
+                                    <th>Staff ID</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Availability</th>
+                                    <th>Hourly Rate</th>
+                                    <th>Password</th>
+                                    <th>Manager ID</th>
+                                    <th>Design Tools</th>
+                                    <th>Experience</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $sql = "SELECT h.*, g.designTools, g.experience 
+                                        FROM hiringstaff h 
+                                        JOIN graphicdesigner g ON h.staffID = g.GstaffID";
+                                $result = mysqli_query($conn, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<tr>";
+                                        echo "<td>" . htmlspecialchars($row['staffID']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['staffName']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['staffType']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['staffAvailability']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['hourlyRate']) . "</td>";
+                                        echo "<td class='hidden-password'>******</td>";
+                                        echo "<td>" . htmlspecialchars($row['HmanagerID']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['designTools']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['experience']) . "</td>";
+                                        echo "<td class='actions'>
+                                                <a href='updateGD.php?id=" . htmlspecialchars($row['staffID']) . "' class='btn update-btn'>Update</a>
+                                                <form action='' method='POST' style='display: inline;'>
+                                                    <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['staffID']) . "'>
+                                                    <button type='submit' class='btn delete-btn'>Delete</button>
+                                                </form>
+                                              </td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='10'>No records found</td></tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
             </main>
-         </div>
+        </div>
     </body>
 </html>

@@ -1,137 +1,101 @@
 <?php
-
 include "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $userid= $_POST['userid'];
-    $managerid = $_POST['managerid'];
+    // Collect and sanitize inputs
+    $staffID = mysqli_real_escape_string($conn, $_POST['staffID']);
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $staffType = mysqli_real_escape_string($conn, $_POST['staffType']);
+    $availability = mysqli_real_escape_string($conn, $_POST['availability']);
+    $hourlyRate = mysqli_real_escape_string($conn, $_POST['hourlyRate']);
+    $managerID = mysqli_real_escape_string($conn, $_POST['managerID']);
+    $password = password_hash(mysqli_real_escape_string($conn, $_POST['password']), PASSWORD_DEFAULT); // Hash the password
 
-    $sql = "INSERT INTO staff (staffName, userID, managerID) VALUES ('$name', '$userid', '$managerid')";
+    // Insert into `hiringstaff` table
+    $sql = "INSERT INTO hiringstaff (staffID, staffName, staffType, staffAvailability, hourlyRate, HmanagerID, staffPassword) 
+            VALUES ('$staffID', '$name', '$staffType', '$availability', '$hourlyRate', '$managerID', '$password')";
 
     if (mysqli_query($conn, $sql)) {
-        header("Location: manageStaff.php");
+        // Redirect to the respective form for additional details
+        if ($staffType === "Photographer") {
+            header("Location: addPhotographer.php?staffID=$staffID");
+        } elseif ($staffType === "Graphic Designer") {
+            header("Location: addGraphicDesigner.php?staffID=$staffID");
+        }
         exit;
-    } 
-    else
-    {
+    } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
 
-$sql = "SELECT managerID FROM manager";
+// Fetch manager IDs for dropdown
+$sql = "SELECT HmanagerID FROM headmanager";
 $result = mysqli_query($conn, $sql);
-
-$sql2 = "SELECT userID FROM userlogin";
-$result2 = mysqli_query($conn, $sql2);
 ?>
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Add Staff</title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
-    </head>
-    <body>
-        <div class="container">
+<head>
+    <title>Add Staff</title>
+    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+</head>
+<body>
+    <div class="container">
+    <?php include 'header.php'; ?>
 
-            <!-- Sidebar -->
-            <aside class = "sidebar">
-                <div class="logo">
-                    <img src="images/logo.png" alt="Logo">
-                </div>
-                <nav class="menu">
-                <div class="dropdown">
-                        <a href="calendar.html">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html" class="active">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active2">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-                <hr class="section-divider"> 
-                <div class = "settings"><img src = Images/settings.png>Settings</div>
-            </aside>
-              <!-- Main Content -->
-            <main class = "content">
-                <header class="header">
-                    <h1>Staff Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
-            	</header>
-                <div class="content-inner">
-                    <div class="content-box">
-                        <h2>Add Staff</h2>
-                        <form class = "form" action="addStaff.php" method="post">
+        <main class="content">
+            <header class="header">
+                <h1>Staff Management</h1>
+            </header>
+            <div class="content-inner">
+                <div class="content-box">
+                    <h2>Add Staff</h2>
+                    <form class="form" action="addStaff.php" method="post">
+                        <label for="staffID">Staff ID:</label>
+                        <input type="text" id="staffID" name="staffID" placeholder = "PSID or photogprahers and GDID for graphic designers" required>
 
-                            <label for="name">Staff Name:</label>
-                            <input type="text" id="name" name="name" required>
+                        <label for="name">Staff Name:</label>
+                        <input type="text" id="name" name="name" required>
 
-                            <label for="managerid">Manager ID:</label>
-                            <select id="managerid" name="managerid">
-                                <option value="" disabled selected>Select Manager</option>
-                                <?php
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo "<option value='" . $row['managerID'] . "'>" . $row['managerID'] . "</option>";
-                                    }
-                                } else {
-                                    echo "<option value='' disabled>No Managers Available</option>";
+                        <label for="staffType">Staff Type:</label>
+                        <select id="staffType" name="staffType" required>
+                            <option value="" disabled selected>Select Type</option>
+                            <option value="Photographer">Photographer</option>
+                            <option value="Graphic Designer">Graphic Designer</option>
+                        </select><br>
+
+                        <label for="availability">Availability:</label>
+                        <select id="availability" name="availability" required>
+                            <option value="" disabled selected>Select Availability</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                        </select><br>
+
+                        <label for="hourlyRate">Hourly Rate:</label>
+                        <input type="number" id="hourlyRate" name="hourlyRate" step="0.01" required>
+
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+
+                        <label for="managerID">Manager ID:</label>
+                        <select id="managerID" name="managerID" required>
+                            <option value="" disabled selected>Select Manager</option>
+                            <?php
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<option value='" . htmlspecialchars($row['HmanagerID']) . "'>" . htmlspecialchars($row['HmanagerID']) . "</option>";
                                 }
-                                ?>
-                            </select><br>
+                            } else {
+                                echo "<option value='' disabled>No Managers Available</option>";
+                            }
+                            ?>
+                        </select><br>
 
-                            <label for="userid">User ID:</label>
-                            <select id="userid" name="userid">
-                                <option value="" disabled selected>Select UserID</option>
-                                <?php
-                                if (mysqli_num_rows($result2) > 0) {
-                                    while ($row = $result2->fetch_assoc()) {
-                                        echo "<option value='" . $row['userID'] . "'>" . $row['userID'] . "</option>";
-                                    }
-                                } else {
-                                    echo "<option value='' disabled>No user accounts available</option>";
-                                }
-                                ?>
-                            </select><br>
-                            <button class = "sub-btn" type="submit" name="submit">Add Staff</button>
-                        </form>
-                    </div>
+                        <button class="sub-btn" type="submit" name="submit">Next</button>
+                    </form>
                 </div>
-            </main>
-        </div>
-    </body>
+            </div>
+        </main>
+    </div>
+</body>
 </html>

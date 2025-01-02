@@ -3,10 +3,10 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "final";
+$dbname = "gaphq";
 
 // Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = mysqli_connect($servername, $username, $password, $dbname, 3307);
 
 // Check connection
 if (!$conn) {

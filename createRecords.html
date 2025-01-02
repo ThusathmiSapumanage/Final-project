@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Select Fields for Report</h2>
+    <form action="generate_report.php" method="POST">
+        <!-- Finance Table -->
+        <h3>Finance Table</h3>
+        <input type="checkbox" name="fields[]" value="paymentID"> Payment ID<br>
+        <input type="checkbox" name="fields[]" value="amountPayable"> Amount Payable<br>
+        <input type="checkbox" name="fields[]" value="paymentDate"> Payment Date<br>
+        <input type="checkbox" name="fields[]" value="currency"> Currency<br>
+        <input type="checkbox" name="fields[]" value="FmanagerID"> Finance Manager ID<br>
+        <input type="checkbox" name="fields[]" value="clientID"> Client ID<br>
+
+        <!-- Client Table -->
+        <h3>Client Table</h3>
+        <input type="checkbox" name="fields[]" value="clientID"> Client ID<br>
+        <input type="checkbox" name="fields[]" value="cName"> Client Name<br>
+        <input type="checkbox" name="fields[]" value="cPhoneNumber"> Phone Number<br>
+        <input type="checkbox" name="fields[]" value="cEmail"> Email<br>
+        <input type="checkbox" name="fields[]" value="cDesignation"> Designation<br>
+        <input type="checkbox" name="fields[]" value="HmanagerID"> Head Manager ID<br>
+
+        <!-- Hall Table -->
+        <h3>Hall Table</h3>
+        <input type="checkbox" name="fields[]" value="hallID"> Hall ID<br>
+        <input type="checkbox" name="fields[]" value="hallName"> Hall Name<br>
+        <input type="checkbox" name="fields[]" value="hallCapacity"> Hall Capacity<br>
+        <input type="checkbox" name="fields[]" value="hallLocation"> Hall Location<br>
+        <input type="checkbox" name="fields[]" value="managerID"> Manager ID<br>
+
+        <!-- Add-On Table -->
+        <h3>Add-On Table</h3>
+        <input type="checkbox" name="fields[]" value="addonID"> Add-On ID<br>
+        <input type="checkbox" name="fields[]" value="description"> Description<br>
+        <input type="checkbox" name="fields[]" value="amount"> Amount<br>
+        <input type="checkbox" name="fields[]" value="addOnPrice"> Add-On Price<br>
+        <input type="checkbox" name="fields[]" value="EmanagerID"> Event Manager ID<br>
+
+        <input type="submit" value="Generate Report">
+    </form>
+</body>
+</html>

@@ -1,14 +1,17 @@
 <?php
+include "config.php"; // Include your database connection configuration
 
-include "config.php";
+// Retrieve event ID
+$eventId = $_POST['id'];
 
-$id = $_POST['id'];
+// Delete query
+$sql = "DELETE FROM events WHERE eventID='$eventId'";
 
-$sql = "DELETE FROM events WHERE id = $id";
 if ($conn->query($sql) === TRUE) {
-    echo "Event deleted!";
+    echo "Event deleted successfully!";
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
+
 $conn->close();
 ?>

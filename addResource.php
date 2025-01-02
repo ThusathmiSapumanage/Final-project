@@ -3,124 +3,89 @@
 include "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $availability = $_POST['availability'];
-    $des = $_POST['des'];
-    $staffID = $_POST['staffID'];
+    $resourceID = $_POST['resourceID'];
+    $resourceName = $_POST['resourceName'];
+    $resourceAllocationStatus = $_POST['resourceAllocationStatus'];
+    $resourceDescription = $_POST['resourceDescription'];
+    $managerID = $_POST['managerID'];
 
-    $sql = "INSERT INTO resource (resourceName, availability, description, staffID) VALUES ('$name', '$availability', '$des', '$staffID')";
+    // SQL query to insert data into the 'resource' table
+    $sql = "INSERT INTO resources (resourceID, resourceName, resourceDescription, resourceAllocationStatus, HmanagerID) 
+            VALUES ('$resourceID','$resourceName', '$resourceDescription', '$resourceAllocationStatus', '$managerID')";
 
     if (mysqli_query($conn, $sql)) {
         header("Location: manageResource.php");
         exit;
-    } 
-    else
-    {
+    } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
 
-$sql = "SELECT staffID FROM staff";
+// Fetch manager IDs for dropdown
+$sql = "SELECT HmanagerID FROM headmanager";
 $result = mysqli_query($conn, $sql);
+
 ?>
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Add Resources</title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
-    </head>
-    <body>
-        <div class="container">
+<head>
+    <title>Add Resource</title>
+    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+</head>
+<body>
+    <div class="container">
 
-            <!-- Sidebar -->
-            <aside class = "sidebar">
-                <div class="logo">
-                    <img src="images/logo.png" alt="Logo">
+    <?php include 'header.php'; ?>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1>Resource Management</h1>
+                <div class="search">
+                    <input type="text" placeholder="Search">
+                    <img src="images/search-interface-symbol.png" alt="Search Icon">
+                    <button>Search</button>
                 </div>
-                <nav class="menu">
-                <div class="dropdown">
-                        <a href="calendar.html">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
-                            <li><a href="managePayments.php" class="active3">Manage Payments</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php" class="active">Resource</a>
-                    <a href="manageClient.php">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-                <hr class="section-divider"> 
-                <div class = "settings"><img src = Images/settings.png>Settings</div>
-            </aside>
-              <!-- Main Content -->
-            <main class = "content">
-                <header class="header">
-                    <h1>Resource Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
-            	</header>
-                <div class="content-inner">
-                    <div class="content-box">
-                        <h2>Add Resource</h2>
-                        <form class = "form" action="addResource.php" method="post">
+            </header>
+            <div class="content-inner">
+                <div class="content-box">
+                    <h2>Add Resource</h2>
+                    <form class="form" action="addResource.php" method="post">
 
-                            <label for="name">Resource Name</label>
-                            <input type="text" id="name" name="name" required>
+                        <label for ="resourceID">Resource ID</label>
+                        <input type="text" id="resourceID" name="resourceID" required>
 
-                            <label for="availability">Availability</label>
-                            <input type="date" id="availability" name="availability" required>
+                        <label for="resourceName">Resource Name</label>
+                        <input type="text" id="resourceName" name="resourceName" required>
 
-                            <label for="des">Description</label>
-                            <input type="text" id="des" name="des" required>
+                        <label for="resourceAllocationStatus">Allocation Status</label>
+                        <select id="resourceAllocationStatus" name="resourceAllocationStatus" required>
+                            <option value="Available">Available</option>
+                            <option value="Allocated">Allocated</option>
+                        </select></br>
 
-                            <label for="staffID">Staff ID</label>
-                            <select id="staffID" name="staffID">
-                                <?php
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        echo "<option value = " . $row['staffID'] . ">" . $row['staffID'] . "</option>";
-                                    }
+                        <label for="resourceDescription">Description</label>
+                        <textarea id="resourceDescription" name="resourceDescription" required></textarea>
+
+                        </br>
+                        <label for="managerID">Manager ID</label>
+                        <select id="managerID" name="managerID" required>
+                            <?php
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<option value='" . $row['HmanagerID'] . "'>" . $row['HmanagerID'] . "</option>";
                                 }
-                                ?>
-                            </select>
-                            <br>
-                            <button class = "sub-btn" type="submit" name="submit">Add Resource</button>
-                        </form>
-                    </div>
+                            }
+                            ?>
+                        </select>
+
+                        <br>
+                        <button class="sub-btn" type="submit" name="submit">Add Resource</button>
+                    </form>
                 </div>
-            </main>
-        </div>
-    </body>
+            </div>
+        </main>
+    </div>
+</body>
 </html>

@@ -234,6 +234,8 @@ table.centered td.actions {
 .adding
 {
     position: absolute;
+    top: 0;
+    left: 0;
     color: white;
     border-radius: 20px;
     font-weight: bold;
@@ -245,7 +247,7 @@ table.centered td.actions {
     text-align: center;
     cursor: pointer;
     background-image: linear-gradient(to right, #12a3a3, #00ffc3); 
-    right: 25px;
+    margin: 10px;
 }
 
 .adding a

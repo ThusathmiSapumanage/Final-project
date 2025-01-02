@@ -3,100 +3,98 @@
 include "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    $name = $_POST['name'];
-    $price = $_POST['price'];
+    // Collect and sanitize input
+    $foodName = mysqli_real_escape_string($conn, $_POST['foodName']);
+    $foodPrice = mysqli_real_escape_string($conn, $_POST['foodPrice']);
+    $minFoodOrder = mysqli_real_escape_string($conn, $_POST['minFoodOrder']);
+    $ingredients = mysqli_real_escape_string($conn, $_POST['ingredients']);
+    $moreInfo = mysqli_real_escape_string($conn, $_POST['moreInfo']);
+    $hmanagerID = mysqli_real_escape_string($conn, $_POST['hmanagerID']);
+    $bsupplierID = mysqli_real_escape_string($conn, $_POST['bsupplierID']);
 
-    $sql = "INSERT INTO beveragesup (bItems, bItemPrice) VALUES ('$name', '$price')";
+    // Insert into `food` table
+    $sql = "INSERT INTO food (foodName, foodPrice, minFoodOrder, ingredients, moreInfo, HmanagerID, BsupplierID) 
+            VALUES ('$foodName', '$foodPrice', '$minFoodOrder', '$ingredients', '$moreInfo', '$hmanagerID', '$bsupplierID')";
 
     if (mysqli_query($conn, $sql)) {
-        header("Location: manageFood.php");
+        echo "<script>alert('Food item added successfully!'); window.location.href = 'manageFood.php';</script>";
         exit;
-    } 
-    else
-    {
+    } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
 
+// Fetch `HmanagerID` and `BsupplierID` for dropdowns
+$sql_managers = "SELECT HmanagerID FROM headmanager";
+$sql_suppliers = "SELECT BsupplierID FROM beveragesupplier";
+
+$result_managers = mysqli_query($conn, $sql_managers);
+$result_suppliers = mysqli_query($conn, $sql_suppliers);
+
+if (!$result_managers || !$result_suppliers) {
+    die("Error fetching manager or supplier IDs: " . mysqli_error($conn));
+}
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Add Food and Beverages </title>
+        <title>Add Food</title>
         <link rel="stylesheet" type="text/css" href="addFoodsup.css">
     </head>
     <body>
         <div class="container">
-
             <!-- Sidebar -->
-            <aside class = "sidebar">
-                <div class="logo">
-                    <img src="images/logo.png" alt="Logo">
-                </div>
-                <nav class="menu">
-                    <div class="dropdown">
-                        <a href="calendar.html">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html" class="active">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active2">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-                <hr class="section-divider"> 
-                <div class = "settings"><img src = Images/settings.png>Settings</div>
-            </aside>
-              <!-- Main Content -->
-            <main class = "content">
+            <?php include 'header.php'; ?>
+
+            <!-- Main Content -->
+            <main class="content">
                 <header class="header">
-                    <h1>Food and Beverage Management</h1>
+                    <h1>Food Management</h1>
                     <div class="search">
                         <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
+                        <img src="Images/search-interface-symbol.png" alt="Search">
                         <button>Search</button>
                     </div>
-            	</header>
+                </header>
                 <div class="content-inner">
                     <div class="content-box">
                         <h2>Add Food</h2>
-                        <form class = "form" action="addFood.php" method="post">
-                            <label for="name">Item Name:</label>
-                            <input type="text" id="name" name="name" required>
+                        <form class="form" action="addFood.php" method="post">
+                            <label for="foodName">Food Name:</label>
+                            <input type="text" id="foodName" name="foodName" required>
 
-                            <label for="email">Item Price:</label>
-                            <input type="text" id="price" name="price" required>
+                            <label for="foodPrice">Food Price:</label>
+                            <input type="number" id="foodPrice" name="foodPrice" step="0.01" required>
 
-                            <button class = "sub-btn" type="submit" name="submit">Add Food</button>
+                            <label for="minFoodOrder">Minimum Order:</label>
+                            <input type="number" id="minFoodOrder" name="minFoodOrder" required>
+
+                            <label for="ingredients">Ingredients:</label>
+                            <textarea id="ingredients" name="ingredients" required></textarea>
+
+                            <label for="moreInfo">More Info:</label>
+                            <textarea id="moreInfo" name="moreInfo"></textarea>
+
+                            <label for="hmanagerID">Manager ID:</label>
+                            <select id="hmanagerID" name="hmanagerID" required>
+                                <?php
+                                while ($row = mysqli_fetch_assoc($result_managers)) {
+                                    echo "<option value='" . htmlspecialchars($row['HmanagerID']) . "'>" . htmlspecialchars($row['HmanagerID']) . "</option>";
+                                }
+                                ?>
+                            </select>
+
+                            <label for="bsupplierID">Supplier ID:</label>
+                            <select id="bsupplierID" name="bsupplierID" required>
+                                <?php
+                                while ($row = mysqli_fetch_assoc($result_suppliers)) {
+                                    echo "<option value='" . htmlspecialchars($row['BsupplierID']) . "'>" . htmlspecialchars($row['BsupplierID']) . "</option>";
+                                }
+                                ?>
+                            </select>
+
+                            <button class="sub-btn" type="submit" name="submit">Add Food</button>
                         </form>
                     </div>
                 </div>

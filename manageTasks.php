@@ -1,15 +1,37 @@
-<!-- This should be made into a php once the Database is made -->
 <?php
 
-include "config.php"; 
+include "config.php";
 
+// Handle DELETE action
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM tasks WHERE taskID = $id";
-    mysqli_query($conn, $sql);
-    echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'manageTasks.php';</script>";
+    $taskID = mysqli_real_escape_string($conn, $_POST['delete_id']);
+
+    // Check if task exists in the main `task` table
+    $checkTaskID = "SELECT * FROM task WHERE taskID = '$taskID'";
+    $taskExists = mysqli_query($conn, $checkTaskID);
+
+    if (mysqli_num_rows($taskExists) > 0) {
+        // Delete from `recurringtask` if applicable
+        $sqlDeleteRecurring = "DELETE FROM recurringtask WHERE taskID = '$taskID'";
+        mysqli_query($conn, $sqlDeleteRecurring);
+
+        // Delete from `onetimetask` if applicable
+        $sqlDeleteOneTime = "DELETE FROM onetimetask WHERE taskID = '$taskID'";
+        mysqli_query($conn, $sqlDeleteOneTime);
+
+        // Delete from main `task` table
+        $sqlDeleteTask = "DELETE FROM task WHERE taskID = '$taskID'";
+        if (mysqli_query($conn, $sqlDeleteTask)) {
+            echo "<script>alert('Task deleted successfully! Redirecting to the view page...');</script>";
+            echo "<script>window.location.href = 'manageTasks.php';</script>";
+        } else {
+            echo "Error deleting task: " . mysqli_error($conn);
+        }
+    } else {
+        echo "<script>alert('Task ID does not exist in the main task table.');</script>";
+    }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -17,57 +39,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 <head>
     <title>Manage Tasks</title>
     <link rel="stylesheet" type="text/css" href="viewfood.css">
+    <style>
+        .table-section {
+            margin-bottom: 30px; /* Adds space between the tables */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
 
         <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <img src="images/logo.png" alt="Logo">
-            </div>
-            <nav class="menu">
-            <div class="dropdown">
-                        <a href="calendar.html">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM,html">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html" class="active">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active2">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-            <hr class="section-divider">
-            <div class="settings"><img src="Images/settings.png">Settings</div>
-        </aside>
+        <?php include 'header.php'; ?>
 
         <!-- Main Content -->
         <main class="content">
@@ -80,56 +62,117 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 </div>
             </header>
 
-            <!-- Suppliers Section -->
-            <section class="suppliers">
-                <h2>Tasks</h2>
-                <button class = "adding"><a href="addTask.php">Add Task</a></button>
+            <!-- Recurring Tasks Section -->
+            <section class="table-section">
+                <h2>Recurring Tasks</h2>
+                <button class="adding"><a href="addTask.php">Add Task</a></button>
                 <div class="table1">
                     <table class="table centered">
                         <thead>
                             <tr>
                                 <th>Task ID</th>
-                                <th>Task description</th>
-                                <th>Task due date</th>
-                                <th>Task status</th>
+                                <th>Description</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
                                 <th>Manager ID</th>
                                 <th>Staff ID</th>
+                                <th>Paused</th>
+                                <th>Recurrence Interval</th>
+                                <th>Assigned Recurring</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM tasks";
+                            $sql = "SELECT t.*, r.isPaused, r.recurrenceInterval, r.recurringTassigned 
+                                    FROM task t 
+                                    JOIN recurringtask r ON t.taskID = r.taskID";
                             $result = mysqli_query($conn, $sql);
 
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
-                                    echo "<td>" . $row['taskID'] . "</td>";
-                                    echo "<td>" . $row['taskDes'] . "</td>";
-                                    echo "<td>" . $row['taskDueDate'] . "</td>";
-                                    echo "<td>" . $row['taskStatus'] . "</td>";
-                                    echo "<td>" . $row['managerID'] . "</td>";
-                                    echo "<td>" . $row['staffID'] . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['taskID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['taskDescription']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['taskDueDate']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['taskStatus']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['HmanagerID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['staffID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['isPaused']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['recurrenceInterval']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['recurringTassigned']) . "</td>";
                                     echo "<td class='actions'>
-                                        <a href='updateTask.php?id=" . $row['taskID'] . "' class='btn update-btn'>Update</a>
+                                        <a href='updateRecurringTask.php?taskID=" . htmlspecialchars($row['taskID']) . "' class='btn update-btn'>Update</a>
                                         <form action='' method='POST' style='display: inline;'>
-                                            <input type='hidden' name='delete_id' value='" . $row['taskID'] . "'>
+                                            <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['taskID']) . "'>
                                             <button type='submit' class='btn delete-btn'>Delete</button>
                                         </form>
                                       </td>";
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td colspan='7'>No records found</td></tr>";
+                                echo "<tr><td colspan='10'>No records found</td></tr>";
                             }
-
-                            mysqli_close($conn);
                             ?>
                         </tbody>
                     </table>
                 </div>
-                <a href="staffM.html"><button class = "back">Back</button></a>
+            </section>
+
+            <!-- One-Time Tasks Section -->
+            <section class="table-section">
+                <h2>One-Time Tasks</h2>
+                <div class="table1">
+                    <table class="table centered">
+                        <thead>
+                            <tr>
+                                <th>Task ID</th>
+                                <th>Description</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Manager ID</th>
+                                <th>Staff ID</th>
+                                <th>Completion Date</th>
+                                <th>Priority Level</th>
+                                <th>Assigned One-Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sql = "SELECT t.*, o.completionDate, o.priorityLevel, o.OTassigned 
+                                    FROM task t 
+                                    JOIN onetimetask o ON t.taskID = o.taskID";
+                            $result = mysqli_query($conn, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . htmlspecialchars($row['taskID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['taskDescription']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['taskDueDate']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['taskStatus']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['HmanagerID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['staffID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['completionDate']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['priorityLevel']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['OTassigned']) . "</td>";
+                                    echo "<td class='actions'>
+                                        <a href='updateOneTimeTask.php?taskID=" . htmlspecialchars($row['taskID']) . "' class='btn update-btn'>Update</a>
+                                        <form action='' method='POST' style='display: inline;'>
+                                            <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['taskID']) . "'>
+                                            <button type='submit' class='btn delete-btn'>Delete</button>
+                                        </form>
+                                      </td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='10'>No records found</td></tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </section>
         </main>
     </div>

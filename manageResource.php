@@ -1,14 +1,30 @@
-<!-- This should be made into a php once the Database is made -->
 <?php
 
 include "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $id = intval($_POST['delete_id']);
-    $sql = "DELETE FROM resource WHERE resourceID = $id";
-    mysqli_query($conn, $sql);
-    echo "<script>alert('update successs, redirecting to the view page...');</script>";
-    echo "<script>window.location.href = 'manageResource.php';</script>";
+    $id = $_POST['delete_id']; // Get the ID as a string
+
+    // Check if ID is not empty
+    if (!empty($id)) {
+        $sql = "DELETE FROM resources WHERE resourceID = ?";
+        if ($stmt = $conn->prepare($sql)) {
+            $stmt->bind_param("s", $id); // Bind the ID as a string
+
+            if ($stmt->execute()) {
+                echo "<script>alert('Resource deleted successfully. Redirecting to the view page...');</script>";
+                echo "<script>window.location.href = 'manageResource.php';</script>";
+            } else {
+                echo "<script>alert('Error deleting resource: " . $stmt->error . "');</script>";
+            }
+
+            $stmt->close();
+        } else {
+            echo "<script>alert('Error preparing statement: " . $conn->error . "');</script>";
+        }
+    } else {
+        echo "<script>alert('Invalid resource ID.');</script>";
+    }
 }
 ?>
 
@@ -17,57 +33,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 <head>
     <title>Manage Resources</title>
     <link rel="stylesheet" type="text/css" href="viewfood.css">
+    <style>
+        .adding {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        .adding a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .adding:hover {
+            background-color: #218838;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .table th {
+            background-color: #f4f4f4;
+        }
+
+        .actions .btn {
+            margin: 0 5px;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .update-btn {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .update-btn:hover {
+            background-color: #e0a800;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
 
         <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                <img src="images/logo.png" alt="Logo">
-            </div>
-            <nav class="menu">
-            <div class="dropdown">
-                        <a href="calendar.html">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active3">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php" class="active">Resource</a>
-                    <a href="manageClient.php">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-            <hr class="section-divider">
-            <div class="settings"><img src="Images/settings.png">Settings</div>
-        </aside>
+        <?php include 'header.php'; ?>
+
 
         <!-- Main Content -->
         <main class="content">
@@ -75,44 +112,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 <h1>Resource Management</h1>
                 <div class="search">
                     <input type="text" placeholder="Search">
-                    <img src="Images/search-interface-symbol.png">
+                    <img src="images/search-interface-symbol.png" alt="Search">
                     <button>Search</button>
                 </div>
             </header>
 
-            <!-- Suppliers Section -->
-            <section class="suppliers">
+            <!-- Resources Section -->
+            <section class="resources">
                 <h2>Resources</h2>
-                <button class = "adding"><a href="addResource.php">Add Resource</a></button>
+                <button class="adding"><a href="addResource.php">Add Resource</a></button>
                 <div class="table1">
                     <table class="table centered">
                         <thead>
                             <tr>
                                 <th>Resource ID</th>
-                                <th>Resource name</th>
-                                <th>Availability</th>
+                                <th>Resource Name</th>
+                                <th>Allocation Status</th>
                                 <th>Description</th>
-                                <th>Staff ID</th>
+                                <th>Manager ID</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM resource";
+                            $sql = "SELECT * FROM resources";
                             $result = mysqli_query($conn, $sql);
 
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
-                                    echo "<td>" . $row['resourceID'] . "</td>";
-                                    echo "<td>" . $row['resourceName'] . "</td>";
-                                    echo "<td>" . $row['availability'] . "</td>";
-                                    echo "<td>" . $row['description'] . "</td>";
-                                    echo "<td>" . $row['staffID'] . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['resourceID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['resourceName']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['resourceAllocationStatus']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['resourceDescription']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['HmanagerID']) . "</td>";
                                     echo "<td class='actions'>
-                                        <a href='updateResource.php?id=" . $row['resourceID'] . "' class='btn update-btn'>Update</a>
+                                        <a href='updateResource.php?id=" . htmlspecialchars($row['resourceID']) . "' class='btn update-btn'>Update</a>
                                         <form action='' method='POST' style='display: inline;'>
-                                            <input type='hidden' name='delete_id' value='" . $row['resourceID'] . "'>
+                                            <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['resourceID']) . "'>
                                             <button type='submit' class='btn delete-btn'>Delete</button>
                                         </form>
                                       </td>";

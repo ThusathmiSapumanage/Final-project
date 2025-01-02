@@ -6,15 +6,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $des = $_POST['des'];
     $amount = $_POST['amount'];
     $price = $_POST['price'];
+    $emanagerID = $_POST['emanagerID'];
 
-    $sql = "INSERT INTO addon (Amount, addOnPrice, description) VALUES ('$amount', '$price', '$des')";
+    // Insert data into the addon table
+    $sql = "INSERT INTO addon (amount, addonPrice, description, EmanagerID) 
+            VALUES ('$amount', '$price', '$des', '$emanagerID')";
 
     if (mysqli_query($conn, $sql)) {
         header("Location: manageAddon.php");
         exit;
-    } 
-    else
-    {
+    } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
@@ -23,89 +24,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Add Add-Ons </title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
-    </head>
-    <body>
-        <div class="container">
+<head>
+    <title>Add Add-Ons</title>
+    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+</head>
+<body>
+    <div class="container">
+        <?php include 'header.php'; ?>
 
-            <!-- Sidebar -->
-            <aside class = "sidebar">
-                <div class="logo">
-                    <img src="images/logo.png" alt="Logo">
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1>Event Management</h1>
+                <div class="search">
+                    <input type="text" placeholder="Search">
+                    <img src="Images/search-interface-symbol.png">
+                    <button>Search</button>
                 </div>
-                <nav class="menu">
-                    <div class="dropdown">
-                        <a href="calendar.html" class = "active">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active2">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-                <hr class="section-divider"> 
-                <div class = "settings"><img src = Images/settings.png>Settings</div>
-            </aside>
-              <!-- Main Content -->
-            <main class = "content">
-                <header class="header">
-                    <h1>Event Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
-            	</header>
-                <div class="content-inner">
-                    <div class="content-box">
-                        <h2>Add Add-Ons</h2>
-                        <form class = "form" action="addAddon.php" method="post">
-                           
-                            <label for="des">Description</label>
-                            <input type="text" id="des" name="des" required>
+            </header>
+            <div class="content-inner">
+                <div class="content-box">
+                    <h2>Add Add-Ons</h2>
+                    <form class="form" action="addAddon.php" method="post">
+                        <label for="des">Description</label>
+                        <input type="text" id="des" name="des" required>
 
-                            <label for="amount">Amount</label>
-                            <input type="text" id="amount" name="amount" required>
+                        <label for="amount">Amount</label>
+                        <input type="number" id="amount" name="amount" required>
 
-                            <label for="price">Price per unit</label>
-                            <input type="text" id="price" name="price" required>
+                        <label for="price">Price per Unit</label>
+                        <input type="number" id="price" name="price" step="0.01" required>
 
-                            <button class = "sub-btn" type="submit" name="submit">Add Add-On</button>
-                        </form>
-                    </div>
+                        <label for="emanagerID">Event Manager ID</label>
+                        <Select id="emanagerID" name="emanagerID">
+                            <?php
+                            $sql = "SELECT EmanagerID FROM eventmanager";
+                            $result = mysqli_query($conn, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<option value='" . htmlspecialchars($row['EmanagerID']) . "'>" . htmlspecialchars($row['EmanagerID']) . "</option>";
+                                }
+                            }
+                            ?>
+                        </Select>
+                        <br>
+                        
+                        <button class="sub-btn" type="submit" name="submit">Add Add-On</button>
+                    </form>
                 </div>
-            </main>
-        </div>
-    </body>
+            </div>
+        </main>
+    </div>
+</body>
 </html>

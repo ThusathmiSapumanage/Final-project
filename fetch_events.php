@@ -1,19 +1,19 @@
 <?php
+include "config.php"; // Include your database connection configuration
 
-include "config.php";
-
-$sql = "SELECT * FROM events";
+// Query to fetch events
+$sql = "SELECT eventID AS id, eventName AS title, eventStart AS start, eventEnd AS end FROM events";
 $result = $conn->query($sql);
 
-$events = array();
-while ($row = $result->fetch_assoc()) {
-    $events[] = array(
-        'id' => $row['id'],
-        'title' => $row['title'],
-        'start' => $row['start'],
-        'end' => $row['end']
-    );
+$events = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $events[] = $row;
+    }
 }
+
+// Return JSON response
 echo json_encode($events);
+
 $conn->close();
 ?>

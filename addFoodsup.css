@@ -271,3 +271,17 @@ form select
     background: #f9f9f9;
     box-sizing: border-box;
 }
+
+.back-btn {
+    font-size: 19px;
+    background: linear-gradient(to right, #8609ca, #c40de9);
+    color: white;
+    border-radius: 25px;
+    padding: 10px 30px;
+    width: 218px;
+    border: none;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 5px;
+    transition: background 0.3s ease;
+}

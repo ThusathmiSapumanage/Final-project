@@ -1,0 +1,222 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('images/Untitled design.jpg');
+    background-size: cover;
+    color: #fff;
+}
+
+/* Container Styling */
+.container {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background: #151515;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.sidebar .menu a {
+    display: block;
+    color: #fff;
+    padding: 14px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.5s ease;
+    margin: 10px 0;
+}
+
+.sidebar .menu a.active,
+.sidebar .menu a:hover {
+    background: #fdb827;
+    color: #000;
+}
+
+.sidebar .settings {
+    text-align: center;
+    color: #fff;
+    margin-top: auto;
+    font-size: 14px;
+}
+
+.sidebar .settings:hover {
+    color: #f7941d;
+}
+
+.section-divider {
+    margin-top: 30px;
+    border-color: #f7941d;
+}
+
+/* Content Styling */
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    color: #f7941d;
+    position: relative;
+}
+
+.header h1 {
+    font-size: 24px;
+}
+
+.header .search {
+    display: flex;
+    align-items: center;
+}
+
+.header .search input {
+    padding: 10px 35px;
+    border-radius: 20px;
+    border: none;
+    width: 250px;
+    margin-right: 10px;
+}
+
+.header .search button {
+    padding: 10px;
+    border: none;
+    background: #fdb827;
+    color: #000;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.5s ease;
+}
+
+.header .search button:hover {
+    background: rgb(255, 251, 0);
+}
+
+/* Table Styling */
+.table1 {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    color: #000;
+}
+
+table.centered {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.centered th,
+table.centered td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #000;
+}
+
+table.centered th {
+    background-color: #f7941d;
+    color: #000;
+}
+
+table.centered td.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.table1 h2 {
+    margin-bottom: 15px;
+    color: #f7941d;
+}
+
+/* Buttons */
+.btn {
+    text-decoration: none;
+    padding: 8px 12px;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
+.update-btn {
+    background-image: linear-gradient(to right, #12a320, #3fcc65);
+}
+
+.delete-btn {
+    background-image: linear-gradient(to right, #ff4e4e, #d42d2d);
+}
+
+.add-btn {
+    display: inline-block;
+    background-image: linear-gradient(to right, #1f8bc3, #46d1f5);
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.update-btn:hover {
+    background-image: linear-gradient(to right, #22841d, #03ff42);
+}
+
+.delete-btn:hover {
+    background-image: linear-gradient(to right, #ae0000, #ff0000);
+}
+
+.add-btn:hover {
+    background-image: linear-gradient(to right, #1764a1, #39bae2);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        height: auto;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .table1 {
+        padding: 10px;
+    }
+
+    table.centered th,
+    table.centered td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}

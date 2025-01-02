@@ -2,20 +2,22 @@
 
 include "config.php";
 
+// Retrieve `addonID` from GET or POST request
 $aID = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
     $aID = intval($_POST['addonID']); // Match name in form
     $des = mysqli_real_escape_string($conn, $_POST['des']);
-    $amount = mysqli_real_escape_string($conn, $_POST['amount']);
-    $price = mysqli_real_escape_string($conn, $_POST['price']);
+    $amount = intval($_POST['amount']);
+    $price = floatval($_POST['price']);
+    $emanagerID = mysqli_real_escape_string($conn, $_POST['emanagerID']);
 
-
+    // Update query
     $sql = "UPDATE addon
             SET description = '$des',
-                Amount = '$amount',
-                addOnPrice = '$price'
+                amount = $amount,
+                addonPrice = $price,
+                EmanagerID = '$emanagerID'
             WHERE addonID = $aID";
 
     // Execute query and redirect
@@ -24,27 +26,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<script>window.location.href = 'manageAddon.php';</script>";
         exit;
     } else {
-        echo "Error updating supplier: " . mysqli_error($conn);
+        echo "Error updating add-on: " . mysqli_error($conn);
     }
 }
 
-// Initialize supplier details
-$des = $amount = $price = "";
+// Initialize add-on details
+$des = $amount = $price = $emanagerID = "";
 
 if ($aID > 0) {
-
-    
+    // Fetch the add-on details
     $sql2 = "SELECT * FROM addon WHERE addonID = $aID";
     $result = mysqli_query($conn, $sql2);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $des = $row['description'];
-        $amount = $row['Amount'];
-        $price = $row['addOnPrice'];
-
+        $amount = $row['amount'];
+        $price = $row['addonPrice'];
+        $emanagerID = $row['EmanagerID'];
     } else {
-        echo "<script>alert('Invalid Item ID. Redirecting back...');</script>";
+        echo "<script>alert('Invalid Add-On ID. Redirecting back...');</script>";
         echo "<script>window.location.href = 'manageAddon.php';</script>";
         exit;
     }
@@ -54,92 +55,63 @@ if ($aID > 0) {
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Update Add-Ons </title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
-    </head>
-    <body>
-        <div class="container">
+<head>
+    <title>Update Add-Ons</title>
+    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+</head>
+<body>
+    <div class="container">
 
-            <!-- Sidebar -->
-            <aside class = "sidebar">
-                <div class="logo">
-                    <img src="images/logo.png" alt="Logo">
+        <!-- Sidebar -->
+        <?php include 'header.php'; ?>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1>Event Management</h1>
+                <div class="search">
+                    <input type="text" placeholder="Search">
+                    <img src="Images/search-interface-symbol.png">
+                    <button>Search</button>
                 </div>
-                <nav class="menu">
-                <div class="dropdown">
-                        <a href="calendar.html" class = "active">Events</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageAddon.php" class="active2">Manage Add-Ons</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="supplierM.html">Supplies</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageFood.php" class="active3">Manage Food</a></li>
-                            <li><a href="manageMerchandise.php" class="active3">Manage Merchandise</a></li>
-                            <li><a href="manageFoodSup.php" class="active3">Manage Food Supplier</a></li>
-                            <li><a href="manageMerchan.php" class="active3">Manage Merchandise Supplier</a></li>
-                            <li><a href="manageInventory.php" class="active3">Manage Inventory</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="financeM.html">Finance</a>
-                        <ul class="dropdown-menu">
-                        <li><a href="managePayments.php" class="active3">View Payments</a></li>
-                        <li><a href="manageExpense.php" class="active3">View Expenses</a></li>
-                        <li><a href="expensereport.html" class="active3">Expense & Income Chart and Report</a></li>
-                        <li><a href="expenseReports.php" class = "active3">Expense Report</a></li>
-                        <li><a href="incomeReport.php" class = "active3">Income Report</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <a href="staffM.html">Staff</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="manageStaff.php" class="active3">Manage Staff</a></li>
-                            <li><a href="manageTasks.php" class="active3">Manage Tasks</a></li>
-                        </ul>
-                    </div>
-                    <a href="manageResource.php">Resource</a>
-                    <a href="manageClient.php">Customer</a>
-                    <a href="feedback.php">Feedback</a>
-                    <a href="manageIssues.php">Report Issues</a>
-                </nav>
-                <hr class="section-divider"> 
-                <div class = "settings"><img src = Images/settings.png>Settings</div>
-            </aside>
-              <!-- Main Content -->
-            <main class = "content">
-                <header class="header">
-                    <h1>Event Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
-            	</header>
-                <div class="content-inner">
-                    <div class="content-box">
-                        <h2>Update Add-Ons</h2>
-                        <form class="form" action="updateAddon.php" method="post">
+            </header>
+            <div class="content-inner">
+                <div class="content-box">
+                    <h2>Update Add-Ons</h2>
+                    <form class="form" action="updateAddon.php" method="post">
 
-                            <label for="addonID">Add-On ID</label>
-                            <input type="text" name="addonID" value="<?php echo htmlspecialchars($aID); ?>" readonly>
+                        <label for="addonID">Add-On ID</label>
+                        <input type="text" name="addonID" value="<?php echo htmlspecialchars($aID); ?>" readonly>
 
-                            <label for="des">Description</label>
-                            <input type="text" id="des" name="des" value="<?php echo $des; ?>" required>
+                        <label for="des">Description</label>
+                        <input type="text" id="des" name="des" value="<?php echo htmlspecialchars($des); ?>" required>
 
-                            <label for="amount">Amount</label>
-                            <input type="text" id="amount" name="amount" value="<?php echo $amount; ?>" required>
+                        <label for="amount">Amount</label>
+                        <input type="number" id="amount" name="amount" value="<?php echo htmlspecialchars($amount); ?>" required>
 
-                            <label for="price">Price Per Unit</label>
-                            <input type="text" id="price" name="price" value="<?php echo $price; ?>" required>
+                        <label for="price">Price Per Unit</label>
+                        <input type="number" id="price" name="price" value="<?php echo htmlspecialchars($price); ?>" step="0.01" required>
 
-                        <button class = "sub-btn" type="submit" name="submit">Update Add-Ons</button>
-                        </form>
-                    </div>
+                        <label for="emanagerID">Event Manager ID</label>
+                        <select id="emanagerID" name="emanagerID">
+                            <?php
+                            $sql = "SELECT EmanagerID FROM eventmanager";
+                            $result = mysqli_query($conn, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $selected = $row['EmanagerID'] === $emanagerID ? 'selected' : '';
+                                    echo "<option value='" . htmlspecialchars($row['EmanagerID']) . "' $selected>" . htmlspecialchars($row['EmanagerID']) . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+
+                        <button class="sub-btn" type="submit" name="submit">Update Add-On</button>
+                    </form>
                 </div>
-            </main>
-        </div>
-    </body>
+            </div>
+        </main>
+    </div>
+</body>
 </html>
