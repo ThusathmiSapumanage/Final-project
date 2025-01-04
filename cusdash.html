@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Events Calendar</title>
+    <!-- FullCalendar CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+    <!-- FullCalendar JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: #151515;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .sidebar .menu a {
+            display: block;
+            color: #fff;
+            padding: 14px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.5s ease;
+            margin: 10px 0;
+        }
+
+        .sidebar .menu a.active,
+        .sidebar .menu a:hover {
+            background: #fdb827;
+            color: #000;
+        }
+
+        .sidebar .settings {
+            text-align: center;
+            color: #fff;
+            margin-top: auto;
+            font-size: 14px;
+        }
+
+        /* Calendar Styles */
+        #calendar {
+            flex: 1;
+            margin: 20px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .modal-footer {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .btn-save {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background-color: #9E9E9E;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .btn-save:hover {
+            background-color: #45a049;
+        }
+
+        .btn-cancel:hover {
+            background-color: #757575;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        
+
+        <!-- Calendar -->
+        <div id="calendar"></div>
+    </div>
+
+    <!-- Event Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <form id="eventForm" enctype="multipart/form-data">
+                <label for="eventName">Event Name:</label>
+                <input type="text" id="eventName" name="eventName" required>
+
+                <label for="eventType">Event Type:</label>
+                <select id="eventType" name="eventType" required>
+                    <option value="Wedding">Wedding</option>
+                    <option value="Birthday">Birthday</option>
+                    <option value="Corporate">Corporate</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="eventDate">Visit Date:</label>
+                <input type="date" id="eventDate" name="eventDate" required>
+
+                <label for="eventStart">Start Time:</label>
+                <input type="datetime-local" id="eventStart" name="eventStart" required>
+
+                <label for="eventEnd">End Time:</label>
+                <input type="datetime-local" id="eventEnd" name="eventEnd" required>
+
+                <label for="eventStatus">Status:</label>
+                <select id="eventStatus" name="eventStatus" required>
+                    <option value="Pending">Pending</option>
+                    <option value="Confirmed">Confirmed</option>
+                </select>
+
+               
+                <div class="modal-footer">
+                    <button type="submit" class="btn-save">Save</button>
+                    <button type="button" class="btn-cancel" id="closeModal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                selectable: true,
+                selectHelper: true,
+                select: function (start, end) {
+                    $('#eventForm')[0].reset();
+                    $('#eventStart').val(start.format("YYYY-MM-DDTHH:mm"));
+                    $('#eventEnd').val(end.format("YYYY-MM-DDTHH:mm"));
+
+                    fetchDropdownOptions('client', '#clientID');
+                    fetchDropdownOptions('manager', '#managerID');
+                    fetchDropdownOptions('hall', '#hallID');
+                    fetchAddons();
+
+                    $('#eventModal').fadeIn();
+                },
+                editable: true,
+                events: 'fetch_events.php'
+            });
+
+            function fetchDropdownOptions(type, selector) {
+                $.get(`fetch_options.php?type=${type}`, function (data) {
+                    $(selector).html(data);
+                });
+            }
+
+            function fetchAddons() {
+                $.get('fetch_addons.php', function (data) {
+                    $('#addons').html(data);
+                });
+            }
+
+            $('#eventForm').on('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                $.ajax({
+                    url: 'save_event.php',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function () {
+                        $('#calendar').fullCalendar('refetchEvents');
+                        $('#eventModal').fadeOut();
+                    }
+                });
+            });
+
+            $('#closeModal').on('click', function () {
+                $('#eventModal').fadeOut();
+            });
+        });
+    </script>
+</body>
+</html>
