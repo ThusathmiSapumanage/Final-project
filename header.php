@@ -11,7 +11,7 @@
             </ul>
         </div>
         <div class="dropdown">
-            <a href="supplierM.html" class="<?php echo basename($_SERVER['PHP_SELF']) === 'supplierM.html' ? 'active' : ''; ?>">Supplies</a>
+            <a href="supplierM.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'supplierM.html' ? 'active' : ''; ?>">Supplies</a>
             <ul class="dropdown-menu">
                 <li><a href="manageFood.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'manageFood.php' ? 'active3' : ''; ?>">Manage Food</a></li>
                 <li><a href="manageMerchandise.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'manageMerchandise.php' ? 'active3' : ''; ?>">Manage Merchandise</a></li>

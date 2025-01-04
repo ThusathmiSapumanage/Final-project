@@ -1,5 +1,3 @@
-//CHECKEVERYTHING IN THIS MERCHANDISE SUPPLIER SHIT LATER
-
 <?php
 include "config.php";
 
@@ -32,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
         }
 
         // Insert into the `merchandisesupplier` table
-        $sql_merchandisesupplier = "INSERT INTO merchandisesupplier (MsupplierID, mlItems, performance, merchandiseCategory) 
+        $sql_merchandisesupplier = "INSERT INTO merchandisesupplier (MsupplierID, mItems, performance, merchandiseCategory) 
                                     VALUES ('$supplierID', '$mlItems', '$performance', '$merchandiseCategory')";
 
         if (!mysqli_query($conn, $sql_merchandisesupplier)) {
@@ -60,6 +58,7 @@ if (!$result) {
     die("Error fetching manager IDs: " . mysqli_error($conn));
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,7 +83,7 @@ if (!$result) {
             <div class="content-inner">
                 <div class="content-box">
                     <h2>Add Merchandise Supplier</h2>
-                    <form class="form" action="addMerchan.php" method="post">
+                    <form class="form" action="addMerchansup.php" method="post">
                         <label for="supplierID">Supplier ID:</label>
                         <input type="text" id="supplierID" name="supplierID" placeholder="Enter unique ID" required>
 

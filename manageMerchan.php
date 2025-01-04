@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                 <!-- Suppliers Section -->
                 <section class="suppliers">
                     <h2>Merchandise Suppliers</h2>
-                    <button class="adding"><a href="addMerchan.php">Add Merchandise Supplier</a></button>
+                    <button class="adding"><a href="addMerchansup.php">Add Merchandise Supplier</a></button>
                     <div class="table1">
                         <table class="table centered">
                             <thead>

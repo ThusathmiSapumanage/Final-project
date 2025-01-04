@@ -6,44 +6,44 @@ $eventName = $_POST['eventName'];
 $eventType = $_POST['eventType'];
 $eventDate = !empty($_POST['eventDate']) ? $_POST['eventDate'] : NULL;
 $eventStatus = $_POST['eventStatus'];
-$nameTag = !empty($_FILES['nameTag']['name']) ? $_FILES['nameTag']['name'] : NULL;
-$eventSchedule = !empty($_FILES['eventSchedule']['name']) ? $_FILES['eventSchedule']['name'] : NULL;
 $managerID = $_POST['managerID'];
 $hallID = $_POST['hallID'];
 $clientID = $_POST['clientID'];
 $eventStart = $_POST['eventStart'];
 $eventEnd = $_POST['eventEnd'];
-
-// Initialize file paths
-$nameTagPath = NULL;
-$eventSchedulePath = NULL;
+$addons = isset($_POST['addons']) ? $_POST['addons'] : [];
 
 // Handle file uploads
-if (!empty($nameTag)) {
-    $nameTagPath = 'uploads/' . basename($_FILES['nameTag']['name']);
-    move_uploaded_file($_FILES['nameTag']['tmp_name'], $nameTagPath);
-}
+$nameTag = $_FILES['nameTag']['name'] ? 'uploads/' . basename($_FILES['nameTag']['name']) : NULL;
+$eventSchedule = $_FILES['eventSchedule']['name'] ? 'uploads/' . basename($_FILES['eventSchedule']['name']) : NULL;
 
-if (!empty($eventSchedule)) {
-    $eventSchedulePath = 'uploads/' . basename($_FILES['eventSchedule']['name']);
-    move_uploaded_file($_FILES['eventSchedule']['tmp_name'], $eventSchedulePath);
-}
+if ($nameTag) move_uploaded_file($_FILES['nameTag']['tmp_name'], $nameTag);
+if ($eventSchedule) move_uploaded_file($_FILES['eventSchedule']['tmp_name'], $eventSchedule);
 
-// SQL query to insert the event into the database
+// Insert event into the `events` table
 $sql = "INSERT INTO events (eventName, eventType, eventVisitDate, eventStatus, nameTagDesign, eventSchedule, EmanagerID, hallID, clientID, eventStart, eventEnd) 
-        VALUES ('$eventName', '$eventType', " . 
-        ($eventDate ? "'$eventDate'" : "NULL") . ", 
-        '$eventStatus', " . 
-        ($nameTagPath ? "'$nameTagPath'" : "NULL") . ", " . 
-        ($eventSchedulePath ? "'$eventSchedulePath'" : "NULL") . ", 
-        '$managerID', '$hallID', '$clientID', '$eventStart', '$eventEnd')";
+        VALUES ('$eventName', '$eventType', " . ($eventDate ? "'$eventDate'" : "NULL") . ", '$eventStatus', " .
+        ($nameTag ? "'$nameTag'" : "NULL") . ", " . ($eventSchedule ? "'$eventSchedule'" : "NULL") . ", '$managerID', '$hallID', '$clientID', '$eventStart', '$eventEnd')";
 
-        if ($conn->query($sql) === TRUE) {
-            echo "Event added successfully!";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
-        
+if (mysqli_query($conn, $sql)) {
+    $eventID = mysqli_insert_id($conn);
+
+    // Insert add-ons into `eventaddons` table
+    foreach ($addons as $addonID) {
+        $sqlAddon = "INSERT INTO eventaddons (eventID, addonID) VALUES ('$eventID', '$addonID')";
+        mysqli_query($conn, $sqlAddon);
+    }
+
+    // Insert add-ons into `clientaddons` table
+    foreach ($addons as $addonID) {
+        $sqlClientAddon = "INSERT INTO clientaddons (clientID, addonID) VALUES ('$clientID', '$addonID')";
+        mysqli_query($conn, $sqlClientAddon);
+    }
+
+    echo "Event added successfully!";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
 
 $conn->close();
 ?>

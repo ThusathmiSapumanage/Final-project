@@ -46,3 +46,29 @@
     </div>
   </body>
 </html>
+
+
+<?php
+session_start(); // Start the session
+
+include "config.php"; // Include your database connection
+
+// Assume you're verifying the login here
+$username = $_POST['username'];
+$password = $_POST['password'];
+
+// Query to validate the user
+$sql = "SELECT clientID FROM client WHERE cEmail = '$username' AND clientPass = '$password'";
+$result = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $_SESSION['clientID'] = $row['clientID']; // Store the clientID in the session
+    echo "Login successful!";
+    header("Location: calendar.php"); // Redirect to the calendar page
+} else {
+    echo "Invalid credentials!";
+}
+
+$conn->close();
+?>

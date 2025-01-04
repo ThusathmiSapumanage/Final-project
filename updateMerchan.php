@@ -1,128 +1,126 @@
 <?php
-
 include "config.php";
 
 // Get supplier ID from URL
-$supID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$supID = isset($_GET['id']) ? mysqli_real_escape_string($conn, $_GET['id']) : "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and fetch form inputs
-    $supID = intval($_POST['supID']);
+    // Fetch form inputs
+    $supID = mysqli_real_escape_string($conn, $_POST['supID']);
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $contact = mysqli_real_escape_string($conn, $_POST['contact']);
     $address = mysqli_real_escape_string($conn, $_POST['address']);
-    $suptype = mysqli_real_escape_string($conn, $_POST['suptype']);
-    $managerid = intval($_POST['managerid']);
+    $managerid = mysqli_real_escape_string($conn, $_POST['managerid']);
+    $mlItems = mysqli_real_escape_string($conn, $_POST['mlItems']);
+    $performance = mysqli_real_escape_string($conn, $_POST['performance']);
+    $merchandiseCategory = mysqli_real_escape_string($conn, $_POST['merchandiseCategory']);
 
+    // Update supplier table
+    $sql_supplier = "UPDATE supplier 
+                     SET supplierName = '$name', 
+                         supplierEmail = '$email', 
+                         supplierPhone = '$contact', 
+                         supplierAddress = '$address', 
+                         HmanagerID = '$managerid' 
+                     WHERE supplierID = '$supID'";
+    mysqli_query($conn, $sql_supplier);
 
-    // Update query
-    $sql = "UPDATE supplier 
-            SET supName = '$name', 
-                supEmail = '$email', 
-                supPhone = '$contact', 
-                supAddress = '$address', 
-                supType = '$suptype', 
-                managerID = $managerid 
-            WHERE supID = $supID";
+    // Update merchandisesupplier table
+    $sql_merchandise = "UPDATE merchandisesupplier 
+                        SET mItems = '$mlItems', 
+                            performance = '$performance', 
+                            merchandiseCategory = '$merchandiseCategory' 
+                        WHERE MsupplierID = '$supID'";
+    mysqli_query($conn, $sql_merchandise);
 
-    // Execute query and redirect
-    if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Update successful. Redirecting to the view page...');</script>";
-        echo "<script>window.location.href = 'manageMerchan.php';</script>";
-        exit;
-    } else {
-        echo "Error updating supplier: " . mysqli_error($conn);
+    // Redirect after update
+    echo "<script>alert('Update successful!'); window.location.href = 'manageMerchan.php';</script>";
+    exit;
+}
+
+// Fetch supplier and merchandise details for the form
+$name = $email = $contact = $address = $managerid = $mlItems = $performance = $merchandiseCategory = "";
+
+if ($supID) {
+    $sql_supplier = "SELECT * FROM supplier WHERE supplierID = '$supID'";
+    $result_supplier = mysqli_query($conn, $sql_supplier);
+    if ($row = mysqli_fetch_assoc($result_supplier)) {
+        $name = $row['supplierName'];
+        $email = $row['supplierEmail'];
+        $contact = $row['supplierPhone'];
+        $address = $row['supplierAddress'];
+        $managerid = $row['HmanagerID'];
+    }
+
+    $sql_merchandise = "SELECT * FROM merchandisesupplier WHERE MsupplierID = '$supID'";
+    $result_merchandise = mysqli_query($conn, $sql_merchandise);
+    if ($row = mysqli_fetch_assoc($result_merchandise)) {
+        $mlItems = $row['mItems'];
+        $performance = $row['performance'];
+        $merchandiseCategory = $row['merchandiseCategory'];
     }
 }
 
-// Initialize supplier details
-$name = $email = $contact = $address = $suptype = $managerid = "";
-
-if ($supID > 0) {
-    // Fetch supplier details
-    $sql2 = "SELECT * FROM supplier WHERE supID = $supID";
-    $result = mysqli_query($conn, $sql2);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $name = $row['supName'];
-        $email = $row['supEmail'];
-        $contact = $row['supPhone'];
-        $address = $row['supAddress'];
-        $suptype = $row['supType'];
-        $managerid = $row['managerID'];
-    }
-}
-
-// Fetch manager IDs for the dropdown
-$sql3 = "SELECT managerID FROM manager";
-$result2 = mysqli_query($conn, $sql3);
+// Fetch manager IDs for dropdown
+$sql_managers = "SELECT HmanagerID FROM headmanager";
+$result_managers = mysqli_query($conn, $sql_managers);
 ?>
-
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Update Merchandise Suppliers </title>
-        <link rel="stylesheet" type="text/css" href="addMerchan.css">
-    </head>
-    <body>
-        <div class="container">
-
+<head>
+    <title>Update Merchandise Supplier</title>
+    <link rel="stylesheet" type="text/css" href="addMerchan.css">
+</head>
+<body>
+    <div class="container">
         <?php include 'header.php'; ?>
 
-              <!-- Main Content -->
-            <main class = "content">
-                <header class="header">
-                    <h1>Merchandise Supplier Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
-            	</header>
-                <div class="content-inner">
-                    <div class="content-box">
-                        <h2>Update Merchandise Supplier</h2>
-                        <form class="form" action="updateMerchan.php" method="post">
+        <main class="content">
+            <header class="header">
+                <h1>Update Merchandise Supplier</h1>
+            </header>
+            <div class="content-inner">
+                <form class="form" action="updateMerchan.php" method="post">
+                    <label for="id">Supplier ID:</label>
+                    <input type="text" name="supID" value="<?php echo htmlspecialchars($supID); ?>" readonly>
 
-                        <label for="id">Supplier ID:</label>
-                        <input type="text" name="supID" value="<?php echo htmlspecialchars($supID); ?>" readonly>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
 
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
 
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
+                    <label for="contact">Contact:</label>
+                    <input type="text" id="contact" name="contact" value="<?php echo htmlspecialchars($contact); ?>" required>
 
-                        <label for="contact">Contact:</label>
-                        <input type="text" id="contact" name="contact" value="<?php echo htmlspecialchars($contact); ?>" required>
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($address); ?>" required>
 
-                        <label for="address">Address:</label>
-                        <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($address); ?>" required>
+                    <label for="managerid">Manager ID:</label>
+                    <select id="managerid" name="managerid" required>
+                        <?php
+                        while ($row = mysqli_fetch_assoc($result_managers)) {
+                            $selected = ($row['HmanagerID'] == $managerid) ? "selected" : "";
+                            echo "<option value='" . htmlspecialchars($row['HmanagerID']) . "' $selected>" . htmlspecialchars($row['HmanagerID']) . "</option>";
+                        }
+                        ?>
+                    </select><br>
 
-                        <label for="suptype">Supplier Type:</label>
-                        <input type="text" id="suptype" name="suptype" value="Merchandise supplier" readonly>
+                    <label for="mlItems">Merchandise Items:</label>
+                    <input type="text" id="mlItems" name="mlItems" value="<?php echo htmlspecialchars($mlItems); ?>" required>
 
-                        <label for="managerid">Manager ID:</label>
-                        <select id="managerid" name="managerid" required>
-                            <?php
-                            if (mysqli_num_rows($result2) > 0) {
-                                while ($row = $result2->fetch_assoc()) {
-                                    $selected = ($row['managerID'] == $managerid) ? "selected" : "";
-                                    echo "<option value='" . htmlspecialchars($row['managerID']) . "' $selected>" . htmlspecialchars($row['managerID']) . "</option>";
-                                }
-                            } else {
-                                echo "<option value='' disabled>No Managers Available</option>";
-                            }
-                            ?>
-                        </select><br>
-                        <button class="sub-btn" type="submit" name="submit">Update Merchandise Supplier</button>
-                        </form>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </body>
+                    <label for="performance">Performance:</label>
+                    <input type="text" id="performance" name="performance" value="<?php echo htmlspecialchars($performance); ?>" required>
+
+                    <label for="merchandiseCategory">Merchandise Category:</label>
+                    <input type="text" id="merchandiseCategory" name="merchandiseCategory" value="<?php echo htmlspecialchars($merchandiseCategory); ?>" required>
+
+                    <button class="sub-btn" type="submit" name="submit">Update Supplier</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
 </html>
