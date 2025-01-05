@@ -48,10 +48,12 @@
 
     <section id="background">
 
-      
+        <input type="text" id="searchInput" placeholder="Name">
+<button onclick="searchTable()">Search</button>
+
       <div class="form-container">
         <h1>Customer Data Form</h1>
-        <form id="customerForm" action="cusdata.php" method="POST" enctype="multipart/form-data">
+        <form id="customerForm" action="cusdata2.php" method="POST" enctype="multipart/form-data">
 
           <label for="profilePicture">Profile Picture:</label>
           <input type="file"  id="profilePicture" name="profilePicture" accept="image/*" required   />
@@ -78,11 +80,42 @@
             <option value="text">Text Message</option>
           </select>
 
-          <button id="button1" type="submit">Create Profile##############</button>
+          <button id="button1" type="submit">Update Profile</button>
         </form>
       </div>
 
-      
+      <script>
+        function searchTable() {
+            const searchValue = document.getElementById('searchInput').value;
+        
+            if (searchValue.trim() === '') {
+                alert('Please enter a name to search.');
+                return;
+            }
+        
+            // Perform AJAX request to fetch data
+            fetch('search_customer.php?name=' + encodeURIComponent(searchValue))
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Populate form with data
+                    document.getElementById('name').value = data.name;
+                    document.getElementById('company').value = data.company;
+                    document.getElementById('designation').value = data.designation;
+                    document.getElementById('email').value = data.email;
+                    document.getElementById('phone').value = data.phone;
+                    document.getElementById('communication').value = data.communication;
+                } else {
+                    alert('Customer not found.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while searching.');
+            });
+        }
+        </script>
+        
 
       <div id="return">
         <a href="http://localhost/Final-project/calander-try.php">Return to dashboard</a>

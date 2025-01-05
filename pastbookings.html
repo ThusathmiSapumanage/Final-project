@@ -106,60 +106,63 @@
     </style>
 </head>
 <body>
+
+  
     <div class="table-container">
         <h1>Booking List</h1>
-        <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for Booking ID">
-        <table id="bookingTable">
-            <thead>
-                <tr>
-                    <th>Booking ID</th>
-                    <th>Customer Name</th>
-                    <th>Event Name</th>
-                    <th>Cost</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Table rows will be populated dynamically -->
-            </tbody>
-        </table>
+        
+        <input type="text" id="searchInput" placeholder="Enter Event ID">
+<button onclick="searchTable()">Search</button>
+
+<table id="bookingTable" border="1">
+    <thead>
+        <tr>
+            <th>Event ID</th>
+            <th>Event Type</th>
+            <th>Event Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Data will be dynamically inserted here -->
+    </tbody>
+</table>
+
     </div>
 
     <script>
-        // Fetch data from the PHP file
-        fetch('data.php')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.querySelector("#bookingTable tbody");
+      // Search function to fetch filtered results by eventID
+      function searchTable() {
+          const input = document.getElementById("searchInput").value;
+  
+          // Fetch data with eventID as a query parameter
+          fetch(`data.php?eventID=${input}`)
+              .then(response => response.json())
+              .then(data => {
+                  const tableBody = document.querySelector("#bookingTable tbody");
+                  tableBody.innerHTML = "";  // Clear previous data
+  
+                  if (data.length > 0) {
+                      data.forEach(row => {
+                          const tr = document.createElement("tr");
+                          tr.innerHTML = `
+                              <td>${row.eventID}</td>
+                              <td>${row.eventType}</td>
+                              <td>${row.eventName}</td>
+                          `;
+                          tableBody.appendChild(tr);
+                      });
+                  } else {
+                      const tr = document.createElement("tr");
+                      tr.innerHTML = `<td colspan="3">No results found</td>`;
+                      tableBody.appendChild(tr);
+                  }
+              })
+              .catch(error => console.error("Error fetching data:", error));
+      }
+  </script>
+  
+  
 
-                data.forEach(row => {
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td>${row.booking_id}</td>
-                        <td>${row.customer_name}</td>
-                        <td>${row.event_name}</td>
-                        <td>${row.cost}</td>
-                    `;
-                    tableBody.appendChild(tr);
-                });
-            })
-            .catch(error => console.error("Error fetching data:", error));
-
-        // Search function
-        function searchTable() {
-            const input = document.getElementById("searchInput");
-            const filter = input.value.toUpperCase();
-            const table = document.getElementById("bookingTable");
-            const tr = table.getElementsByTagName("tr");
-
-            for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    const textValue = td.textContent || td.innerText;
-                    tr[i].style.display = textValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
-                }
-            }
-        }
-    </script>
     <footer class="footer">
         <div class="section__container footer__container">
           <div class="footer__col">

@@ -47,29 +47,62 @@
     </nav>
 
     <section id="background">
-
-      
       <div class="form-container">
         <h1>Customer Data Form</h1>
-        <form id="customerForm" action="cusdata.php" method="POST" enctype="multipart/form-data">
-
+        <form id="customerForm">
           <label for="profilePicture">Profile Picture:</label>
-          <input type="file"  id="profilePicture" name="profilePicture" accept="image/*" required   />
+          <input
+            type="file"
+            id="profilePicture"
+            name="profilePicture"
+            accept="image/*"
+            required
+          />
 
           <label for="name">Full Name:</label>
-          <input type="text" id="name" name="name" placeholder="Enter your full name" required   />
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your full name"
+            required
+          />
 
           <label for="company">Company Name:</label>
-          <input type="text"  id="company" name="company" placeholder="Enter your company name" required  />
+          <input
+            type="text"
+            id="company"
+            name="company"
+            placeholder="Enter your company name"
+            required
+          />
 
           <label for="designation">Designation:</label>
-          <input type="text" id="designation" name="designation" placeholder="Enter your designation" required  />
+          <input
+            type="text"
+            id="designation"
+            name="designation"
+            placeholder="Enter your designation"
+            required
+          />
 
           <label for="email">Email:</label>
-          <input type="email" id="email" name="email" placeholder="Enter your email" required />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
 
           <label for="phone">Phone Number:</label>
-          <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required />
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Enter your phone number"
+            required
+          />
 
           <label for="communication">Preferred Communication Method:</label>
           <select id="communication" name="communication" required>
@@ -78,11 +111,25 @@
             <option value="text">Text Message</option>
           </select>
 
-          <button id="button1" type="submit">Create Profile##############</button>
+          <button id="button1" type="submit">Update Profile</button>
         </form>
       </div>
 
-      
+      <script>
+        // script.js
+        document
+          .getElementById("customerForm")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            console.log("Customer Data Submitted:", data);
+
+            alert("Customer data updated successfully!");
+          });
+      </script>
 
       <div id="return">
         <a href="http://localhost/Final-project/calander-try.php">Return to dashboard</a>
