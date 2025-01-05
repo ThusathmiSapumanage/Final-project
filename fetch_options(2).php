@@ -32,7 +32,7 @@ if ($result) {
 }
 
 // Fetch event managers
-$result = $conn->query("SELECT managerID, mName FROM manager");
+$result = $conn->query("SELECT managerID, mName FROM manager WHERE managerID LIKE 'EID%'");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $managers[] = $row;

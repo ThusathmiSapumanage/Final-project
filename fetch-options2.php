@@ -18,7 +18,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Fetch event managers
-$result = $conn->query("SELECT managerID, mName FROM manager");
+$result = $conn->query("SELECT managerID, mName FROM manager WHERE managerID LIKE 'EID%'");
 while ($row = $result->fetch_assoc()) {
     $data['managers'][] = $row;
 }

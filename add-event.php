@@ -1,32 +1,27 @@
 <?php
-header('Content-Type: application/json');
-include "config.php";
+include 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $eventName = $_POST['eventName'];
     $eventStart = $_POST['eventStart'];
     $eventEnd = $_POST['eventEnd'];
+    $eventVisitDate = $_POST['eventVisitDate'];
     $eventType = $_POST['eventType'];
     $eventStatus = $_POST['eventStatus'];
-    $ClientID = intval($_POST['ClientID']);
+    $ClientID = $_POST['ClientID'];
     $EmanagerID = $_POST['EmanagerID'];
-    $hallID = intval($_POST['hallID']);
-    $eventVisitDate = $_POST['eventVisitDate'];
+    $hallID = $_POST['hallID'];
 
-    // Insert the event into the database
-    $stmt = $conn->prepare("INSERT INTO events (eventName, eventStart, eventEnd, eventType, eventStatus, ClientID, EmanagerID, hallID, eventVisitDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssisis", $eventName, $eventStart, $eventEnd, $eventType, $eventStatus, $ClientID, $EmanagerID, $hallID, $eventVisitDate);
+    $sql = "INSERT INTO events (eventName, eventStart, eventEnd, eventVisitDate, eventType, eventStatus, ClientID, EmanagerID, hallID) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ssssssisi', $eventName, $eventStart, $eventEnd, $eventVisitDate, $eventType, $eventStatus, $ClientID, $EmanagerID, $hallID);
 
     if ($stmt->execute()) {
         echo json_encode(['success' => true]);
     } else {
-        echo json_encode(['success' => false, 'error' => 'Failed to add the event.']);
+        echo json_encode(['success' => false, 'error' => $stmt->error]);
     }
-
-    $stmt->close();
-} else {
-    echo json_encode(['success' => false, 'error' => 'Invalid request.']);
 }
-
-$conn->close();
 ?>
