@@ -49,7 +49,7 @@
             }
 
             .main-content {
-                margin-left: 230px;
+                margin-left: 190px;
                 padding: 15px;
                 background-color: #ffffff;
                 width: 100%;
@@ -175,6 +175,13 @@
                             </div>
                             <p>Manage Managers</p>
                             <a href="manageManager.php"><button>View</button></a>
+                        </div>
+                        <div class="supply-card">
+                            <div class="icon">
+                                <img src="Images/hand.png">
+                            </div>
+                            <p>Manage Resource Allocation</p>
+                            <a href="manageresourceallo.php"><button>View</button></a>
                         </div>
                     </div>
                 </section>

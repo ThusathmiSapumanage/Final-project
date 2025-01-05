@@ -116,7 +116,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="number" id="teamSize" name="teamSize">
 
                     <label for="authorityLevel">Authority Level:</label>
-                    <input type="text" id="authorityLevel" name="authorityLevel">
+                    <select id="authorityLevel" name="authorityLevel">
+                        <option value="1">High</option>
+                        <option value="2">Low</option>
+                        <option value="3">Medium</option>
+                    </select>
 
                     <label for="yearsOfExperience">Years of Experience:</label>
                     <input type="number" id="yearsOfExperience" name="yearsOfExperience">

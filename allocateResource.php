@@ -31,41 +31,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         align-items: center;
         height: 100vh;
     }
-
-    
     .custom-sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 200px;
-        background: #151515;
-        color: white;
-        padding: 20px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    }
+    width: 250px;
+    background: #151515;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    scrollbar-width: none;
+}
 
-    .custom-sidebar .menu {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
+.custom-sidebar::-webkit-scrollbar {
+    display: none;
+}
 
-    .custom-sidebar .menu a {
-        display: block;
-        color: white;
-        text-decoration: none;
-        padding: 10px 15px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        transition: background 0.3s;
-    }
+.custom-sidebar .logo img {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 80%;
+}
 
-    .custom-sidebar .menu a:hover,
-    .custom-sidebar .menu a.active {
-        background: #fdb827;
-        color: black;
-    }
+.custom-sidebar .menu {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.custom-sidebar .menu a {
+    display: block;
+    color: white;
+    padding: 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background 0.3s;
+}
+
+.custom-sidebar .menu a.active,
+.custom-sidebar .menu a:hover {
+    background: #fdb827;
+    color: black;
+}
+
+.custom-sidebar .dropdown-menu {
+    display: none;
+    padding-left: 15px;
+    list-style: none;
+    margin: 0;
+}
+
+.custom-sidebar .dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.custom-sidebar .settings {
+    margin-top: 20px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.custom-sidebar .settings img {
+    width: 20px;
+    margin-right: 5px;
+}
+
 
     .container {
         background-color: #fff;
@@ -123,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         border-radius: 5px;
         cursor: pointer;
         font-size: 16px;
-        margin-top: 10px;
+        margin-top: 10px;a
     }
 
     .back-btn:hover {

@@ -131,7 +131,7 @@ $result = mysqli_query($conn, $sql);
               <!-- Main Content -->
               <main class="content">
             <header class="header">
-                <h1>Food Supplier Management</h1>
+                <h1 style = 'color: white;'>Food Supplier Management</h1>
             </header>
             <div class="content-inner">
                 <div class="content-box">

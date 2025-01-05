@@ -63,6 +63,7 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
                     <li><a href="manageStaff.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'manageStaff.php' ? 'active2' : ''; ?>">Manage Staff</a></li>
                     <li><a href="manageManager.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'manageManager.php' ? 'active2' : ''; ?>">Manage Managers</a></li>
                     <li><a href="manageTasks.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'manageTasks.php' ? 'active2' : ''; ?>">Manage Tasks</a></li>
+                    <li><a href="manageresourceallo.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'manageresourceallo.php' ? 'active2' : ''; ?>">Manage Resource Allocation</a></li>
                 </ul>
             </div>
         <?php endif; ?>

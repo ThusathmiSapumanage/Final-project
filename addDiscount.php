@@ -45,6 +45,11 @@ if (!$result_emanager) {
 <head>
     <title>Add Discount</title>
     <link rel="stylesheet" type="text/css" href="addcommon.css">
+    <style>
+        .main-content {
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="container">

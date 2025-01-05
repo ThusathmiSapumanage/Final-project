@@ -187,7 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             </tbody>
                         </table>
                     </div>
-                    <a href="supplierM.html" class="back-btn">Back</a>
+                    <a href="supplierM.php" class="back-btn">Back</a>
                 </section>
             </main>
         </div>

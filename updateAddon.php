@@ -67,7 +67,7 @@ if ($aID > 0) {
 
         <!-- Main Content -->
         <main class="main-content">
-            <h1>Update Add-Ons</h1>
+            <h1 style = 'color: black;'>Update Add-Ons</h1>
             <div class="content-inner">
                 <div class="content-box">
                     <form class="form" action="updateAddon.php" method="post">

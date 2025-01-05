@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Main Content -->
         <main class="main-content">
             <header class="header">
-                <h1>Update General Discount</h1>
+                <h1 style = 'color: black;'>Update General Discount</h1>
             </header>
             <div class="content-inner">
                 <div class="content-box">

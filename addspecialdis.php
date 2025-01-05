@@ -27,6 +27,11 @@ $discountID = isset($_GET['discountID']) ? $_GET['discountID'] : '';
 <head>
     <title>Add Special Discount</title>
     <link rel="stylesheet" href="addcommon.css">
+    <style>
+        .main-content {
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
