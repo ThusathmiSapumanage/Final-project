@@ -1,10 +1,10 @@
 <?php
 
-include "config.php";
+include "config.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $name = $_POST['name'];
-    $pic = $_POST['pic'];
+    $pic = $_FILES['pic']['tmp_name']; // Handle file upload
     $price = $_POST['price'];
     $qty = $_POST['qty'];
     $onsale = $_POST['onsale'];
@@ -12,115 +12,137 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $cata = $_POST['cata'];
     $managerid = $_POST['managerid'];
     $inventory = $_POST['inventory'];
+    $supplierid = $_POST['supplierid'];
 
-    $sql = "INSERT INTO merchandise (mName, productImg, priceperU, qty, onSale, mDes, productCategory, managerID, inventoryID) VALUES ('$name', '$pic', '$price', '$qty', '$onsale', '$des', '$cata', '$managerid', '$inventory')";
+    // Convert image to binary data
+    $picContent = addslashes(file_get_contents($pic));
+
+    // Insert into the merchandise table
+    $sql = "INSERT INTO merchandise (productName, productImage, pricePerUnit, quantityInStock, isOnSale, productDescription, productCategory, EmanagerID, inventoryID, MsupplierID) 
+            VALUES ('$name', '$picContent', '$price', '$qty', '$onsale', '$des', '$cata', '$managerid', '$inventory', '$supplierid')";
 
     if (mysqli_query($conn, $sql)) {
+        echo "<script>alert('Merchandise added successfully!');</script>";
         header("Location: manageMerchandise.php");
         exit;
-    } 
-    else
-    {
+    } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
 }
 
-$sql = "SELECT managerID FROM manager";
+// Fetch manager IDs and Names
+$sql = "SELECT managerID, mName FROM manager WHERE managerID LIKE 'EID%'";
 $result = mysqli_query($conn, $sql);
 
-$sql2 = "SELECT inventoryID FROM inventory";
+// Fetch inventory IDs and Descriptions
+$sql2 = "SELECT inventoryID, invetoryDescription FROM inventory";
 $result2 = mysqli_query($conn, $sql2);
-?>
 
+// Fetch supplier IDs and Items
+$sql3 = "SELECT MsupplierID, mItems FROM merchandisesupplier";
+$result3 = mysqli_query($conn, $sql3);
+
+?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Add Mercahndise</title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
-    </head>
-    <body>
-        <div class="container">
+<head>
+    <title>Add Merchandise</title>
+    <link rel="stylesheet" type="text/css" href="addcommon.css">
+</head>
+<body>
+    <div class="container">
 
-            <!-- Sidebar -->
-            <?php include 'header.php'; ?>
+        <!-- Sidebar -->
+        <?php include 'header.php'; ?>
 
-              <!-- Main Content -->
-            <main class = "content">
-                <header class="header">
-                    <h1>Merchandise Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
-            	</header>
-                <div class="content-inner">
-                    <div class="content-box">
-                        <h2>Add Mercahndise</h2>
-                        <form class = "form" action="addMerchandise.php" method="post">
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1 style = 'color: white;'>Merchandise Management</h1>
+            </header>
+            <div class="content-inner">
+                <div class="content-box">
+                    <h2>Add Merchandise</h2>
+                    <form class="form" action="addMerchandise.php" method="post" enctype="multipart/form-data">
+                        <label for="name">Merchandise Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Enter merchandise name" required>
 
-                            <label for="name">Merchandise Name:</label>
-                            <input type="text" id="name" name="name" required>
+                        <label for="pic">Picture:</label>
+                        <input type="file" id="pic" name="pic" accept="image/*" required>
 
-                            <label for="pic">Picture:</label>
-                            <input type="file" id="pic" name="pic" accept="image/*" required>
+                        <label for="price">Price:</label>
+                        <input type="number" id="price" name="price" step="0.01" placeholder="Enter price" required>
 
-                            <label for="price">Price:</label>
-                            <input type="text" id="price" name="price" required>
+                        <label for="qty">Quantity:</label>
+                        <input type="number" id="qty" name="qty" placeholder="Enter quantity" required>
 
-                            <label for="qty">Quantity:</label>
-                            <input type="text" id="qty" name="qty" required>
+                        <label for="onsale">On Sale:</label><br>
+                        <select id="onsale" name="onsale" required>
+                            <option value="" disabled selected>Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
 
-                            <label class="sale">On sale?</label></br>
-                            <label class = "yes">Yes</label>
-                            <input type="radio" name="yes" value="yes" />
-                            <label class = "no">No</label>
-                            <input type="radio" name="no" value="no" /></br>
-                            
-                            <label for="des">Item description:</label>
-                            <input type="text" id="des" name="des" required>
+                        <label for="des">Item Description:</label>
+                        <textarea id="des" name="des" placeholder="Enter item description" required></textarea>
 
-                            <label for="cata">Product Category (Please select one):</label>
-                            <select id="cata" name="cata" required>
-                                <option value="Clothing">Clothing</option>
-                                <option value="Accessories">Accessories</option>
-                                <option value="Toys">Toys</option>
-                                <option value="Stationery">Stationery</option>
-                                <option value="Others">Others</option>
-                            </select></br>
+                        <label for="cata">Product Category:</label>
+                        <select id="cata" name="cata" required>
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Clothing">Clothing</option>
+                            <option value="Accessories">Accessories</option>
+                            <option value="Toys">Toys</option>
+                            <option value="Stationery">Stationery</option>
+                            <option value="Others">Others</option>
+                        </select>
 
-                            <label for="managerid">Manager ID:</label>
-                            <select id="managerid" name="managerid">
-                                <option value="" disabled selected>Select Manager</option>
-                                <?php
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo "<option value='" . $row['managerID'] . "'>" . $row['managerID'] . "</option>";
-                                    }
-                                } else {
-                                    echo "<option value='' disabled>No Managers Available</option>";
+                        <label for="managerid">Manager:</label>
+                        <select id="managerid" name="managerid" required>
+                            <option value="" disabled selected>Select Manager</option>
+                            <?php
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<option value='" . htmlspecialchars($row['managerID']) . "'>" . htmlspecialchars($row['mName']) . " (ID: " . htmlspecialchars($row['managerID']) . ")</option>";
                                 }
-                                ?>
-                            </select></br>
+                            } else {
+                                echo "<option value='' disabled>No Managers Available</option>";
+                            }
+                            ?>
+                        </select>
 
-                            <label for="inventory">Inventory ID:</label>
-                            <select id="inventory" name="inventory">
-                                <option value="" disabled selected>Select Inventory</option>
-                                <?php
-                                if (mysqli_num_rows($result2) > 0) {
-                                    while ($row = $result2->fetch_assoc()) {
-                                        echo "<option value='" . $row['inventoryID'] . "'>" . $row['inventoryID'] . "</option>";
-                                    }
-                                } else {
-                                    echo "<option value='' disabled>No Inventories Available</option>";
+                        <label for="inventory">Inventory:</label>
+                        <select id="inventory" name="inventory" required>
+                            <option value="" disabled selected>Select Inventory</option>
+                            <?php
+                            if (mysqli_num_rows($result2) > 0) {
+                                while ($row = mysqli_fetch_assoc($result2)) {
+                                    echo "<option value='" . htmlspecialchars($row['inventoryID']) . "'>" . htmlspecialchars($row['invetoryDescription']) . " (ID: " . htmlspecialchars($row['inventoryID']) . ")</option>";
                                 }
-                                ?>
-                            </select></br>
-                            <button class = "sub-btn" type="submit" name="submit">Add Merchandise</button>
-                        </form>
-                    </div>
+                            } else {
+                                echo "<option value='' disabled>No Inventories Available</option>";
+                            }
+                            ?>
+                        </select>
+
+                        <label for="supplierid">Supplier:</label>
+                        <select id="supplierid" name="supplierid" required>
+                            <option value="" disabled selected>Select Supplier</option>
+                            <?php
+                            if (mysqli_num_rows($result3) > 0) {
+                                while ($row = mysqli_fetch_assoc($result3)) {
+                                    echo "<option value='" . htmlspecialchars($row['MsupplierID']) . "'>" . htmlspecialchars($row['mItems']) . " (ID: " . htmlspecialchars($row['MsupplierID']) . ")</option>";
+                                }
+                            } else {
+                                echo "<option value='' disabled>No Suppliers Available</option>";
+                            }
+                            ?>
+                        </select>
+
+                        <button class="sub-btn" type="submit" name="submit">Add Merchandise</button>
+                    </form>
                 </div>
-            </main>
-        </div>
-    </body>
+            </div>
+        </main>
+    </div>
+</body>
 </html>

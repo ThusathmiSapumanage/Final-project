@@ -58,12 +58,11 @@ if (!$result) {
     die("Error fetching manager IDs: " . mysqli_error($conn));
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Add Merchandise Supplier</title>
-    <link rel="stylesheet" type="text/css" href="addMerchan.css">
+    <link rel="stylesheet" type="text/css" href="addcommon.css">
 </head>
 <body>
     <div class="container">
@@ -73,12 +72,7 @@ if (!$result) {
         <!-- Main Content -->
         <main class="content">
             <header class="header">
-                <h1>Merchandise Supplier Management</h1>
-                <div class="search">
-                    <input type="text" placeholder="Search">
-                    <img src="images/search-interface-symbol.png" alt="Search">
-                    <button>Search</button>
-                </div>
+                <h1 style = 'color : white;'>Merchandise Supplier Management</h1>
             </header>
             <div class="content-inner">
                 <div class="content-box">

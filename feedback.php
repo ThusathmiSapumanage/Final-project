@@ -25,55 +25,72 @@ body
     height: 100vh;
 }
 
-.sidebar
-{
-    width: 250px;
+/* Sidebar */
+.custom-sidebar {
+    width: 200px; /* Thinner sidebar */
     background: #151515;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Align items to the top */
-    height: 100vh; /* Adjusted height */
-    position: fixed; /* Make sidebar fixed */
-    top: 0; /* Align to top */
-    left: 0; /* Align to left */
-    overflow-y: auto; /* Add vertical scroll */
     scrollbar-width: none; /* For Firefox */
 }
 
-.sidebar::-webkit-scrollbar {
+.custom-sidebar::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Opera */
 }
 
-.sidebar .logo {
-    text-align: center;
-    margin-bottom: 20px; /* Increased margin for better spacing */
-}
-
-.sidebar .menu a
-{
+.custom-sidebar .logo img {
     display: block;
-    color: #fff;
-    padding: 14px;
+    margin: 0 auto 20px;
+    max-width: 80%;
+}
+
+.custom-sidebar .menu {
+    padding: 0;
+    margin: 0;
+    list-style: none; /* Removes bullet points */
+}
+
+.custom-sidebar .menu a {
+    display: block;
+    color: white;
+    padding: 15px; /* Increased padding for more space between links */
     text-decoration: none;
-    border-radius: 4px;
-    transition: background 0.5s ease;
-    margin: 10px 0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background 0.3s;
 }
 
-.sidebar .menu a.active, .sidebar .menu a:hover
-{
+.custom-sidebar .menu a.active,
+.custom-sidebar .menu a:hover {
     background: #fdb827;
-    color: #000;
+    color: black;
 }
 
-.sidebar .settings
-{
+.custom-sidebar .dropdown-menu {
+    display: none; /* Hide sub values */
+    padding-left: 15px;
+    list-style: none; /* Removes bullet points from submenus */
+    margin: 0;
+}
+
+.custom-sidebar .dropdown:hover .dropdown-menu {
+    display: block; /* Show sub values on hover */
+}
+
+.custom-sidebar .settings {
+    margin-top: 20px;
     text-align: center;
-    color: #fff;
-    margin-top: auto;
+    cursor: pointer;
     font-size: 14px;
-    align-items:center;
+}
+
+.custom-sidebar .settings img {
+    width: 20px;
+    margin-right: 5px;
 }
 
 .content
@@ -151,21 +168,22 @@ body
     padding: 20px;
 }
 
-.feedback-card
-{
+.feedback-card {
     position: relative; 
-    width: calc(33.33% - 20px);
-    max-width: 300px;
+    width: calc(50% - 20px); /* Increase the width */
     background: #ffffff;
     color: #000;
-    padding: 20px;
+    padding: 30px; 
     border-radius: 15px;
     cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add smooth transition */
 }
-.feedback-card:hover
-{
-    transform: scale(1.05);
+
+.feedback-card:hover {
+    transform: scale(1.05); /* Keep the hover effect */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Optional shadow effect */
 }
+
 
 .search img
 {
@@ -231,8 +249,14 @@ body
     bottom: 10px; 
     right: 10px; 
     display: flex;
-    gap: 10px;
+    gap: 20px;
 }
+
+.buttons .del
+{
+    margin-left: 10px;
+}
+
 .buttons .del:hover
 {
     background-color: #ff0000; 

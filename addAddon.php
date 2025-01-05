@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 <html>
 <head>
     <title>Add Add-Ons</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="addcommon.css">
 </head>
 <body>
     <div class="container">
@@ -34,14 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
         <!-- Main Content -->
         <main class="content">
-            <header class="header">
-                <h1>Event Management</h1>
-                <div class="search">
-                    <input type="text" placeholder="Search">
-                    <img src="Images/search-interface-symbol.png">
-                    <button>Search</button>
-                </div>
-            </header>
             <div class="content-inner">
                 <div class="content-box">
                     <h2>Add Add-Ons</h2>
@@ -49,14 +41,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         <label for="des">Description</label>
                         <input type="text" id="des" name="des" required>
 
-                        <label for="amount">Amount</label>
+                        <label for="amount">Quantity</label>
                         <input type="number" id="amount" name="amount" required>
 
-                        <label for="price">Price per Unit</label>
+                        <label for="price">Price per Unit (per hour)</label>
                         <input type="number" id="price" name="price" step="0.01" required>
 
                         <label for="emanagerID">Event Manager ID</label>
-                        <Select id="emanagerID" name="emanagerID">
+                        <select id="emanagerID" name="emanagerID">
                             <?php
                             $sql = "SELECT EmanagerID FROM eventmanager";
                             $result = mysqli_query($conn, $sql);
@@ -67,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                                 }
                             }
                             ?>
-                        </Select>
+                        </select>
                         <br>
                         
                         <button class="sub-btn" type="submit" name="submit">Add Add-On</button>

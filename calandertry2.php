@@ -1,16 +1,3 @@
-<?php
-session_start();
-
-// Check if the client is logged in
-if (!isset($_SESSION['clientID'])) {
-    header("Location: client_login.php");
-    exit;
-}
-
-// Retrieve logged-in client ID
-$clientID = $_SESSION['clientID'];
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,9 +91,20 @@ $clientID = $_SESSION['clientID'];
             cursor: pointer;
             margin-left: 10px;
         }
+
+        .btn-logout {
+            background-color: #FF5733;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 20px;
+        }
     </style>
 </head>
 <body>
+    <button class="btn-logout" onclick="window.location.href='logout.php'">Logout</button>
     <div id="calendar"></div>
 
     <!-- Modal -->

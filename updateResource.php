@@ -62,63 +62,58 @@ $result2 = mysqli_query($conn, $sql3);
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Update Resources </title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
-    </head>
-    <body>
-        <div class="container">
+<head>
+    <title>Update Resources</title>
+    <link rel="stylesheet" type="text/css" href="commonupdate.css">
+</head>
+<body>
+    <div class="container">
 
-        <?php include 'header.php'; ?>
+    <?php include 'header.php'; ?>
 
-            <!-- Main Content -->
-            <main class="content">
-                <header class="header">
-                    <h1>Resource Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="images/search-interface-symbol.png" alt="Search">
-                        <button>Search</button>
-                    </div>
-                </header>
-                <div class="content-inner">
-                    <div class="content-box">
-                        <h2>Update Resources</h2>
-                        <form class="form" action="updateResource.php" method="post">
-                            <!-- Hidden field for resource ID -->
-                            <input type="hidden" name="rID" value="<?php echo htmlspecialchars($rID); ?>">
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1 style = 'color: black;'>Resource Management</h1>
+            </header>
+            <div class="content-inner">
+                <div class="content-box">
+                    <h2>Update Resources</h2><br>
+                    <form class="form" action="updateResource.php" method="post">
+                        <!-- Hidden field for resource ID -->
+                        <input type="hidden" name="rID" value="<?php echo htmlspecialchars($rID); ?>">
 
-                            <label for="rname">Resource Name</label>
-                            <input type="text" name="rname" value="<?php echo htmlspecialchars($rname); ?>" required>
+                        <label for="rname">Resource Name</label>
+                        <input type="text" name="rname" value="<?php echo htmlspecialchars($rname); ?>" required>
 
-                            <label for="allocation">Allocation Status</label>
-                            <select name="allocation" required>
-                                <option value="Available" <?php echo ($allocation == "Available") ? "selected" : ""; ?>>Available</option>
-                                <option value="Unavailable" <?php echo ($allocation == "Unavailable") ? "selected" : ""; ?>>Unavailable</option>
-                            </select>
+                        <label for="allocation">Allocation Status</label>
+                        <select name="allocation" required>
+                            <option value="Available" <?php echo ($allocation == "Available") ? "selected" : ""; ?>>Available</option>
+                            <option value="Unavailable" <?php echo ($allocation == "Unavailable") ? "selected" : ""; ?>>Unavailable</option>
+                        </select>
 
-                            <label for="des">Description</label>
-                            <input type="text" name="des" value="<?php echo htmlspecialchars($des); ?>" required>
+                        <label for="des">Description</label>
+                        <input type="text" name="des" value="<?php echo htmlspecialchars($des); ?>" required>
 
-                            <label for="headmanagerID">Head Manager ID</label>
-                            <select name="headmanagerID" required>
-                                <option value="">Select Head Manager</option>
-                                <?php
-                                if ($result2 && mysqli_num_rows($result2) > 0) {
-                                    while ($row2 = mysqli_fetch_assoc($result2)) {
-                                        $selected = ($row2['hmanagerID'] == $headmanager) ? "selected" : "";
-                                        echo "<option value='{$row2['hmanagerID']}' $selected>{$row2['hmanagerID']}</option>";
-                                    }
+                        <label for="headmanagerID">Head Manager ID</label>
+                        <select name="headmanagerID" required>
+                            <option value="">Select Head Manager</option>
+                            <?php
+                            if ($result2 && mysqli_num_rows($result2) > 0) {
+                                while ($row2 = mysqli_fetch_assoc($result2)) {
+                                    $selected = ($row2['hmanagerID'] == $headmanager) ? "selected" : "";
+                                    echo "<option value='{$row2['hmanagerID']}' $selected>{$row2['hmanagerID']}</option>";
                                 }
-                                ?>
-                            </select>
-                            <br>
-                            <button class="sub-btn" type="submit" name="submit" style="background-color: #555; color: black;">Update Resource</button>
-                        </form>
+                            }
+                            ?>
+                        </select>
+                        <br>
+                        <button class="sub-btn" type="submit" name="submit">Update Resource</button>
+                    </form>
 
-                    </div>
                 </div>
-            </main>
-        </div>
-    </body>
+            </div>
+        </main>
+    </div>
+</body>
 </html>

@@ -34,7 +34,12 @@ if (!$result_clients || !$result_discounts) {
 <html>
 <head>
     <title>Receive Discount</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="addcommon.css">
+    <style>
+        .main-content {
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -42,7 +47,7 @@ if (!$result_clients || !$result_discounts) {
         <?php include 'header.php'; ?>
 
         <!-- Main Content -->
-        <main class="content">
+        <main class="main-content">
             <header class="header">
                 <h1>Receive Discount</h1>
             </header>
@@ -60,7 +65,6 @@ if (!$result_clients || !$result_discounts) {
                             ?>
                         </select>
 
-                        <br>
                         <label for="discountID">Discount:</label>
                         <select id="discountID" name="discountID" required>
                             <option value="" disabled selected>Select Discount</option>
@@ -70,9 +74,8 @@ if (!$result_clients || !$result_discounts) {
                             }
                             ?>
                         </select>
-                        <br>
 
-                        <button type="submit" name="submit">Assign Discount</button>
+                        <button class="sub-btn" type="submit" name="submit">Assign Discount</button>
                     </form>
                 </div>
             </div>

@@ -67,68 +67,65 @@ if (mysqli_num_rows($result) > 0) {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Update Graphic Designer</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="commonupdate.css">
+    <style>
+        .main-content {
+            background-color: #ffffff;
+            width: 500px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-
-    <?php include 'header.php'; ?>
-
-        
-        <!-- Main Content -->
-        <main class="content">
+        <?php include 'header.php'; ?>
+        <main class="main-content">
             <header class="header">
-                <h1>Update Graphic Designer</h1>
+                <h1 style = 'color: black;'>Update Graphic Designer</h1>
             </header>
-            <div class="content-inner">
-                <div class="content-box">
-                    <h2>Edit Details</h2>
-                    <form class="form" action="updateGD.php?id=<?php echo htmlspecialchars($staffID); ?>" method="post">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($data['staffName']); ?>" required>
+            <div class="content-box">
+                <form class="form" action="updateGD.php?id=<?php echo htmlspecialchars($staffID); ?>" method="post">
+                    <br><br>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($data['staffName']); ?>" required>
 
-                        <label for="availability">Availability:</label>
-                       <select id="availability" name="availability" required>
-                            <option value="Full-Time" <?php if ($data['staffAvailability'] == 'Full-Time') echo 'selected'; ?>>Full-Time</option>
-                            <option value="Part-Time" <?php if ($data['staffAvailability'] == 'Part-Time') echo 'selected'; ?>>Part-Time</option>
-                        </select>
-                        <br>
+                    <label for="availability">Availability:</label>
+                    <select id="availability" name="availability" required>
+                        <option value="Full-Time" <?php if ($data['staffAvailability'] == 'Full-Time') echo 'selected'; ?>>Full-Time</option>
+                        <option value="Part-Time" <?php if ($data['staffAvailability'] == 'Part-Time') echo 'selected'; ?>>Part-Time</option>
+                    </select>
 
-                        <label for="hourlyRate">Hourly Rate:</label>
-                        <input type="number" id="hourlyRate" name="hourlyRate" value="<?php echo htmlspecialchars($data['hourlyRate']); ?>" step="0.01" required>
+                    <label for="hourlyRate">Hourly Rate:</label>
+                    <input type="number" id="hourlyRate" name="hourlyRate" value="<?php echo htmlspecialchars($data['hourlyRate']); ?>" step="0.01" required>
 
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" value="<?php echo htmlspecialchars($data['staffPassword']); ?>" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" value="<?php echo htmlspecialchars($data['staffPassword']); ?>" required>
 
-                        <label for="managerID">Manager ID:</label>
-                        <select id="managerID" name="managerID" required>
-                            <?php
-                            $sql_manager = "SELECT HmanagerID FROM headmanager";
-                            $result_manager = mysqli_query($conn, $sql_manager);
+                    <label for="managerID">Manager ID:</label>
+                    <select id="managerID" name="managerID" required>
+                        <?php
+                        $sql_manager = "SELECT HmanagerID FROM headmanager";
+                        $result_manager = mysqli_query($conn, $sql_manager);
 
-                            if (mysqli_num_rows($result_manager) > 0) {
-                                while ($manager = mysqli_fetch_assoc($result_manager)) {
-                                    echo "<option value='" . $manager['HmanagerID'] . "' " . ($data['HmanagerID'] == $manager['HmanagerID'] ? 'selected' : '') . ">" . $manager['HmanagerID'] . "</option>";
-                                }
+                        if (mysqli_num_rows($result_manager) > 0) {
+                            while ($manager = mysqli_fetch_assoc($result_manager)) {
+                                echo "<option value='" . $manager['HmanagerID'] . "' " . ($data['HmanagerID'] == $manager['HmanagerID'] ? 'selected' : '') . ">" . $manager['HmanagerID'] . "</option>";
                             }
-                            ?>
-                        </select>
-                        <br>
+                        }
+                        ?>
+                    </select>
 
-                        <label for="designTools">Design Tools:</label>
-                        <input type="text" id="designTools" name="designTools" value="<?php echo htmlspecialchars($data['designTools']); ?>" required>
+                    <label for="designTools">Design Tools:</label>
+                    <input type="text" id="designTools" name="designTools" value="<?php echo htmlspecialchars($data['designTools']); ?>" required>
 
-                        <label for="experience">Experience (in years):</label>
-                        <input type="number" id="experience" name="experience" value="<?php echo htmlspecialchars($data['experience']); ?>" step="1" required>
+                    <label for="experience">Experience (in years):</label>
+                    <input type="number" id="experience" name="experience" value="<?php echo htmlspecialchars($data['experience']); ?>" step="1" required>
 
-                        <button class="sub-btn" type="submit" name="submit">Update</button>
-                    </form>
-                </div>
+                    <button class="sub-btn" type="submit" name="submit">Update Graphic Designer</button>
+                </form>
             </div>
         </main>
     </div>

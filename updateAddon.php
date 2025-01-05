@@ -1,12 +1,16 @@
 <?php
-
 include "config.php";
 
+// Initialize variables to avoid undefined warnings
+$aID = $des = $amount = $price = $emanagerID = "";
+
 // Retrieve `addonID` from GET or POST request
-$aID = isset($_GET['id']) ? intval($_GET['id']) : 0;
+if (isset($_GET['id'])) {
+    $aID = intval($_GET['id']);
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $aID = intval($_POST['addonID']); // Match name in form
+    $aID = intval($_POST['addonID']); // Ensure this matches the form input name
     $des = mysqli_real_escape_string($conn, $_POST['des']);
     $amount = intval($_POST['amount']);
     $price = floatval($_POST['price']);
@@ -30,9 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Initialize add-on details
-$des = $amount = $price = $emanagerID = "";
-
 if ($aID > 0) {
     // Fetch the add-on details
     $sql2 = "SELECT * FROM addon WHERE addonID = $aID";
@@ -50,14 +51,13 @@ if ($aID > 0) {
         exit;
     }
 }
-
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Update Add-Ons</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="commonupdate.css">
 </head>
 <body>
     <div class="container">
@@ -66,18 +66,10 @@ if ($aID > 0) {
         <?php include 'header.php'; ?>
 
         <!-- Main Content -->
-        <main class="content">
-            <header class="header">
-                <h1>Event Management</h1>
-                <div class="search">
-                    <input type="text" placeholder="Search">
-                    <img src="Images/search-interface-symbol.png">
-                    <button>Search</button>
-                </div>
-            </header>
+        <main class="main-content">
+            <h1>Update Add-Ons</h1>
             <div class="content-inner">
                 <div class="content-box">
-                    <h2>Update Add-Ons</h2>
                     <form class="form" action="updateAddon.php" method="post">
 
                         <label for="addonID">Add-On ID</label>
@@ -100,7 +92,7 @@ if ($aID > 0) {
 
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
-                                    $selected = $row['EmanagerID'] === $emanagerID ? 'selected' : '';
+                                    $selected = ($row['EmanagerID'] === $emanagerID) ? 'selected' : '';
                                     echo "<option value='" . htmlspecialchars($row['EmanagerID']) . "' $selected>" . htmlspecialchars($row['EmanagerID']) . "</option>";
                                 }
                             }

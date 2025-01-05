@@ -1,97 +1,71 @@
--- message to self : check this today!! smt is seriosuly wrong. fix it!! also check css of other codes. you said you will later!
-
-
 <?php
-include 'config.php'; // Include database configuration
+include 'config.php';
 
+// Check if the request is valid
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fields'])) {
     $fields = $_POST['fields'];
 
-    // Check if any fields were selected
+    // Verify if any fields were selected
     if (empty($fields)) {
         echo "<script>alert('No fields selected. Please select fields to generate a report.'); window.location.href = 'report_form.php';</script>";
         exit;
     }
 
-    // Create the SQL query dynamically based on selected fields
+    // Select only primary keys and valid fields based on the class diagram connections
     $selectedFields = implode(", ", $fields);
 
-    $sql = "SELECT $selectedFields FROM (
-                SELECT 
-                    paymentID, 
-                    amountPayable, 
-                    paymentDate, 
-                    currency, 
-                    FmanagerID, 
-                    clientID,
-                    NULL AS hallID, 
-                    NULL AS hallName, 
-                    NULL AS addonID,
-                    NULL AS description 
-                FROM clientpayment
-                UNION ALL
-                SELECT 
-                    clientID, 
-                    NULL AS amountPayable, 
-                    NULL AS paymentDate, 
-                    NULL AS currency, 
-                    HmanagerID, 
-                    clientName,
-                    NULL AS hallID, 
-                    NULL AS hallName, 
-                    NULL AS addonID,
-                    NULL AS description 
-                FROM client
-                UNION ALL
-                SELECT 
-                    NULL AS paymentID, 
-                    NULL AS amountPayable, 
-                    NULL AS paymentDate, 
-                    NULL AS currency, 
-                    managerID, 
-                    NULL AS clientID,
-                    hallID, 
-                    hallName, 
-                    NULL AS addonID,
-                    NULL AS description 
-                FROM hall
-                UNION ALL
-                SELECT 
-                    NULL AS paymentID, 
-                    NULL AS amountPayable, 
-                    NULL AS paymentDate, 
-                    NULL AS currency, 
-                    EmanagerID, 
-                    NULL AS clientID,
-                    NULL AS hallID, 
-                    NULL AS hallName, 
-                    addonID,
-                    description 
-                FROM addon
-            ) as combined";
+    // Adjust the query to include only connected tables based on the class diagram
+    $sql = "
+        SELECT $selectedFields FROM (
+            SELECT 
+                paymentDate, 
+                paymentMethod, 
+                paymentStatus 
+            FROM PaymentsTracking
+            UNION ALL
+            SELECT 
+                expenseType, 
+                expenseAmount, 
+                expensePaymentMethod, 
+                expensePaidStatus 
+            FROM Expenses
+            UNION ALL
+            SELECT 
+                clientName, 
+                companyName, 
+                communicationMethod 
+            FROM Client
+            UNION ALL
+            SELECT 
+                eventType, 
+                eventName, 
+                eventVisitDate 
+            FROM Events
+        ) as combined";
 
     $result = mysqli_query($conn, $sql);
 
+    // Handle errors in query execution
     if (!$result) {
         die("Error executing query: " . mysqli_error($conn));
     }
 
-    // Fetch the data
+    // Fetch and process data
     $data = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $data[] = $row;
     }
 
-    // Generate the report in HTML
+    // Generate the HTML report
     echo "<!DOCTYPE html>
     <html lang='en'>
     <head>
-        <title>Generated Report</title>
+        <title>Financial Report</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
                 padding: 20px;
-                background-color: #f4f4f9;
+                background-color: #f9f9f9;
             }
             table {
                 width: 100%;
@@ -129,8 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fields'])) {
         </style>
     </head>
     <body>
-        <h2>Generated Report</h2>";
+        <h2>Generated Financial Report</h2>";
 
+    // Display data in a table
     if (count($data) > 0) {
         echo "<table>
                 <thead>
@@ -145,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fields'])) {
                 </thead>
                 <tbody>";
 
-        // Generate table rows
+        // Populate table rows
         foreach ($data as $row) {
             echo "<tr>";
             foreach ($row as $cell) {
@@ -167,7 +142,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fields'])) {
     echo "</body></html>";
 
 } else {
-    echo "<script>alert('No fields selected. Please go back and select fields to generate a report.'); window.location.href = 'report_form.php';</script>";
+    echo "<script>alert('Invalid request. Please try again.'); window.location.href = 'report_form.php';</script>";
     exit;
 }
 ?>
+
+
+--WAS DOING THE REPORTS

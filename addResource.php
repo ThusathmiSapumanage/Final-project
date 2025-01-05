@@ -31,7 +31,13 @@ $result = mysqli_query($conn, $sql);
 <html>
 <head>
     <title>Add Resource</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="addcommon.css">
+    <style>
+        .main-content
+        {
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -39,21 +45,16 @@ $result = mysqli_query($conn, $sql);
     <?php include 'header.php'; ?>
 
         <!-- Main Content -->
-        <main class="content">
+        <main class="main-content">
             <header class="header">
                 <h1>Resource Management</h1>
-                <div class="search">
-                    <input type="text" placeholder="Search">
-                    <img src="images/search-interface-symbol.png" alt="Search Icon">
-                    <button>Search</button>
-                </div>
             </header>
             <div class="content-inner">
                 <div class="content-box">
                     <h2>Add Resource</h2>
                     <form class="form" action="addResource.php" method="post">
 
-                        <label for ="resourceID">Resource ID</label>
+                        <label for="resourceID">Resource ID</label>
                         <input type="text" id="resourceID" name="resourceID" required>
 
                         <label for="resourceName">Resource Name</label>
@@ -63,12 +64,12 @@ $result = mysqli_query($conn, $sql);
                         <select id="resourceAllocationStatus" name="resourceAllocationStatus" required>
                             <option value="Available">Available</option>
                             <option value="Allocated">Allocated</option>
-                        </select></br>
+                        </select><br>
 
                         <label for="resourceDescription">Description</label>
                         <textarea id="resourceDescription" name="resourceDescription" required></textarea>
 
-                        </br>
+                        <br>
                         <label for="managerID">Manager ID</label>
                         <select id="managerID" name="managerID" required>
                             <?php

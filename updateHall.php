@@ -39,34 +39,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 <html>
 <head>
     <title>Update Hall</title>
-    <link rel="stylesheet" href="addFoodsup.css">
+    <link rel="stylesheet" href="commonupdate.css">
 </head>
 <body>
 <div class="container">
 
     <!-- Sidebar -->
     <?php include 'header.php'; ?>
-    
-    <form action="updateHall.php" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="hallID" value="<?php echo $row['hallID']; ?>">
-        
-        <label for="hallName">Hall Name:</label>
-        <input type="text" id="hallName" name="hallName" value="<?php echo $row['hallName']; ?>" required>
-        
-        <label for="hallCapacity">Capacity:</label>
-        <input type="number" id="hallCapacity" name="hallCapacity" value="<?php echo $row['hallCapacity']; ?>" required>
-        
-        <label for="hallLocation">Location:</label>
-        <input type="text" id="hallLocation" name="hallLocation" value="<?php echo $row['hallLocation']; ?>" required>
-        
-        <label for="managerID">Manager ID:</label>
-        <input type="text" id="managerID" name="managerID" value="<?php echo $row['managerID']; ?>" required>
-        
-        <label for="hallLayout">Upload Layout:</label>
-        <input type="file" id="hallLayout" name="hallLayout" accept="image/*">
-        
-        <button type="submit" name="submit">Update Hall</button>
-    </form>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-inner">
+            <h1 style="color: black;">Update Hall</h1>
+            <form action="updateHall.php" method="POST" enctype="multipart/form-data" class="form">
+                <input type="hidden" name="hallID" value="<?php echo $row['hallID']; ?>">
+                
+                <br>
+                <label for="hallName">Hall Name:</label>
+                <input type="text" id="hallName" name="hallName" value="<?php echo $row['hallName']; ?>" required>
+
+                <label for="hallCapacity">Capacity:</label>
+                <input type="number" id="hallCapacity" name="hallCapacity" value="<?php echo $row['hallCapacity']; ?>" required>
+
+                <label for="hallLocation">Location:</label>
+                <input type="text" id="hallLocation" name="hallLocation" value="<?php echo $row['hallLocation']; ?>" required>
+
+                <label for="managerID">Manager ID:</label>
+                <input type="text" id="managerID" name="managerID" value="<?php echo $row['managerID']; ?>" required>
+
+                <label for="hallLayout">Upload Layout:</label>
+                <input type="file" id="hallLayout" name="hallLayout" accept="image/*">
+
+                <button type="submit" name="submit" class="sub-btn">Update Hall</button>
+            </form>
+        </div>
+    </main>
 </div>
 </body>
 </html>

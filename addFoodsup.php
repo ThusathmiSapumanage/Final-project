@@ -1,5 +1,6 @@
 <?php
-include "config.php";
+
+include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $supplierID = $_POST['id']; // Use the ID provided by the user
@@ -58,7 +59,68 @@ $result = mysqli_query($conn, $sql);
 <html>
     <head>
         <title> Add Food and Beverage Suppliers </title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+        <link rel="stylesheet" type="text/css" href="addcommon.css">
+        <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #ffffff; /* White background */
+    }
+
+    .container {
+        display: flex;
+    }
+
+    .custom-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 200px; /* Sidebar width */
+        background: #151515; /* Sidebar background color */
+        color: white;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-sidebar .menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .custom-sidebar .menu a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+
+    .custom-sidebar .menu a:hover,
+    .custom-sidebar .menu a.active {
+        background: #fdb827;
+        color: black;
+    }
+
+    .main-content {
+        margin-left: 220px; /* Sidebar width */
+        padding: 20px;
+        background-color: #ffffff; /* White background for content */
+        width: 100%;
+    }
+    .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #fdb827;
+        color: black;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+</style>
     </head>
     <body>
         <div class="container">
@@ -70,11 +132,6 @@ $result = mysqli_query($conn, $sql);
               <main class="content">
             <header class="header">
                 <h1>Food Supplier Management</h1>
-                <div class="search">
-                    <input type="text" placeholder="Search">
-                    <img src="Images/search-interface-symbol.png" alt="Search">
-                    <button>Search</button>
-                </div>
             </header>
             <div class="content-inner">
                 <div class="content-box">

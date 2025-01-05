@@ -6,7 +6,7 @@ $password = "";
 $dbname = "gaphq";
 
 // Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname, 3307);
+$conn = mysqli_connect($servername, $username, $password, $dbname);
 
 // Check connection
 if (!$conn) {

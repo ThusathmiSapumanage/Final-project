@@ -29,31 +29,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 <html>
 <head>
     <title>Add Hall</title>
-    <link rel="stylesheet" href="addFoodsup.css">
+    <link rel="stylesheet" href="addcommon.css">
 </head>
 <body>
 <div class="container">
     <!-- Sidebar -->
     <?php include 'header.php'; ?>
 
-    <form action="addHall.php" method="POST" enctype="multipart/form-data">
-        <label for="hallName">Hall Name:</label>
-        <input type="text" id="hallName" name="hallName" required>
-        
-        <label for="hallCapacity">Capacity:</label>
-        <input type="number" id="hallCapacity" name="hallCapacity" required>
-        
-        <label for="hallLocation">Location:</label>
-        <input type="text" id="hallLocation" name="hallLocation" required>
-        
-        <label for="managerID">Manager ID:</label>
-        <input type="text" id="managerID" name="managerID" required>
-        
-        <label for="hallLayout">Upload Layout:</label>
-        <input type="file" id="hallLayout" name="hallLayout" accept="image/*">
-        
-        <button type="submit" name="submit">Add Hall</button>
-    </form>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-inner">
+            <h1>Add Hall</h1>
+            <form action="addHall.php" method="POST" enctype="multipart/form-data" class="form">
+                <label for="hallName">Hall Name:</label>
+                <input type="text" id="hallName" name="hallName" required>
+                
+                <br>
+                <label for="hallCapacity">Capacity:</label>
+                <input type="number" id="hallCapacity" name="hallCapacity" required>
+                
+                <label for="hallLocation">Location:</label>
+                <input type="text" id="hallLocation" name="hallLocation" required>
+                
+                <label for="managerID">Manager ID:</label>
+                <select id="managerID" name="managerID" required>
+                    <option value="">Select Manager</option>
+                    <?php
+                    $sqlManager = "SELECT managerID, mName FROM manager";
+                    $resultManager = mysqli_query($conn, $sqlManager);
+
+                    if (mysqli_num_rows($resultManager) > 0) {
+                        while ($row = mysqli_fetch_assoc($resultManager)) {
+                            echo "<option value='{$row['managerID']}'>{$row['mName']}</option>";
+                        }
+                    } else {
+                        echo "<option value=''>No managers found</option>";
+                    }
+                    ?>
+                </select>
+                
+                <label for="hallLayout">Upload Layout:</label>
+                <input type="file" id="hallLayout" name="hallLayout" accept="image/*">
+                
+                <button type="submit" name="submit" class="sub-btn">Add Hall</button>
+            </form>
+        </div>
+    </main>
 </div>
 </body>
 </html>

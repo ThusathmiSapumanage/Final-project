@@ -33,15 +33,90 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Manage Tasks</title>
-    <link rel="stylesheet" type="text/css" href="viewfood.css">
+    <link rel="stylesheet" type="text/css" href="managecommonstyles.css">
     <style>
-        .table-section {
-            margin-bottom: 30px; /* Adds space between the tables */
+        .actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        }
+
+        .table-container {
+        background-color: white;
+        width: 100%;	
+        height: 100%;
+        }
+
+        .custom-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 200px; /* Sidebar width */
+        background: #151515; /* Sidebar background color */
+        color: white;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-sidebar .menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        }
+
+        .custom-sidebar .menu a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        transition: background 0.3s;
+        }
+
+        .custom-sidebar .menu a:hover,
+        .custom-sidebar .menu a.active {
+        background: #fdb827;
+        color: black;
+        }
+
+        .main-content {
+        margin-left: 220px; /* Sidebar width */
+        padding: 20px;
+        background-color: #ffffff; /* White background for content */
+        width: 100%;
+        }
+        .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #fdb827;
+        color: black;
+        text-decoration: none;
+        border-radius: 5px;
+        }
+        .add-btn
+        {
+            background-color: #fdb827;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .add-btn a
+        {
+            color: black;
+            text-decoration: none;
+        }
+        .back-btn
+        {
+            background-color: #f44336;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -52,21 +127,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
         <?php include 'header.php'; ?>
 
         <!-- Main Content -->
-        <main class="content">
+        <main class="main-content">
             <header class="header">
                 <h1>Task Management</h1>
-                <div class="search">
-                    <input type="text" placeholder="Search">
-                    <img src="Images/search-interface-symbol.png">
-                    <button>Search</button>
-                </div>
             </header>
 
             <!-- Recurring Tasks Section -->
             <section class="table-section">
                 <h2>Recurring Tasks</h2>
-                <button class="adding"><a href="addTask.php">Add Task</a></button>
-                <div class="table1">
+                <button class="add-btn"><a href="addTask.php">Add Task</a></button>
+                <button class="back-btn" onclick="window.location.href = 'staffM.php';">Back</button>
+                <div class="table-container">
                     <table class="table centered">
                         <thead>
                             <tr>
@@ -102,12 +173,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                                     echo "<td>" . htmlspecialchars($row['recurrenceInterval']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['recurringTassigned']) . "</td>";
                                     echo "<td class='actions'>
-                                        <a href='updateRecurringTask.php?taskID=" . htmlspecialchars($row['taskID']) . "' class='btn update-btn'>Update</a>
-                                        <form action='' method='POST' style='display: inline;'>
-                                            <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['taskID']) . "'>
-                                            <button type='submit' class='btn delete-btn'>Delete</button>
-                                        </form>
-                                      </td>";
+                                            <a href='updateRecurringTask.php?taskID=" . htmlspecialchars($row['taskID']) . "' class='btn update-btn'>Update</a>
+                                            <form action='' method='POST' style='display: inline;'>
+                                                <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['taskID']) . "'>
+                                                <button type='submit' class='btn delete-btn'>Delete</button>
+                                            </form>
+                                          </td>";
                                     echo "</tr>";
                                 }
                             } else {
@@ -122,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
             <!-- One-Time Tasks Section -->
             <section class="table-section">
                 <h2>One-Time Tasks</h2>
-                <div class="table1">
+                <div class="table-container">
                     <table class="table centered">
                         <thead>
                             <tr>
@@ -158,12 +229,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                                     echo "<td>" . htmlspecialchars($row['priorityLevel']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['OTassigned']) . "</td>";
                                     echo "<td class='actions'>
-                                        <a href='updateOneTimeTask.php?taskID=" . htmlspecialchars($row['taskID']) . "' class='btn update-btn'>Update</a>
-                                        <form action='' method='POST' style='display: inline;'>
-                                            <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['taskID']) . "'>
-                                            <button type='submit' class='btn delete-btn'>Delete</button>
-                                        </form>
-                                      </td>";
+                                            <a href='updateOneTimeTask.php?taskID=" . htmlspecialchars($row['taskID']) . "' class='btn update-btn'>Update</a>
+                                            <form action='' method='POST' style='display: inline;'>
+                                                <input type='hidden' name='delete_id' value='" . htmlspecialchars($row['taskID']) . "'>
+                                                <button type='submit' class='btn delete-btn'>Delete</button>
+                                            </form>
+                                          </td>";
                                     echo "</tr>";
                                 }
                             } else {

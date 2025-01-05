@@ -33,12 +33,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Manage Food and Beverage Suppliers </title>
-        <link rel="stylesheet" type="text/css" href="viewfood.css">
+        <title>Manage Food and Beverage Suppliers</title>
+        <link rel="stylesheet" type="text/css" href="managecommonstyles.css">
+        <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #ffffff; /* White background */
+    }
+
+    .container {
+        display: flex;
+    }
+
+    .custom-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 200px; /* Sidebar width */
+        background: #151515; /* Sidebar background color */
+        color: white;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-sidebar .menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .custom-sidebar .menu a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+
+    .custom-sidebar .menu a:hover,
+    .custom-sidebar .menu a.active {
+        background: #fdb827;
+        color: black;
+    }
+
+    .main-content {
+        margin-left: 220px; /* Sidebar width */
+        padding: 20px;
+        background-color: #ffffff; /* White background for content */
+        width: 100%;
+    }
+    .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #fdb827;
+        color: black;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+</style>
     </head>
     <body>
         <div class="container">
@@ -46,22 +106,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
             <!-- Sidebar -->
             <?php include 'header.php'; ?>
 
-              <!-- Main Content -->
-            <main class="content">
+            <!-- Main Content -->
+            <main class="main-content">
                 <header class="header">
                     <h1>Food and Beverage Supplier Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
                 </header>
 
                 <!-- Suppliers Section -->
-                <section class="suppliers">
+                <section class="table-container">
                     <h2>Suppliers</h2>
-                    <button class="adding"><a href="addFoodsup.php">Add Supplier</a></button>
-                    <div class="table1">
+                    <a href="addFoodsup.php" class="add-btn">Add Supplier</a>
+                    <div class="table-responsive">
                         <table class="table centered">
                             <thead>
                                 <tr>
@@ -115,9 +170,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             </tbody>
                         </table>
                     </div>
-                    <a href="supplierM.html"><button class="back">Back</button></a>
+                    <a href="supplierM.php" class="back-btn">Back</a>
                 </section>
             </main>
-         </div>
+        </div>
     </body>
 </html>

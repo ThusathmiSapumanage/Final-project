@@ -35,63 +35,64 @@ if (!$result_managers) {
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Add Client</title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
-    </head>
-    <body>
-        <div class="container">
-
+<head>
+    <title>Add Client</title>
+    <link rel="stylesheet" type="text/css" href="addcommon.css">
+    <style>
+        .main-content {
+           width: 500px;
+           background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
         <?php include 'header.php'; ?>
-            <!-- Main Content -->
-            <main class="content">
-                <header class="header">
-                    <h1>Add Client</h1>
-                </header>
-                <div class="content-inner">
-                    <div class="content-box">
-                        <h2>Add Client</h2>
-                        <form class="form" action="addCus.php" method="post">
-                            <label for="clientname">Client Name:</label>
-                            <input type="text" id="clientname" name="clientname" required>
 
-                            <label for="companyName">Company Name:</label>
-                            <input type="text" id="companyName" name="companyName" required>
+        <main class="main-content">
+            <header class="header">
+                <h1>Add Client</h1>
+            </header>
+            <div class="content-box">
+                <form class="form" action="addCus.php" method="post">
+                    <label for="clientname">Client Name:</label>
+                    <input type="text" id="clientname" name="clientname" required>
 
-                            <label for="communicationMethod">Communication Method:</label>
-                            <select id="communicationMethod" name="communicationMethod" required>
-                                <option value="Phone">Phone</option>
-                                <option value="Email">Email</option>
-                                <option value="Chat">Chat</option>
-                            </select>
-                            <br>
+                    <label for="companyName">Company Name:</label>
+                    <input type="text" id="companyName" name="companyName" required>
 
-                            <label for="cPhoneNumber">Phone Number:</label>
-                            <input type="text" id="cPhoneNumber" name="cPhoneNumber" required>
+                    <label for="communicationMethod">Communication Method:</label>
+                    <select id="communicationMethod" name="communicationMethod" required>
+                        <option value="Phone">Phone</option>
+                        <option value="Email">Email</option>
+                        <option value="Chat">Chat</option>
+                    </select>
 
-                            <label for="clientPass">Password:</label>
-                            <input type="password" id="clientPass" name="clientPass" required> <!-- Password field -->
+                    <label for="cPhoneNumber">Phone Number:</label>
+                    <input type="text" id="cPhoneNumber" name="cPhoneNumber" required>
 
-                            <label for="cDesignation">Designation:</label>
-                            <input type="text" id="cDesignation" name="cDesignation" required>
+                    <label for="clientPass">Password:</label>
+                    <input type="password" id="clientPass" name="clientPass" required>
 
-                            <label for="cEmail">Email:</label>
-                            <input type="email" id="cEmail" name="cEmail" required>
+                    <label for="cDesignation">Designation:</label>
+                    <input type="text" id="cDesignation" name="cDesignation" required>
 
-                            <label for="HmanagerID">Manager ID:</label>
-                            <select id="HmanagerID" name="HmanagerID" required>
-                                <?php
-                                while ($row = mysqli_fetch_assoc($result_managers)) {
-                                    echo "<option value='" . htmlspecialchars($row['HmanagerID']) . "'>" . htmlspecialchars($row['HmanagerID']) . "</option>";
-                                }
-                                ?>
-                            </select>
-                            <br>
-                            <button class="sub-btn" type="submit" name="submit">Add Client</button>
-                        </form>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </body>
+                    <label for="cEmail">Email:</label>
+                    <input type="email" id="cEmail" name="cEmail" required>
+
+                    <label for="HmanagerID">Manager ID:</label>
+                    <select id="HmanagerID" name="HmanagerID" required>
+                        <?php
+                        while ($row = mysqli_fetch_assoc($result_managers)) {
+                            echo "<option value='" . htmlspecialchars($row['HmanagerID']) . "'>" . htmlspecialchars($row['HmanagerID']) . "</option>";
+                        }
+                        ?>
+                    </select>
+
+                    <button class="sub-btn" type="submit" name="submit">Add Client</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
 </html>

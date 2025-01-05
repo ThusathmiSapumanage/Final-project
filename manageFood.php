@@ -16,12 +16,85 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Manage Food Supplies </title>
-        <link rel="stylesheet" type="text/css" href="viewfood.css">
+        <title>Manage Food Supplies</title>
+        <link rel="stylesheet" type="text/css" href="managecommonstyles.css">
+        <style>
+        body {
+        margin: 0;
+        font-family: Arial, sans-serif;/* White background */
+        }
+
+        .actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        }
+
+        .container {
+        background-color: white;
+        padding: 30px;
+        display: flex;
+        }
+
+        .table-container {
+        background-color: white;
+        width: 100%;	
+        height: 100%;
+        }
+
+        .custom-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 200px; /* Sidebar width */
+        background: #151515; /* Sidebar background color */
+        color: white;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-sidebar .menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        }
+
+        .custom-sidebar .menu a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        transition: background 0.3s;
+        }
+
+        .custom-sidebar .menu a:hover,
+        .custom-sidebar .menu a.active {
+        background: #fdb827;
+        color: black;
+        }
+
+        .main-content {
+        margin-left: 220px; /* Sidebar width */
+        padding: 20px;
+        background-color: #ffffff; /* White background for content */
+        width: 100%;
+        }
+        .back-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #fdb827;
+        color: black;
+        text-decoration: none;
+        border-radius: 5px;
+        }
+    </style>
     </head>
     <body>
         <div class="container">
@@ -29,21 +102,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
             <?php include 'header.php'; ?>
             
             <!-- Main Content -->
-            <main class="content">
+            <main class="main-content">
                 <header class="header">
-                    <h1>Food Supply Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png" alt="Search">
-                        <button>Search</button>
-                    </div>
+                    <h1 style = 'color: white;'>Food Supply Management</h1>
                 </header>
 
                 <!-- Food Section -->
-                <section class="suppliers">
+                <section class="table-container">
                     <h2>Food Items</h2>
-                    <button class="adding"><a href="addFood.php">Add Food</a></button>
-                    <div class="table1">
+                    <a href="addFood.php" class="add-btn">Add Food</a>
+                    <div class="table-responsive">
                         <table class="table centered">
                             <thead>
                                 <tr>
@@ -88,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
                             </tbody>
                         </table>
                     </div>
-                    <a href="supplierM.html"><button class="back">Back</button></a>
+                    <a href="supplierM.php" class="back-btn">Back</a>
                 </section>
             </main>
         </div>

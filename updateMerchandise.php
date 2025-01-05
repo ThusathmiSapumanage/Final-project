@@ -1,5 +1,4 @@
 <?php
-
 include "config.php";
 
 // Get merchandise ID from URL
@@ -9,27 +8,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize and fetch form inputs
     $mID = intval($_POST['mID']);
     $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $pic = mysqli_real_escape_string($conn, $_POST['pic']);
     $price = mysqli_real_escape_string($conn, $_POST['price']);
     $qty = mysqli_real_escape_string($conn, $_POST['qty']);
     $onsale = mysqli_real_escape_string($conn, $_POST['onsale']);
     $des = mysqli_real_escape_string($conn, $_POST['des']);
     $cata = mysqli_real_escape_string($conn, $_POST['cata']);
-    $managerid = intval($_POST['managerid']);
-    $inventory = intval($_POST['inventory']);
+    $managerid = mysqli_real_escape_string($conn, $_POST['managerid']);
+    $inventory = mysqli_real_escape_string($conn, $_POST['inventory']);
+
+    // Handle image upload
+    $imageData = null;
+    if (isset($_FILES['pic']) && $_FILES['pic']['error'] === UPLOAD_ERR_OK) {
+        $imageData = addslashes(file_get_contents($_FILES['pic']['tmp_name']));
+    }
 
     // Update query
     $sql = "UPDATE merchandise
-            SET mName = '$name',
-                productImg = '$pic',
-                priceperU = '$price',
-                qty = '$qty',
-                onSale = '$onsale',
-                mDes = '$des',
+            SET productName = '$name',
+                pricePerUnit = '$price',
+                quantityInStock = '$qty',
+                isOnSale = '$onsale',
+                productDescription = '$des',
                 productCategory = '$cata',
-                managerID = $managerid,
-                inventoryID = $inventory
-            WHERE merchandiseID = $mID";
+                EmanagerID = '$managerid',
+                inventoryID = '$inventory'";
+
+    // Add the image update only if a new file was uploaded
+    if ($imageData) {
+        $sql .= ", productImage = '$imageData'";
+    }
+
+    $sql .= " WHERE merchandiseID = $mID";
 
     // Execute query and redirect
     if (mysqli_query($conn, $sql)) {
@@ -42,7 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Initialize merchandise details
-$name = $pic = $price = $qty = $onsale = $des = $cata = $managerid = $inventory = "";
+$name = $price = $qty = $onsale = $des = $cata = $managerid = $inventory = "";
+$imagePreview = "";
 
 if ($mID > 0) {
     // Fetch merchandise details
@@ -51,16 +61,15 @@ if ($mID > 0) {
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        $name = $row['mName'];
-        $pic = $row['productImg'];
-        $price = $row['priceperU'];
-        $qty = $row['qty'];
-        $onsale = $row['onSale'];
-        $des = $row['mDes'];
+        $name = $row['productName'];
+        $price = $row['pricePerUnit'];
+        $qty = $row['quantityInStock'];
+        $onsale = $row['isOnSale'];
+        $des = $row['productDescription'];
         $cata = $row['productCategory'];
-        $managerid = $row['managerID'];
+        $managerid = $row['EmanagerID'];
         $inventory = $row['inventoryID'];
-
+        $imagePreview = $row['productImage'];
     } else {
         echo "<script>alert('Invalid Merchandise ID. Redirecting back...');</script>";
         echo "<script>window.location.href = 'manageMerchandise.php';</script>";
@@ -69,7 +78,7 @@ if ($mID > 0) {
 }
 
 // Fetch manager IDs for the dropdown
-$sql3 = "SELECT managerID FROM manager";
+$sql3 = "SELECT EmanagerID FROM eventmanager";
 $result2 = mysqli_query($conn, $sql3);
 
 // Fetch inventory IDs for the dropdown
@@ -81,28 +90,21 @@ $result3 = mysqli_query($conn, $sql4);
 <html>
 <head>
     <title>Update Merchandise</title>
-    <link rel="stylesheet" type="text/css" href="updateFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="commonupdate.css">
 </head>
 <body>
     <div class="container">
-
-    <?php include 'header.php'; ?>
-
+        <?php include 'header.php'; ?>
 
         <!-- Main Content -->
         <main class="content">
             <header class="header">
-                <h1>Merchandise Management</h1>
-                <div class="search">
-                    <input type="text" placeholder="Search">
-                    <img src="Images/search-interface-symbol.png">
-                    <button>Search</button>
-                </div>
+                <h1 style = 'color: white;'>Merchandise Management</h1>
             </header>
             <div class="content-inner">
                 <div class="content-box">
                     <h2>Update Merchandise</h2>
-                    <form class="form" action="updateMerchandise.php" method="post">
+                    <form class="form" action="updateMerchandise.php" method="post" enctype="multipart/form-data">
 
                         <label for="id">Merchandise ID:</label>
                         <input type="text" name="mID" value="<?php echo htmlspecialchars($mID); ?>" readonly>
@@ -111,7 +113,10 @@ $result3 = mysqli_query($conn, $sql4);
                         <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
 
                         <label for="pic">Picture:</label>
-                        <input type="file" id="pic" name="pic" value="<?php echo htmlspecialchars($pic); ?>" accept="image/*">
+                        <?php if ($imagePreview): ?>
+                            <img src="data:image/jpeg;base64,<?php echo base64_encode($imagePreview); ?>" alt="Product Image" style="width: 100px; height: auto;">
+                        <?php endif; ?>
+                        <input type="file" id="pic" name="pic" accept="image/*">
 
                         <label for="price">Price:</label>
                         <input type="text" id="price" name="price" value="<?php echo htmlspecialchars($price); ?>" required>
@@ -143,8 +148,8 @@ $result3 = mysqli_query($conn, $sql4);
                             <?php
                             if (mysqli_num_rows($result2) > 0) {
                                 while ($row = mysqli_fetch_assoc($result2)) {
-                                    $selected = ($row['managerID'] == $managerid) ? "selected" : "";
-                                    echo "<option value='" . htmlspecialchars($row['managerID']) . "' $selected>" . htmlspecialchars($row['managerID']) . "</option>";
+                                    $selected = ($row['EmanagerID'] == $managerid) ? "selected" : "";
+                                    echo "<option value='" . htmlspecialchars($row['EmanagerID']) . "' $selected>" . htmlspecialchars($row['EmanagerID']) . "</option>";
                                 }
                             } else {
                                 echo "<option value='' disabled>No Managers Available</option>";

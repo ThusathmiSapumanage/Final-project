@@ -30,20 +30,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 
 $taskID = isset($_GET['taskID']) ? $_GET['taskID'] : '';
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Add One-Time Task</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="addcommon.css">
+    <style>
+        .main-content {
+            background-color: white;
+        }
+        .back-btn
+        {
+            background-color: #f44336;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar remains unchanged -->
+        <!-- Sidebar -->
         <?php include 'header.php'; ?>
 
         <!-- Main Content -->
-        <main class="content">
+        <main class="main-content">
             <header class="header">
                 <h1>One-Time Task Management</h1>
             </header>
@@ -62,16 +70,14 @@ $taskID = isset($_GET['taskID']) ? $_GET['taskID'] : '';
                             <option value="Medium">Medium</option>
                             <option value="Low">Low</option>
                         </select>
-                        <br>
 
                         <label for="OTassigned">One-Time Task Assigned:</label>
                         <select id="OTassigned" name="OTassigned" required>
                             <option value="Graphic Designer">Graphic Designer</option>
                             <option value="Photographer">Photographer</option>
                         </select>
-                        <br>
 
-                        <button class="sub-btn" type="submit" name="submit">Add Task</button>
+                        <button class="sub-btn" type="submit" name="submit">Add Task</button><br><br>
                         <button class="back-btn" onclick="window.location.href = 'manageTasks.php';" type="button">Back</button>
                     </form>
                 </div>

@@ -94,50 +94,53 @@ if (!empty($supplierID)) {
 $sql4 = "SELECT managerID FROM manager";
 $result3 = mysqli_query($conn, $sql4);
 ?>
-
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Update Food and Beverage Suppliers </title>
-        <link rel="stylesheet" type="text/css" href="updateFoodsup.css">
-    </head>
-    <body>
-        <div class="container">
+<head>
+    <title>Update Food and Beverage Suppliers</title>
+    <link rel="stylesheet" type="text/css" href="commonupdate.css">
+</head>
+<body>
+    <div class="container">
 
+        <!-- Sidebar -->
         <?php include 'header.php'; ?>
 
-              <!-- Main Content -->
-            <main class = "content">
-                <header class="header">
-                    <h1>Food and Beverage Supplier Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png">
-                        <button>Search</button>
-                    </div>
-            	</header>
-                <div class="content-inner">
-                    <div class="content-box">
-                        <h2>Update Food and Beverage Supplier</h2>
-                        <form class="form" action="updateFoodsup.php" method="post">
-                        <label for="id">Supplier ID:</label>
-                        <input type="text" name="supplierID" value="<?php echo htmlspecialchars($supplierID); ?>" readonly>
-
+        <!-- Main Content -->
+        <main class="content">
+            <header class="header">
+                <h1 style="color: white;">Update Food and Beverage Supplier</h1>
+            </header>
+            <div class="content-inner">
+                <div class="content-box">
+                    <h2>Update Supplier Details</h2>
+                    <form class="form" action="updateFoodsup.php" method="post">
+                        
+                        <!-- Supplier ID (readonly) -->
+                        <label for="supplierID">Supplier ID:</label>
+                        <input type="text" name="supplierID" id="supplierID" value="<?php echo htmlspecialchars($supplierID); ?>" readonly>
+                        
+                        <!-- Supplier Name -->
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
-
+                        
+                        <!-- Email -->
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
-
+                        
+                        <!-- Contact -->
                         <label for="contact">Contact:</label>
                         <input type="text" id="contact" name="contact" value="<?php echo htmlspecialchars($contact); ?>" required>
-
+                        
+                        <!-- Address -->
                         <label for="address">Address:</label>
                         <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($address); ?>" required>
-
+                        
+                        <!-- Supplier Type (readonly) -->
                         <label for="suptype">Supplier Type:</label>
-                        <input type="text" id="suptype" name="suptype" value="Beverage supplier" readonly>
-
+                        <input type="text" id="suptype" name="suptype" value="Beverage Supplier" readonly>
+                        
+                        <!-- Manager ID Dropdown -->
                         <label for="managerid">Manager ID:</label>
                         <select id="managerid" name="managerid" required>
                             <?php
@@ -152,8 +155,7 @@ $result3 = mysqli_query($conn, $sql4);
                             ?>
                         </select>
                         
-                        </br>
-                        <!-- Beverage supplier specific fields -->
+                        <!-- Beverage-Specific Fields -->
                         <label for="bitems">Beverage Items:</label>
                         <input type="text" id="bitems" name="bitems" value="<?php echo htmlspecialchars($bitems); ?>" required>
 
@@ -162,12 +164,13 @@ $result3 = mysqli_query($conn, $sql4);
 
                         <label for="minOrderSize">Minimum Order Size:</label>
                         <input type="number" id="minOrderSize" name="minOrderSize" value="<?php echo htmlspecialchars($minOrderSize); ?>" required>
-
+                        
+                        <!-- Submit Button -->
                         <button class="sub-btn" type="submit" name="submit">Update Supplier</button>
-                        </form>
-                    </div>
+                    </form>
                 </div>
-            </main>
-        </div>
-    </body>
+            </div>
+        </main>
+    </div>
+</body>
 </html>

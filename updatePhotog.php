@@ -68,69 +68,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Update Photographer</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="commonupdate.css">
+    <style>
+        .main-content {
+            background-color: #ffffff;
+            width: 500px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        
-    <?php include 'header.php'; ?>
-
-
-        <main class="content">
+        <?php include 'header.php'; ?>
+        <main class="main-content">
             <header class="header">
-                <h1>Update Photographer</h1>
+                <h1 style = 'color: black;'>Update Photographer</h1>
             </header>
-            <div class="content-inner">
-                <div class="content-box">
-                    <form class="form" action="updatePhotog.php?id=<?php echo htmlspecialchars($staffID); ?>" method="post">
-                        <label for="staffID">Staff ID:</label>
-                        <input type="text" id="staffID" name="staffID" value="<?php echo htmlspecialchars($staffID); ?>" readonly>
+            <div class="content-box">
+                <form class="form" action="updatePhotog.php?id=<?php echo htmlspecialchars($staffID); ?>" method="post">
+                    <br><br>
+                    <label for="staffID">Staff ID:</label>
+                    <input type="text" id="staffID" name="staffID" value="<?php echo htmlspecialchars($staffID); ?>" readonly>
 
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($hiringstaff['staffName']); ?>" required>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($hiringstaff['staffName']); ?>" required>
 
-                        <label for="availability">Availability:</label>
-                        <select id="availability" name="availability" required>
-                            <option value="Available" <?php if ($hiringstaff['staffAvailability'] == 'Available') echo 'selected'; ?>>Available</option>
-                            <option value="Not Available" <?php if ($hiringstaff['staffAvailability'] == 'Not Available') echo 'selected'; ?>>Not Available</option>
-                        </select>
-                        <br>
+                    <label for="availability">Availability:</label>
+                    <select id="availability" name="availability" required>
+                        <option value="Available" <?php if ($hiringstaff['staffAvailability'] == 'Available') echo 'selected'; ?>>Available</option>
+                        <option value="Not Available" <?php if ($hiringstaff['staffAvailability'] == 'Not Available') echo 'selected'; ?>>Not Available</option>
+                    </select>
 
-                        <label for="hourlyRate">Hourly Rate:</label>
-                        <input type="number" id="hourlyRate" name="hourlyRate" step="0.01" value="<?php echo htmlspecialchars($hiringstaff['hourlyRate']); ?>" required>
+                    <label for="hourlyRate">Hourly Rate:</label>
+                    <input type="number" id="hourlyRate" name="hourlyRate" step="0.01" value="<?php echo htmlspecialchars($hiringstaff['hourlyRate']); ?>" required>
 
-                        <label for="managerID">Manager ID:</label>
-                        <select id="managerID" name="managerID" required>
-                            <?php
-                            $sql_managers = "SELECT HmanagerID FROM headmanager";
-                            $result_managers = mysqli_query($conn, $sql_managers);
+                    <label for="managerID">Manager ID:</label>
+                    <select id="managerID" name="managerID" required>
+                        <?php
+                        $sql_managers = "SELECT HmanagerID FROM headmanager";
+                        $result_managers = mysqli_query($conn, $sql_managers);
 
-                            if (mysqli_num_rows($result_managers) > 0) {
-                                while ($manager = mysqli_fetch_assoc($result_managers)) {
-                                    echo "<option value='" . $manager['HmanagerID'] . "' " . ($data['HmanagerID'] == $manager['HmanagerID'] ? 'selected' : '') . ">" . $manager['HmanagerID'] . "</option>";
-                                }
+                        if (mysqli_num_rows($result_managers) > 0) {
+                            while ($manager = mysqli_fetch_assoc($result_managers)) {
+                                echo "<option value='" . $manager['HmanagerID'] . "' " . ($hiringstaff['HmanagerID'] == $manager['HmanagerID'] ? 'selected' : '') . ">" . $manager['HmanagerID'] . "</option>";
                             }
-                            ?>
-                        </select>
-                        <br>
+                        }
+                        ?>
+                    </select>
 
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" value="<?php echo htmlspecialchars($hiringstaff['staffPassword']); ?>" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" value="<?php echo htmlspecialchars($hiringstaff['staffPassword']); ?>" required>
 
-                        <label for="eventCoverageCount">Event Coverage Count:</label>
-                        <input type="number" id="eventCoverageCount" name="eventCoverageCount" value="<?php echo htmlspecialchars($photographer['eventCoverageCount']); ?>" required>
+                    <label for="eventCoverageCount">Event Coverage Count:</label>
+                    <input type="number" id="eventCoverageCount" name="eventCoverageCount" value="<?php echo htmlspecialchars($photographer['eventCoverageCount']); ?>" required>
 
-                        <label for="specialization">Specialization:</label>
-                        <input type="text" id="specialization" name="specialization" value="<?php echo htmlspecialchars($photographer['specialization']); ?>" required>
+                    <label for="specialization">Specialization:</label>
+                    <input type="text" id="specialization" name="specialization" value="<?php echo htmlspecialchars($photographer['specialization']); ?>" required>
 
-                        <button class="sub-btn" type="submit" name="submit">Update Photographer</button>
-                    </form>
-                </div>
+                    <button class="sub-btn" type="submit" name="submit">Update Photographer</button>
+                </form>
             </div>
         </main>
     </div>

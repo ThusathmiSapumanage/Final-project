@@ -16,11 +16,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
             VALUES ('$staffID', '$name', '$staffType', '$availability', '$hourlyRate', '$managerID', '$password')";
 
     if (mysqli_query($conn, $sql)) {
+        // Debugging: Check staffType value
+        error_log("Staff Type: $staffType");
+
         // Redirect to the respective form for additional details
-        if ($staffType === "Photographer") {
+        if (strtolower($staffType) === "photographer") {
             header("Location: addPhotographer.php?staffID=$staffID");
-        } elseif ($staffType === "Graphic Designer") {
+        } elseif (strtolower($staffType) === "graphic designer") {
             header("Location: addGraphicDesigner.php?staffID=$staffID");
+        } else {
+            echo "<script>alert('Invalid staff type selected. Please try again.');</script>";
         }
         exit;
     } else {
@@ -37,13 +42,19 @@ $result = mysqli_query($conn, $sql);
 <html>
 <head>
     <title>Add Staff</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="addcommon.css">
+    <style>
+        .main-content
+        {
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
     <?php include 'header.php'; ?>
 
-        <main class="content">
+        <main class="main-content">
             <header class="header">
                 <h1>Staff Management</h1>
             </header>
@@ -52,7 +63,7 @@ $result = mysqli_query($conn, $sql);
                     <h2>Add Staff</h2>
                     <form class="form" action="addStaff.php" method="post">
                         <label for="staffID">Staff ID:</label>
-                        <input type="text" id="staffID" name="staffID" placeholder = "PSID or photogprahers and GDID for graphic designers" required>
+                        <input type="text" id="staffID" name="staffID" placeholder="PSID for photographers and GDID for graphic designers" required>
 
                         <label for="name">Staff Name:</label>
                         <input type="text" id="name" name="name" required>
@@ -62,14 +73,14 @@ $result = mysqli_query($conn, $sql);
                             <option value="" disabled selected>Select Type</option>
                             <option value="Photographer">Photographer</option>
                             <option value="Graphic Designer">Graphic Designer</option>
-                        </select><br>
+                        </select>
 
                         <label for="availability">Availability:</label>
                         <select id="availability" name="availability" required>
                             <option value="" disabled selected>Select Availability</option>
                             <option value="Full-time">Full-time</option>
                             <option value="Part-time">Part-time</option>
-                        </select><br>
+                        </select>
 
                         <label for="hourlyRate">Hourly Rate:</label>
                         <input type="number" id="hourlyRate" name="hourlyRate" step="0.01" required>
@@ -89,7 +100,7 @@ $result = mysqli_query($conn, $sql);
                                 echo "<option value='' disabled>No Managers Available</option>";
                             }
                             ?>
-                        </select><br>
+                        </select>
 
                         <button class="sub-btn" type="submit" name="submit">Next</button>
                     </form>

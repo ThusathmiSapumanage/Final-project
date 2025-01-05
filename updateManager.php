@@ -108,71 +108,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
 <html>
 <head>
     <title>Update Manager</title>
-    <link rel="stylesheet" href="manageFoodsup.css">
+    <link rel="stylesheet" href="commonupdate.css">
+    <style>
+        .update-btn
+        {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <?php include 'header.php'; ?>
 
-    <main class="content">
+    <main class="main-content">
         <header class="header">
-            <h1>Update Manager</h1>
+            <h1 style = 'color: black;'>Update Manager</h1>
         </header>
 
-        <form method="POST">
-            <!-- Shared Fields -->
-            <label for="mName">Name:</label>
-            <input type="text" id="mName" name="mName" value="<?php echo htmlspecialchars($managerData['mName']); ?>" required>
+        <div class="content-box">
+            <form method="POST">
+                <!-- Shared Fields -->
+                <label for="mName">Name:</label>
+                <input type="text" id="mName" name="mName" value="<?php echo htmlspecialchars($managerData['mName']); ?>" required><br><br>
 
-            <label for="mEmail">Email:</label>
-            <input type="email" id="mEmail" name="mEmail" value="<?php echo htmlspecialchars($managerData['mEmail']); ?>" required>
+                <label for="mEmail">Email:</label>
+                <input type="email" id="mEmail" name="mEmail" value="<?php echo htmlspecialchars($managerData['mEmail']); ?>" required><br><br>
 
-            <label for="mPhoneNumber">Phone Number:</label>
-            <input type="text" id="mPhoneNumber" name="mPhoneNumber" value="<?php echo htmlspecialchars($managerData['mPhoneNumber']); ?>" required>
+                <label for="mPhoneNumber">Phone Number:</label>
+                <input type="text" id="mPhoneNumber" name="mPhoneNumber" value="<?php echo htmlspecialchars($managerData['mPhoneNumber']); ?>" required><br><br>
 
-            <label for="mAddress">Address:</label>
-            <textarea id="mAddress" name="mAddress" required><?php echo htmlspecialchars($managerData['mAddress']); ?></textarea>
+                <label for="mAddress">Address:</label>
+                <textarea id="mAddress" name="mAddress" required><?php echo htmlspecialchars($managerData['mAddress']); ?></textarea><br><br>
 
-            <label for="mPassword">Password:</label>
-            <input type="password" id="mPassword" name="mPassword" value="<?php echo htmlspecialchars($managerData['mPassword']); ?>" required>
+                <label for="mPassword">Password:</label>
+                <input type="password" id="mPassword" name="mPassword" value="<?php echo htmlspecialchars($managerData['mPassword']); ?>" required><br><br>
 
-            <!-- Type-Specific Fields -->
-            <?php if ($managerType === 'Head'): ?>
-                <h2>Head Manager Details</h2>
-                <label for="departmentName">Department Name:</label>
-                <input type="text" id="departmentName" name="departmentName" value="<?php echo htmlspecialchars($typeSpecificData['departmentName']); ?>" required>
+                <!-- Type-Specific Fields -->
+                <?php if ($managerType === 'Head'): ?>
+                    <h2>Head Manager Details</h2>
+                    <label for="departmentName">Department Name:</label>
+                    <input type="text" id="departmentName" name="departmentName" value="<?php echo htmlspecialchars($typeSpecificData['departmentName']); ?>" required><br><br>
 
-                <label for="teamSize">Team Size:</label>
-                <input type="number" id="teamSize" name="teamSize" value="<?php echo htmlspecialchars($typeSpecificData['teamSize']); ?>" required>
+                    <label for="teamSize">Team Size:</label>
+                    <input type="number" id="teamSize" name="teamSize" value="<?php echo htmlspecialchars($typeSpecificData['teamSize']); ?>" required><br><br>
 
-                <label for="authorityLevel">Authority Level:</label>
-                <input type="text" id="authorityLevel" name="authorityLevel" value="<?php echo htmlspecialchars($typeSpecificData['authorityLevel']); ?>" required>
+                    <label for="authorityLevel">Authority Level:</label>
+                    <input type="text" id="authorityLevel" name="authorityLevel" value="<?php echo htmlspecialchars($typeSpecificData['authorityLevel']); ?>" required><br><br>
 
-                <label for="yearsOfExperience">Years of Experience:</label>
-                <input type="number" id="yearsOfExperience" name="yearsOfExperience" value="<?php echo htmlspecialchars($typeSpecificData['yearsOfExperience']); ?>" required>
+                    <label for="yearsOfExperience">Years of Experience:</label>
+                    <input type="number" id="yearsOfExperience" name="yearsOfExperience" value="<?php echo htmlspecialchars($typeSpecificData['yearsOfExperience']); ?>" required><br><br>
 
-            <?php elseif ($managerType === 'Financial'): ?>
-                <h2>Financial Manager Details</h2>
-                <label for="managedBudget">Managed Budget:</label>
-                <input type="number" step="0.01" id="managedBudget" name="managedBudget" value="<?php echo htmlspecialchars($typeSpecificData['managedBudget']); ?>" required>
+                <?php elseif ($managerType === 'Financial'): ?>
+                    <h2>Financial Manager Details</h2>
+                    <label for="managedBudget">Managed Budget:</label>
+                    <input type="number" step="0.01" id="managedBudget" name="managedBudget" value="<?php echo htmlspecialchars($typeSpecificData['managedBudget']); ?>" required><br><br>
 
-                <label for="taxID">Tax ID:</label>
-                <input type="number" id="taxID" name="taxID" value="<?php echo htmlspecialchars($typeSpecificData['taxID']); ?>" required>
+                    <label for="taxID">Tax ID:</label>
+                    <input type="number" id="taxID" name="taxID" value="<?php echo htmlspecialchars($typeSpecificData['taxID']); ?>" required><br><br>
 
-                <label for="pendingPayments">Pending Payments:</label>
-                <input type="number" id="pendingPayments" name="pendingPayments" value="<?php echo htmlspecialchars($typeSpecificData['pendingPayments']); ?>" required>
+                    <label for="pendingPayments">Pending Payments:</label>
+                    <input type="number" id="pendingPayments" name="pendingPayments" value="<?php echo htmlspecialchars($typeSpecificData['pendingPayments']); ?>" required><br><br>
 
-            <?php elseif ($managerType === 'Event'): ?>
-                <h2>Event Manager Details</h2>
-                <label for="venueIncharge">Venue Incharge:</label>
-                <input type="text" id="venueIncharge" name="venueIncharge" value="<?php echo htmlspecialchars($typeSpecificData['venueIncharge']); ?>" required>
+                <?php elseif ($managerType === 'Event'): ?>
+                    <h2>Event Manager Details</h2>
+                    <label for="venueIncharge">Venue Incharge:</label>
+                    <input type="text" id="venueIncharge" name="venueIncharge" value="<?php echo htmlspecialchars($typeSpecificData['venueIncharge']); ?>" required><br><br>
 
-                <label for="eventTypesHandled">Event Types Handled:</label>
-                <input type="text" id="eventTypesHandled" name="eventTypesHandled" value="<?php echo htmlspecialchars($typeSpecificData['eventTypesHandled']); ?>" required>
-            <?php endif; ?>
+                    <label for="eventTypesHandled">Event Types Handled:</label>
+                    <input type="text" id="eventTypesHandled" name="eventTypesHandled" value="<?php echo htmlspecialchars($typeSpecificData['eventTypesHandled']); ?>" required><br><br>
+                <?php endif; ?>
 
-            <button type="submit" name="submit" class="btn update-btn">Update</button>
-        </form>
+                <button type="submit" name="submit" class="btn update-btn">Update</button>
+            </form>
+        </div>
     </main>
 </div>
 </body>

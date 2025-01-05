@@ -2,7 +2,6 @@
 include 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // General manager fields
     $managerID = $_POST['managerID'];
     $mPhoneNumber = $_POST['mPhoneNumber'];
     $mPassword = $_POST['mPassword'];
@@ -11,11 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mAddress = $_POST['mAddress'];
     $managerType = $_POST['managerType'];
 
-    // Insert into the `manager` table
     $sql = "INSERT INTO manager (managerID, mPhoneNumber, mPassword, mName, mEmail, mAddress) 
             VALUES ('$managerID', '$mPhoneNumber', '$mPassword', '$mName', '$mEmail', '$mAddress')";
     if (mysqli_query($conn, $sql)) {
-        // Depending on the manager type, insert into the specific table
         switch ($managerType) {
             case "Head Manager":
                 $departmentName = $_POST['departmentName'];
@@ -58,7 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title>Add Manager</title>
-    <link rel="stylesheet" href="addFoodsup.css">
+    <link rel="stylesheet" href="addcommon.css">
+    <style>
+        .main-content {
+            width: 500px;
+            background-color: white;
+        }
+    </style>
     <script>
         function showManagerSpecificFields() {
             const managerType = document.getElementById('managerType').value;
@@ -70,99 +73,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <div class="container">
-
-    <!-- Sidebar -->
     <?php include 'header.php'; ?>
 
-    <h1>Add Manager</h1>
-    <form method="POST" action="">
-        <div class="form-group">
-            <label for="managerID">Manager ID</label>
-            <input type="text" id="managerID" name="managerID" required>
-        </div>
-        <div class="form-group">
-            <label for="mPhoneNumber">Phone Number</label>
-            <input type="text" id="mPhoneNumber" name="mPhoneNumber" required>
-        </div>
-        <div class="form-group">
-            <label for="mPassword">Password</label>
-            <input type="password" id="mPassword" name="mPassword" required>
-        </div>
-        <div class="form-group">
-            <label for="mName">Name</label>
-            <input type="text" id="mName" name="mName" required>
-        </div>
-        <div class="form-group">
-            <label for="mEmail">Email</label>
-            <input type="email" id="mEmail" name="mEmail" required>
-        </div>
-        <div class="form-group">
-            <label for="mAddress">Address</label>
-            <input type="text" id="mAddress" name="mAddress" required>
-        </div>
-        <div class="form-group">
-            <label for="managerType">Manager Type</label>
-            <select id="managerType" name="managerType" onchange="showManagerSpecificFields()" required>
-                <option value="">Select Type</option>
-                <option value="Head Manager">Head Manager</option>
-                <option value="Financial Manager">Financial Manager</option>
-                <option value="Event Manager">Event Manager</option>
-            </select>
-        </div>
+    <main class="main-content">
+        <header class="header">
+            <h1>Add Manager</h1>
+        </header>
+        <div class="content-box">
+            <form class="form" method="POST" action="">
+                <label for="managerID">Manager ID:</label>
+                <input type="text" id="managerID" name="managerID" required>
 
-        <!-- Head Manager Fields -->
-        <div id="headManagerFields" style="display: none;">
-            <h2>Head Manager Specific Fields</h2>
-            <div class="form-group">
-                <label for="departmentName">Department Name</label>
-                <input type="text" id="departmentName" name="departmentName">
-            </div>
-            <div class="form-group">
-                <label for="teamSize">Team Size</label>
-                <input type="number" id="teamSize" name="teamSize">
-            </div>
-            <div class="form-group">
-                <label for="authorityLevel">Authority Level</label>
-                <input type="text" id="authorityLevel" name="authorityLevel">
-            </div>
-            <div class="form-group">
-                <label for="yearsOfExperience">Years of Experience</label>
-                <input type="number" id="yearsOfExperience" name="yearsOfExperience">
-            </div>
-        </div>
+                <label for="mPhoneNumber">Phone Number:</label>
+                <input type="text" id="mPhoneNumber" name="mPhoneNumber" required>
 
-        <!-- Financial Manager Fields -->
-        <div id="financialManagerFields" style="display: none;">
-            <h2>Financial Manager Specific Fields</h2>
-            <div class="form-group">
-                <label for="managedBudget">Managed Budget</label>
-                <input type="number" id="managedBudget" name="managedBudget" step="0.01">
-            </div>
-            <div class="form-group">
-                <label for="taxID">Tax ID</label>
-                <input type="text" id="taxID" name="taxID">
-            </div>
-            <div class="form-group">
-                <label for="pendingPayments">Pending Payments</label>
-                <input type="number" id="pendingPayments" name="pendingPayments">
-            </div>
-        </div>
+                <label for="mPassword">Password:</label>
+                <input type="password" id="mPassword" name="mPassword" required>
 
-        <!-- Event Manager Fields -->
-        <div id="eventManagerFields" style="display: none;">
-            <h2>Event Manager Specific Fields</h2>
-            <div class="form-group">
-                <label for="venueIncharge">Venue In Charge</label>
-                <input type="text" id="venueIncharge" name="venueIncharge">
-            </div>
-            <div class="form-group">
-                <label for="eventTypesHandled">Event Types Handled</label>
-                <input type="text" id="eventTypesHandled" name="eventTypesHandled">
-            </div>
-        </div>
+                <label for="mName">Name:</label>
+                <input type="text" id="mName" name="mName" required>
 
-        <button type="submit" class="btn add-btn">Add Manager</button>
-    </form>
+                <label for="mEmail">Email:</label>
+                <input type="email" id="mEmail" name="mEmail" required>
+
+                <label for="mAddress">Address:</label>
+                <input type="text" id="mAddress" name="mAddress" required>
+
+                <label for="managerType">Manager Type:</label>
+                <select id="managerType" name="managerType" onchange="showManagerSpecificFields()" required>
+                    <option value="" disabled selected>Select Type</option>
+                    <option value="Head Manager">Head Manager</option>
+                    <option value="Financial Manager">Financial Manager</option>
+                    <option value="Event Manager">Event Manager</option>
+                </select>
+
+                <div id="headManagerFields" class="manager-specific-fields" style="display: none;">
+                    <h2>Head Manager Specific Fields</h2>
+                    <label for="departmentName">Department Name:</label>
+                    <input type="text" id="departmentName" name="departmentName">
+
+                    <label for="teamSize">Team Size:</label>
+                    <input type="number" id="teamSize" name="teamSize">
+
+                    <label for="authorityLevel">Authority Level:</label>
+                    <input type="text" id="authorityLevel" name="authorityLevel">
+
+                    <label for="yearsOfExperience">Years of Experience:</label>
+                    <input type="number" id="yearsOfExperience" name="yearsOfExperience">
+                </div>
+
+                <div id="financialManagerFields" class="manager-specific-fields" style="display: none;">
+                    <h2>Financial Manager Specific Fields</h2>
+                    <label for="managedBudget">Managed Budget:</label>
+                    <input type="number" id="managedBudget" name="managedBudget" step="0.01">
+
+                    <label for="taxID">Tax ID:</label>
+                    <input type="text" id="taxID" name="taxID">
+
+                    <label for="pendingPayments">Pending Payments:</label>
+                    <input type="number" id="pendingPayments" name="pendingPayments">
+                </div>
+
+                <div id="eventManagerFields" class="manager-specific-fields" style="display: none;">
+                    <h2>Event Manager Specific Fields</h2>
+                    <label for="venueIncharge">Venue In Charge:</label>
+                    <input type="text" id="venueIncharge" name="venueIncharge">
+
+                    <label for="eventTypesHandled">Event Types Handled:</label>
+                    <input type="text" id="eventTypesHandled" name="eventTypesHandled">
+                </div>
+
+                <button class="sub-btn" type="submit">Add Manager</button>
+            </form>
+        </div>
+    </main>
 </div>
 </body>
 </html>

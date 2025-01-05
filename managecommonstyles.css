@@ -1,0 +1,180 @@
+/* General Styles */
+body {
+    background-image: url('Images/Untitled\ design.jpg');
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Sidebar */
+.custom-sidebar {
+    width: 200px; /* Thinner sidebar */
+    background: #151515;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    scrollbar-width: none; /* For Firefox */
+}
+
+.custom-sidebar::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}
+
+.custom-sidebar .logo img {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 80%;
+}
+
+.custom-sidebar .menu {
+    padding: 0;
+    margin: 0;
+    list-style: none; /* Removes bullet points */
+}
+
+.custom-sidebar .menu a {
+    display: block;
+    color: white;
+    padding: 15px; /* Increased padding for more space between links */
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background 0.3s;
+}
+
+.custom-sidebar .menu a.active,
+.custom-sidebar .menu a:hover {
+    background: #fdb827;
+    color: black;
+}
+
+.custom-sidebar .dropdown-menu {
+    display: none; /* Hide sub values */
+    padding-left: 15px;
+    list-style: none; /* Removes bullet points from submenus */
+    margin: 0;
+}
+
+.custom-sidebar .dropdown:hover .dropdown-menu {
+    display: block; /* Show sub values on hover */
+}
+
+.custom-sidebar .settings {
+    margin-top: 20px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.custom-sidebar .settings img {
+    width: 20px;
+    margin-right: 5px;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 220px; /* Adjusted for thinner sidebar */
+    padding: 20px;
+    color: black;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    min-height: 100vh;
+    background: #f4f4f4;
+}
+
+.container
+{
+    margin-left: 50px;
+}
+
+/* Sections */
+.table-container {
+    background-color: #fff;
+    margin-bottom: 40px; /* Adds space between sections */
+}
+
+/* Tables */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 14px;
+}
+
+.table th {
+    background: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+}
+
+.table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.add-btn, .back-btn {
+    background: #28a745;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    display: inline-block;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-decoration: none;
+}
+
+.add-btn:hover {
+    background: #218838;
+}
+
+.update-btn {
+    background: #ffc107;
+    color: black;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.update-btn:hover {
+    background: #e0a800;
+}
+
+.delete-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}
+
+
+/* Media Query for Responsiveness */
+@media (max-width: 768px) {
+    .add-btn {
+        width: 100%;
+    }
+
+    .table th, .table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}

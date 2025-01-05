@@ -38,20 +38,23 @@ $result = mysqli_query($conn, $sql);
 $sql2 = "SELECT staffID FROM hiringstaff";
 $result2 = mysqli_query($conn, $sql2);
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Add Task</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="addcommon.css">
+    <style>
+        .main-content
+        {
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
+        <?php include 'header.php'; ?>
 
-    <?php include 'header.php'; ?>
-
-        <!-- Main Content -->
-        <main class="content">
+        <main class="main-content">
             <header class="header">
                 <h1>Task Management</h1>
             </header>
@@ -59,9 +62,8 @@ $result2 = mysqli_query($conn, $sql2);
                 <div class="content-box">
                     <h2>Add Task</h2>
                     <form class="form" action="addTask.php" method="post">
-
-                        <label for = "taskID">Task ID:</label>
-                        <input type="text" id="taskID" name="taskID" placeholder = "RTID for recurring tasks and OTID for onetime tasks" required>
+                        <label for="taskID">Task ID:</label>
+                        <input type="text" id="taskID" name="taskID" placeholder="RTID for recurring tasks and OTID for one-time tasks" required>
 
                         <label for="taskdes">Task Description:</label>
                         <input type="text" id="taskdes" name="taskdes" required>
@@ -75,14 +77,14 @@ $result2 = mysqli_query($conn, $sql2);
                             <option value="Pending">Pending</option>
                             <option value="In Progress">In Progress</option>
                             <option value="Completed">Completed</option>
-                        </select><br>
+                        </select>
 
                         <label for="taskType">Task Type:</label>
                         <select id="taskType" name="taskType" required>
                             <option value="" disabled selected>Select Task Type</option>
                             <option value="Recurring">Recurring</option>
                             <option value="One-Time">One-Time</option>
-                        </select><br>
+                        </select>
 
                         <label for="managerid">Manager ID:</label>
                         <select id="managerid" name="managerid" required>
@@ -96,9 +98,9 @@ $result2 = mysqli_query($conn, $sql2);
                                 echo "<option value='' disabled>No Managers Available</option>";
                             }
                             ?>
-                        </select><br>
+                        </select>
 
-                        <label for="staff">Staff ID:</label>
+                        <label for="staffid">Staff ID:</label>
                         <select id="staffid" name="staffid" required>
                             <option value="" disabled selected>Select Staff ID</option>
                             <?php
@@ -107,10 +109,10 @@ $result2 = mysqli_query($conn, $sql2);
                                     echo "<option value='" . $row['staffID'] . "'>" . $row['staffID'] . "</option>";
                                 }
                             } else {
-                                echo "<option value='' disabled>No staff available</option>";
+                                echo "<option value='' disabled>No Staff Available</option>";
                             }
                             ?>
-                        </select><br>
+                        </select>
 
                         <button class="sub-btn" type="submit" name="submit">Next</button>
                     </form>

@@ -1,0 +1,166 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('Images/Untitled\ design.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sidebar */
+.custom-sidebar {
+    width: 250px;
+    background: #151515;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    scrollbar-width: none;
+}
+
+.custom-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.custom-sidebar .logo img {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 80%;
+}
+
+.custom-sidebar .menu {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.custom-sidebar .menu a {
+    display: block;
+    color: white;
+    padding: 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background 0.3s;
+}
+
+.custom-sidebar .menu a.active,
+.custom-sidebar .menu a:hover {
+    background: #fdb827;
+    color: black;
+}
+
+.custom-sidebar .dropdown-menu {
+    display: none;
+    padding-left: 15px;
+    list-style: none;
+    margin: 0;
+}
+
+.custom-sidebar .dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.custom-sidebar .settings {
+    margin-top: 20px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.custom-sidebar .settings img {
+    width: 20px;
+    margin-right: 5px;
+}
+
+/* Main Content */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin-left: 250px; /* Sidebar width */
+    padding: 20px;
+    position: relative;
+}
+
+.main-content {
+    width: 100%;
+    max-width: 600px;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    background-color: #fff;
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.content-inner {
+    width: 500px;
+    padding: 30px;
+    padding-right: 40px;
+    border-radius: 20px;
+    background-color: #fff;
+}
+
+.form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form input,
+.form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.sub-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sub-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .custom-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .container {
+        margin-left: 0;
+        flex-direction: column;
+    }
+
+    .main-content {
+        width: 90%;
+        margin: 20px auto;
+    }
+}

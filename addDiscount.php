@@ -44,11 +44,12 @@ if (!$result_emanager) {
 <html>
 <head>
     <title>Add Discount</title>
-    <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+    <link rel="stylesheet" type="text/css" href="addcommon.css">
 </head>
 <body>
     <div class="container">
-        <main class="content">
+        <?php include 'header.php';?>
+        <main class="main-content">
             <header class="header">
                 <h1>Add Discount</h1>
             </header>
@@ -56,20 +57,24 @@ if (!$result_emanager) {
                 <div class="content-box">
                     <form class="form" action="addDiscount.php" method="post">
                         <label for="discountID">Discount ID:</label>
-                        <input type="text" id="discountID" name="discountID" placeholder = "SD for special discount and GD for genaral discount" required>
-                        <smaller style = "color: black;">Example: SD001 or GD001</smaller>
+                        <input type="text" id="discountID" name="discountID" placeholder="SD for special discount and GD for general discount" required>
+                        <small style="color: black;">Example: SD001 or GD001</small>
+                        <br>
                         <br>
 
                         <label for="discountName">Discount Name:</label>
                         <input type="text" id="discountName" name="discountName" required>
+
                         <label for="discountType">Discount Type:</label>
                         <select id="discountType" name="discountType" required>
                             <option value="General">General</option>
                             <option value="Special">Special</option>
                         </select>
                         <br>
+
                         <label for="discountAmount">Discount Amount:</label>
                         <input type="number" id="discountAmount" name="discountAmount" step="0.01" required>
+
                         <label for="emanagerID">Event Manager ID:</label>
                         <select id="emanagerID" name="emanagerID" required>
                             <?php
@@ -79,8 +84,9 @@ if (!$result_emanager) {
                             ?>
                         </select>
                         <br>
+                        <br>
 
-                        <button type="submit" name="submit">Add Discount</button>
+                        <button class="sub-btn" type="submit" name="submit">Add Discount</button>
                     </form>
                 </div>
             </div>

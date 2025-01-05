@@ -40,7 +40,21 @@ if (!$result_managers || !$result_suppliers) {
 <html>
     <head>
         <title>Add Food</title>
-        <link rel="stylesheet" type="text/css" href="addFoodsup.css">
+        <link rel="stylesheet" type="text/css" href="addcommon.css">
+        <style>
+            .content-box {
+                background-color: white;
+            }
+
+            .main-content
+            {
+                background-color: white;
+            }
+            .actions
+            {
+                gap: 0px;
+            }
+        </style>
     </head>
     <body>
         <div class="container">
@@ -48,14 +62,9 @@ if (!$result_managers || !$result_suppliers) {
             <?php include 'header.php'; ?>
 
             <!-- Main Content -->
-            <main class="content">
+            <main class="main-content">
                 <header class="header">
                     <h1>Food Management</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <img src="Images/search-interface-symbol.png" alt="Search">
-                        <button>Search</button>
-                    </div>
                 </header>
                 <div class="content-inner">
                     <div class="content-box">

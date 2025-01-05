@@ -66,59 +66,62 @@ if ($supID) {
 $sql_managers = "SELECT HmanagerID FROM headmanager";
 $result_managers = mysqli_query($conn, $sql_managers);
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Update Merchandise Supplier</title>
-    <link rel="stylesheet" type="text/css" href="addMerchan.css">
+    <link rel="stylesheet" type="text/css" href="commonupdate.css">
 </head>
 <body>
     <div class="container">
+        <!-- Sidebar -->
         <?php include 'header.php'; ?>
 
+        <!-- Main Content -->
         <main class="content">
             <header class="header">
-                <h1>Update Merchandise Supplier</h1>
+                <h1 style = 'color: white;'>Update Merchandise Supplier</h1>
             </header>
             <div class="content-inner">
-                <form class="form" action="updateMerchan.php" method="post">
-                    <label for="id">Supplier ID:</label>
-                    <input type="text" name="supID" value="<?php echo htmlspecialchars($supID); ?>" readonly>
+                <div class="content-box">
+                    <form class="form" action="updateMerchan.php" method="post">
+                        <label for="id">Supplier ID:</label>
+                        <input type="text" name="supID" value="<?php echo htmlspecialchars($supID); ?>" readonly>
 
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
 
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
 
-                    <label for="contact">Contact:</label>
-                    <input type="text" id="contact" name="contact" value="<?php echo htmlspecialchars($contact); ?>" required>
+                        <label for="contact">Contact:</label>
+                        <input type="text" id="contact" name="contact" value="<?php echo htmlspecialchars($contact); ?>" required>
 
-                    <label for="address">Address:</label>
-                    <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($address); ?>" required>
+                        <label for="address">Address:</label>
+                        <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($address); ?>" required>
 
-                    <label for="managerid">Manager ID:</label>
-                    <select id="managerid" name="managerid" required>
-                        <?php
-                        while ($row = mysqli_fetch_assoc($result_managers)) {
-                            $selected = ($row['HmanagerID'] == $managerid) ? "selected" : "";
-                            echo "<option value='" . htmlspecialchars($row['HmanagerID']) . "' $selected>" . htmlspecialchars($row['HmanagerID']) . "</option>";
-                        }
-                        ?>
-                    </select><br>
+                        <label for="managerid">Manager ID:</label>
+                        <select id="managerid" name="managerid" required>
+                            <?php
+                            while ($row = mysqli_fetch_assoc($result_managers)) {
+                                $selected = ($row['HmanagerID'] == $managerid) ? "selected" : "";
+                                echo "<option value='" . htmlspecialchars($row['HmanagerID']) . "' $selected>" . htmlspecialchars($row['HmanagerID']) . "</option>";
+                            }
+                            ?>
+                        </select><br>
 
-                    <label for="mlItems">Merchandise Items:</label>
-                    <input type="text" id="mlItems" name="mlItems" value="<?php echo htmlspecialchars($mlItems); ?>" required>
+                        <label for="mlItems">Merchandise Items:</label>
+                        <input type="text" id="mlItems" name="mlItems" value="<?php echo htmlspecialchars($mlItems); ?>" required>
 
-                    <label for="performance">Performance:</label>
-                    <input type="text" id="performance" name="performance" value="<?php echo htmlspecialchars($performance); ?>" required>
+                        <label for="performance">Performance:</label>
+                        <input type="text" id="performance" name="performance" value="<?php echo htmlspecialchars($performance); ?>" required>
 
-                    <label for="merchandiseCategory">Merchandise Category:</label>
-                    <input type="text" id="merchandiseCategory" name="merchandiseCategory" value="<?php echo htmlspecialchars($merchandiseCategory); ?>" required>
+                        <label for="merchandiseCategory">Merchandise Category:</label>
+                        <input type="text" id="merchandiseCategory" name="merchandiseCategory" value="<?php echo htmlspecialchars($merchandiseCategory); ?>" required>
 
-                    <button class="sub-btn" type="submit" name="submit">Update Supplier</button>
-                </form>
+                        <button class="sub-btn" type="submit" name="submit">Update Supplier</button>
+                    </form>
+                </div>
             </div>
         </main>
     </div>

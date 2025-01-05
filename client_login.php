@@ -1,118 +1,118 @@
 <?php
-session_start();
-include 'config.php'; // Database connection
+include 'config.php'; // Include your database configuration
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    $query = "SELECT clientID, clientPass FROM client WHERE cEmail = '$email' LIMIT 1";
-    $result = mysqli_query($conn, $query);
+    // Check if the client exists in the database
+    $sql = "SELECT * FROM client WHERE cEmail = '$email' AND clientPass = '$password'";
+    $result = mysqli_query($conn, $sql);
 
-    if ($result && mysqli_num_rows($result) == 1) {
+    if (mysqli_num_rows($result) == 1) {
+        // Fetch client details and start a session
+        session_start();
         $client = mysqli_fetch_assoc($result);
+        $_SESSION['clientID'] = $client['clientID'];
+        $_SESSION['clientName'] = $client['clientName'];
 
-        if ($password === $client['clientPass']) { // Match plain password (consider hashing for production)
-            $_SESSION['clientID'] = $client['clientID'];
-            header("Location: calendar-try.php");
-            exit;
-        } else {
-            header("Location: client_login.php?error=Invalid password.");
-            exit;
-        }
-    } else {
-        header("Location: client_login.php?error=Email not found.");
+        // Redirect to calendar page
+        header("Location: calandertry2.php");
         exit;
+    } else {
+        $error_message = "Invalid email or password!";
     }
-} else {
-    header("Location: client_login.php");
-    exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Client Login</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+        font-family: Arial, sans-serif;
+        background-image: url('Images/clientlog.jpeg');
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
 
-        .login-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 300px;
-        }
+    .login-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 350px;
+    }
 
-        .login-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+    }
 
-        .login-container form {
-            display: flex;
-            flex-direction: column;
-        }
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
 
-        .login-container label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
 
-        .login-container input {
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
 
-        .login-container button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
 
-        .login-container button:hover {
-            background-color: #45a049;
-        }
+    .login-btn {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+    }
 
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-    </style>
+    .login-btn:hover {
+        background-color: #0056b3;
+    }
+        </style>
 </head>
 <body>
     <div class="login-container">
-        <h2>Client Login</h2>
-        <?php
-        if (isset($_GET['error'])) {
-            echo '<div class="error">' . htmlspecialchars($_GET['error']) . '</div>';
-        }
-        ?>
-        <form action="client_login_action.php" method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit">Login</button>
+        <h1>Client Login</h1>
+        <?php if (isset($error_message)) : ?>
+            <p class="error-message"><?php echo $error_message; ?></p>
+        <?php endif; ?>
+        <form action="client_login.php" method="POST">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
         </form>
     </div>
 </body>
