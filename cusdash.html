@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Calendar</title>
+  <title>Calendar</title>
   <!-- FullCalendar CSS -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/main.min.css" rel="stylesheet">
   <!-- FullCalendar JS -->
@@ -92,10 +92,41 @@
     .delete-btn:hover {
       background: #b02a37;
     }
+
+    #profile {
+    position: fixed;
+    top: 60px;
+    left: 50px;
+}
+
+#profile img {
+    width: 50px; /* Adjust the size as needed */
+    height: auto;
+    cursor: pointer;
+}
+
+.dash {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
   </style>
+
+
 </head>
 <body>
-  <a href="dash.php" class="dash">Go to dashboard</a>
+    <a href="index.html" class="dash">Go to dashboard</a>
+    <div id="profile">
+        <a href="customerdata.html">
+            <img src="assets/profile-user.png" alt="Profile">
+        </a>
+    </div>
   <div id="calendar"></div>
   
   <!-- Modal for Add/Edit Event -->
