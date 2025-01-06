@@ -85,36 +85,85 @@
       </div>
 
       <script>
-        function searchTable() {
-            const searchValue = document.getElementById('searchInput').value;
-        
-            if (searchValue.trim() === '') {
-                alert('Please enter a name to search.');
-                return;
-            }
-        
-            // Perform AJAX request to fetch data
-            fetch('search_customer.php?name=' + encodeURIComponent(searchValue))
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Populate form with data
-                    document.getElementById('name').value = data.name;
-                    document.getElementById('company').value = data.company;
-                    document.getElementById('designation').value = data.designation;
-                    document.getElementById('email').value = data.email;
-                    document.getElementById('phone').value = data.phone;
-                    document.getElementById('communication').value = data.communication;
-                } else {
-                    alert('Customer not found.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while searching.');
-            });
+        // Search for customer and populate the form
+function searchTable() {
+    const searchValue = document.getElementById('searchInput').value.trim();
+
+    if (searchValue === '') {
+        alert('Please enter a name to search.');
+        document.getElementById('searchInput').focus();
+        return;
+    }
+
+    // Perform AJAX request to fetch data
+    fetch('search_customer.php?name=' + encodeURIComponent(searchValue))
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
         }
-        </script>
+        return response.json();
+    })
+    .then(data => {
+        if (data && data.success) {
+            // Populate form with data
+            document.getElementById('name').value = data.name || '';
+            document.getElementById('company').value = data.company || '';
+            document.getElementById('designation').value = data.designation || '';
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('phone').value = data.phone || '';
+            document.getElementById('communication').value = data.communication || '';
+        } else {
+            alert(data.message || 'Customer not found.');
+            resetForm();
+            document.getElementById('searchInput').focus();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while searching. Please try again.');
+    });
+}
+
+// Update customer data (Form Submission)
+function updateCustomerData(event) {
+    event.preventDefault();  // Prevent default form submission
+
+    const formData = new FormData(document.getElementById('customerForm'));
+
+    fetch('cusdata.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update. Try again.');
+        }
+        return response.text();
+    })
+    .then(data => {
+        alert(data);  // Success or error message from PHP
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while updating the profile.');
+    });
+}
+
+// Reset form if no customer is found
+function resetForm() {
+    document.getElementById('name').value = '';
+    document.getElementById('company').value = '';
+    document.getElementById('designation').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('phone').value = '';
+    document.getElementById('communication').value = '';
+}
+
+// Attach form submission handler
+document.getElementById('customerForm').addEventListener('submit', updateCustomerData);
+
+        
+      </script>
         
 
       <div id="return">
